@@ -7,6 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
+import Authentication from '../components/Authentication';
+
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
 });
