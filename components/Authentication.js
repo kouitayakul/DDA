@@ -36,7 +36,7 @@ export default class Authentication extends React.Component {
         Auth.confirmSignUp(email, confirmationCode, {})
             .then(() => {
                 this.setState({ modalVisible: false });
-                this.props.navigation.navigate('Home')
+                this.props.navigation.navigate('Home', { user })
             })
             .catch(err => console.log(err));
     };

@@ -16,10 +16,14 @@ export default class HomeScreen extends React.Component {
 
     render() {
         const user = this.props.navigation.state.params.user;
+        console.log(Object.keys(user));
+        const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
+        let isAdmin = !!(userGroups && userGroups.includes("admin"));
         return (
             <View style={styles.container}>
                 <Text style={styles.text}>You're signed in to DDA.</Text>
                 <Text>userName: {user.username ? user.username : "not signed in"}</Text>
+                <Text style={{ fontSize: 24, textAlign: 'center'}}> Admin user? {isAdmin ? "YES" : "NO"}</Text>
                 <Button
                     title="Sign Out"
                     onPress={this.handleSignOut}
