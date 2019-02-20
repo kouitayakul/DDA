@@ -26,7 +26,7 @@ export default class Authentication extends React.Component {
         const {email, password} = this.state;
         Auth.signIn(email, password)
         // If we are successful, navigate to Home screen
-            .then(user => this.props.navigation.navigate('Home'))
+            .then(user => this.props.navigation.navigate('Home', { user }))
             // On failure, display error in console
             .catch(err => console.log(err));
     };
