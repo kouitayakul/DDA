@@ -16,7 +16,6 @@ export default class HomeScreen extends React.Component {
 
     render() {
         const user = this.props.navigation.state.params.user;
-        console.log(Object.keys(user));
         const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
         let isAdmin = !!(userGroups && userGroups.includes("admin"));
         return (

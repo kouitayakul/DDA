@@ -3,6 +3,7 @@ import {StyleSheet, Text, View, Alert, Modal} from 'react-native';
 import {Input, Button, ButtonGroup} from 'react-native-elements';
 import {Auth} from 'aws-amplify';
 import SignUp from "./auth/SignUp";
+import SignIn from "./auth/SignIn";
 
 export default class Authentication extends React.Component {
     constructor(props) {
@@ -28,9 +29,7 @@ export default class Authentication extends React.Component {
     handleSignIn = () => {
         const {email, password} = this.state;
         Auth.signIn(email, password)
-        // If we are successful, navigate to Home screen
             .then(user => this.props.navigation.navigate('Home', {user}))
-            // On failure, display error in console
             .catch(err => console.log(err));
     };
 
@@ -54,7 +53,6 @@ export default class Authentication extends React.Component {
     }
 
     handleSignUp = () => {
-        // alert(JSON.stringify(this.state));
         const {email, password, confirmPassword} = this.state;
         // Make sure passwords match
         if (password === confirmPassword) {
@@ -65,7 +63,6 @@ export default class Authentication extends React.Component {
             })
             // On success, show Confirmation Code Modal
                 .then(() => this.setState({modalVisible: true}))
-                // On failure, display error in console
                 .catch(err => console.log(err));
         } else {
             alert('Passwords do not match.');
@@ -87,50 +84,19 @@ export default class Authentication extends React.Component {
                         onSubmit={this.handleSignUp}
                     />
                 ) : (
-                    <View style={styles.form}>
-                        <Input
-                            label="Email"
-                            leftIcon={{type: 'font-awesome', name: 'envelope'}}
-                            onChangeText={
-                                // Set this.state.email to the value in this Input box
-                                (value) => this.setState({email: value})
-                            }
-                            placeholder="my@email.com"
-                        />
-                        <Input
-                            label="Password"
-                            leftIcon={{type: 'font-awesome', name: 'lock'}}
-                            onChangeText={
-                                // Set this.state.email to the value in this Input box
-                                (value) => this.setState({password: value})
-                            }
-                            placeholder="p@ssw0rd123"
-                            secureTextEntry
-                        />
-                        <Button
-                            title='Submit'
-                            onPress={this.handleSignIn}
-                        />
-                    </View>
+                    <SignIn
+                        onFormChange={this.handleFormChange}
+                        onSubmit={this.handleSignIn}
+                    />
                 )}
-                <Modal
-                    visible={this.state.modalVisible}
-                >
-                    <View
-                        style={styles.container}
-                    >
+                <Modal visible={this.state.modalVisible}>
+                    <View style={styles.container}>
                         <Input
                             label="Confirmation Code"
                             leftIcon={{type: 'font-awesome', name: 'lock'}}
-                            onChangeText={
-                                // Set this.state.confirmationCode to the value in this Input box
-                                (value) => this.setState({confirmationCode: value})
-                            }
+                            onChangeText={(value) => this.setState({confirmationCode: value})}
                         />
-                        <Button
-                            title='Submit'
-                            onPress={this.handleConfirmationCode}
-                        />
+                        <Button title='Submit' onPress={this.handleConfirmationCode}/>
                     </View>
                 </Modal>
             </View>
@@ -145,5 +111,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    form: {width: '90%'},
 });
