@@ -2,10 +2,10 @@ import React from 'react';
 import {StyleSheet, Text, View, Alert, Modal} from 'react-native';
 import {Input, Button, ButtonGroup} from 'react-native-elements';
 import {Auth} from 'aws-amplify';
-import SignUp from "./auth/SignUp";
-import SignIn from "./auth/SignIn";
+import SignUpForm from "../components/auth/SignUpForm";
+import SignInForm from "../components/auth/SignInForm";
 
-export default class Authentication extends React.Component {
+export default class AuthScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -79,12 +79,12 @@ export default class Authentication extends React.Component {
                     buttons={this.buttons}
                 />
                 {this.state.selectedIndex === 0 ? (
-                    <SignUp
+                    <SignUpForm
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignUp}
                     />
                 ) : (
-                    <SignIn
+                    <SignInForm
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignIn}
                     />

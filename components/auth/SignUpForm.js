@@ -3,7 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import {Input, Button} from 'react-native-elements';
 import PropTypes from 'prop-types'
 
-const SignUp = (props) => {
+const SignUpForm = (props) => {
     return (
         <View style={styles.form}>
             <Input
@@ -34,9 +34,9 @@ const SignUp = (props) => {
     );
 };
 
-export default SignUp;
+export default SignUpForm;
 
-SignUp.propTypes = {
+SignUpForm.propTypes = {
     onFormChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };
