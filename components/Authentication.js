@@ -1,7 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View, Modal} from 'react-native';
+import {StyleSheet, Text, View, Alert, Modal} from 'react-native';
 import {Input, Button, ButtonGroup} from 'react-native-elements';
 import {Auth} from 'aws-amplify';
+import SignUp from "./auth/SignUp";
 
 export default class Authentication extends React.Component {
     constructor(props) {
@@ -14,7 +15,9 @@ export default class Authentication extends React.Component {
             modalVisible: false,
             selectedIndex: 0,
         };
+
         this.buttons = ['Sign Up', 'Sign In'];
+        this.handleFormChange = this.handleFormChange.bind(this);
     }
 
     updateIndex = () => {
@@ -26,20 +29,29 @@ export default class Authentication extends React.Component {
         const {email, password} = this.state;
         Auth.signIn(email, password)
         // If we are successful, navigate to Home screen
-            .then(user => this.props.navigation.navigate('Home', { user }))
+            .then(user => this.props.navigation.navigate('Home', {user}))
             // On failure, display error in console
             .catch(err => console.log(err));
     };
 
     handleConfirmationCode = () => {
-        const { email, confirmationCode } = this.state;
+        const {email, confirmationCode} = this.state;
         Auth.confirmSignUp(email, confirmationCode, {})
-            .then(() => {
-                this.setState({ modalVisible: false });
-                this.props.navigation.navigate('Home', { user })
+            .then((user) => {
+                Alert.alert("Sign-up confirmed!", "You may now sign in.", [{
+                    title: "OK",
+                    onPress: () => {
+                        this.setState({modalVisible: false});
+                        this.props.navigation.navigate('Authorization')
+                    }
+                }])
             })
             .catch(err => console.log(err));
     };
+
+    handleFormChange(field, value) {
+        this.setState({[field]: value});
+    }
 
     handleSignUp = () => {
         // alert(JSON.stringify(this.state));
@@ -67,71 +79,40 @@ export default class Authentication extends React.Component {
                 <ButtonGroup
                     onPress={this.updateIndex}
                     selectedIndex={this.state.selectedIndex}
-                    buttons={ this.buttons }
+                    buttons={this.buttons}
                 />
-                { this.state.selectedIndex === 0 ? (
-                    <View style={styles.form}>
-                        <Input
-                            label="Email"
-                            leftIcon={{ type: 'font-awesome', name: 'envelope' }}
-                            onChangeText={
-                                // Set this.state.email to the value in this Input box
-                                (value) => this.setState({ email: value })
-                            }
-                            placeholder="my@email.com"
-                        />
-                        <Input
-                            label="Password"
-                            leftIcon={{ type: 'font-awesome', name: 'lock' }}
-                            onChangeText={
-                                // Set this.state.email to the value in this Input box
-                                (value) => this.setState({ password: value })
-                            }
-                            placeholder="p@ssw0rd123"
-                            secureTextEntry
-                        />
-                        <Input
-                            label="Confirm Password"
-                            leftIcon={{ type: 'font-awesome', name: 'lock' }}
-                            onChangeText={
-                                // Set this.state.email to the value in this Input box
-                                (value) => this.setState({ confirmPassword: value })
-                            }
-                            placeholder="p@ssw0rd123"
-                            secureTextEntry
-                        />
-                        <Button
-                            title='Submit'
-                            onPress={ this.handleSignUp }
-                        />
-                    </View>
+                {this.state.selectedIndex === 0 ? (
+                    <SignUp
+                        onFormChange={this.handleFormChange}
+                        onSubmit={this.handleSignUp}
+                    />
                 ) : (
                     <View style={styles.form}>
                         <Input
                             label="Email"
-                            leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+                            leftIcon={{type: 'font-awesome', name: 'envelope'}}
                             onChangeText={
                                 // Set this.state.email to the value in this Input box
-                                (value) => this.setState({ email: value })
+                                (value) => this.setState({email: value})
                             }
                             placeholder="my@email.com"
                         />
                         <Input
                             label="Password"
-                            leftIcon={{ type: 'font-awesome', name: 'lock' }}
+                            leftIcon={{type: 'font-awesome', name: 'lock'}}
                             onChangeText={
                                 // Set this.state.email to the value in this Input box
-                                (value) => this.setState({ password: value })
+                                (value) => this.setState({password: value})
                             }
                             placeholder="p@ssw0rd123"
                             secureTextEntry
                         />
                         <Button
                             title='Submit'
-                            onPress={ this.handleSignIn }
+                            onPress={this.handleSignIn}
                         />
                     </View>
-                ) }
+                )}
                 <Modal
                     visible={this.state.modalVisible}
                 >
