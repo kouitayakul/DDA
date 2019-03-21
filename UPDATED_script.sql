@@ -1,40 +1,41 @@
-create table Users (
+CREATE TABLE Users (
   code int,
   stars int,
-  primary key (code)
+  name varchar(100),
+  PRIMARY KEY (code)
 );
 
-create table Employee_Users (
-	  empId int,
-    userId int,
-    primary key (empId, userId),
-    foreign key (userId) references Users(code)
+CREATE TABLE Employee_Users (
+  empId int,
+  userId int,
+  PRIMARY KEY (empId, userId),
+  FOREIGN KEY (userId) REFERENCES Users(code)
 );
 
-create table Jobs (
+CREATE TABLE Jobs (
   jobId int,
   name char(20),
   description varchar(100),
-  primary key (jobId)
+  PRIMARY KEY (jobId)
 );
 
-create table Users_Have_Jobs (
-	  userId int,
-    jobId int,
-    primary key (userId, jobId),
-    foreign key (userId) references Users(code),
-    foreign key (jobId) references Jobs(jobId)
+CREATE TABLE Users_Have_Jobs (
+  userId int,
+  jobId int,
+  PRIMARY KEY (userId, jobId),
+  FOREIGN KEY (userId) REFERENCES Users(code),
+  FOREIGN KEY (jobId) REFERENCES Jobs(jobId)
 );
 
-create table SubJobs (
+CREATE TABLE SubJobs (
   subJobId int,
   jobId int,
   title varchar(100),
   description varchar(100),
   imgLink varchar(1000),
   orderNumber int,
-  primary key (subJobId),
-  foreign key (jobId) references Jobs(jobId)
+  PRIMARY KEY (subJobId),
+  FOREIGN KEY (jobId) REFERENCES Jobs(jobId)
 );
 
 
