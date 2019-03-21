@@ -9,17 +9,15 @@ const SignInForm = (props) => {
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
-                    label="Email"
-                    leftIcon={{type: 'font-awesome', name: 'envelope'}}
                     onChangeText={(value) => props.onFormChange("email", value)}
-                    placeholder="my@email.com"
+                    placeholder="Email"
+                    placeholderTextColor="black"
                 />
                 <TextInput
                     style={styles.input}
-                    label="Password"
-                    leftIcon={{type: 'font-awesome', name: 'lock'}}
                     onChangeText={(value) => props.onFormChange("password", value)}
-                    placeholder="p@ssw0rd123"
+                    placeholder="Password"
+                    placeholderTextColor="black"
                     secureTextEntry
                 />
             </View>
@@ -50,6 +48,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FACA8E',
         width: 300,
         height: 50,
+        fontSize: 18,
         borderRadius: 5,
         borderWidth: 2,
         borderColor: '#F7971D'
