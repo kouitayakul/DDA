@@ -12,7 +12,8 @@
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
-    "aws-amplify": "1.1.19",
+    "aws-amplify": "^1.1.7",
+    "aws-amplify-react": "^2.1.1",
     "aws-amplify-react-native": "2.1.7",
     "expo": "32.0.6",
     "react": "16.5.0",
