@@ -3,6 +3,8 @@ import {Text, StyleSheet, View, Alert} from 'react-native';
 import {Auth} from 'aws-amplify';
 import SignUpForm from "../components/auth/SignUpForm";
 
+
+
 export default class EmployerSignUpScreen extends React.Component {
     constructor(props) {
         super(props);
