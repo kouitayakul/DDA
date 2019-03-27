@@ -12,7 +12,6 @@ export default class StartScreen extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.text}>(logo goes here)</Text>
                 <Text style={styles.text}>____ _____ _____ ____</Text>
-                <RectangularButton/>
                 <View style={[styles.smallText, {flexDirection: 'row', paddingTop: 20}]}>
                     <Text>If you are DDA staff or an Employer, please login </Text>
                     <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}>here.</Text>

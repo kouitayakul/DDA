@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
-import {Button} from 'react-native-elements';
 import PropTypes from 'prop-types'
+import RectangularButton from "../RectangularButton";
 
 const SignInForm = (props) => {
     return (
@@ -22,9 +22,9 @@ const SignInForm = (props) => {
                 />
             </View>
             <View style={styles.container}>
-                {/* TODO: replace with styled button */}
-                <Button
-                    title='Submit'
+                <RectangularButton
+                    title="Submit"
+                    backgroundColor="#F7971D"
                     onPress={props.onSubmit}
                 />
             </View>
@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderRadius: 5,
         borderWidth: 2,
-        borderColor: '#F7971D'
+        borderColor: '#F7971D',
+        textAlign: 'center'
     }
 });
