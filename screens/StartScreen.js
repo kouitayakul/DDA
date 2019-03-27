@@ -4,7 +4,6 @@ import {
     StyleSheet,
     View,
 } from 'react-native';
-import RectangularButton from "../components/RectangularButton";
 
 export default class StartScreen extends React.Component {
     render() {

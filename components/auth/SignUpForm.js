@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, TextInput} from 'react-native';
 
 import PropTypes from 'prop-types'
-import RectangularButton from "../RectangularButton";
+import RectangleButton from "../RectangleButton";
 
 const SignUpForm = (props) => {
     return (
@@ -30,7 +30,7 @@ const SignUpForm = (props) => {
                 />
             </View>
             <View style={styles.container}>
-                <RectangularButton
+                <RectangleButton
                     title="Submit"
                     backgroundColor="#F7971D"
                     onPress={props.onSubmit}

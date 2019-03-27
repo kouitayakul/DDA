@@ -1,8 +1,8 @@
+import React from 'react';
 import {Button} from 'react-native-elements';
-import React from "react";
 import PropTypes from 'prop-types';
 
-const CircleButton = (props) => {
+const RectangleButton = (props) => {
     return (
         <Button
             title={props.title}
@@ -17,17 +17,17 @@ const CircleButton = (props) => {
             }}
             buttonStyle={{
                 backgroundColor: props.backgroundColor ? props.backgroundColor : '#9ACD32',
-                width: 200,
-                height: 200,
-                borderRadius: 100
+                width: 300,
+                height: 50,
+                borderRadius: 30
             }}
         />
     )
 };
 
-export default CircleButton;
+export default RectangleButton;
 
-CircleButton.propTypes = {
+RectangleButton.propTypes = {
     backgroundColor: PropTypes.string,
     onPress: PropTypes.func,
     title: PropTypes.string.isRequired
