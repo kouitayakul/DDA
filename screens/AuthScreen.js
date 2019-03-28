@@ -27,7 +27,7 @@ export default class AuthScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Welcome to DDA!</Text>
+                <Text>(logo goes here)</Text>
                     <SignInForm
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignIn}

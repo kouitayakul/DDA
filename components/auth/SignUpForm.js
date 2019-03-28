@@ -1,35 +1,41 @@
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Input, Button} from 'react-native-elements';
+import {StyleSheet, View, TextInput} from 'react-native';
+
 import PropTypes from 'prop-types'
+import RectangleButton from "../RectangleButton";
 
 const SignUpForm = (props) => {
     return (
-        <View style={styles.form}>
-            <Input
-                label="Email"
-                leftIcon={{type: 'font-awesome', name: 'envelope'}}
-                onChangeText={(value) => props.onFormChange("email", value)}
-                placeholder="my@email.com"
-            />
-            <Input
-                label="Password"
-                leftIcon={{type: 'font-awesome', name: 'lock'}}
-                onChangeText={(value) => props.onFormChange("password", value)}
-                placeholder="p@ssw0rd123"
-                secureTextEntry
-            />
-            <Input
-                label="Confirm Password"
-                leftIcon={{type: 'font-awesome', name: 'lock'}}
-                onChangeText={(value) => props.onFormChange("confirmPassword", value)}
-                placeholder="p@ssw0rd123"
-                secureTextEntry
-            />
-            <Button
-                title='Submit'
-                onPress={props.onSubmit}
-            />
+        <View>
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => props.onFormChange("email", value)}
+                    placeholder="Email"
+                    placeholderTextColor="black"
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => props.onFormChange("password", value)}
+                    placeholder="Password"
+                    placeholderTextColor="black"
+                    secureTextEntry
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => props.onFormChange("confirmPassword", value)}
+                    placeholder="Confirm password"
+                    placeholderTextColor="black"
+                    secureTextEntry
+                />
+            </View>
+            <View style={styles.container}>
+                <RectangleButton
+                    title="Submit"
+                    backgroundColor="#F7971D"
+                    onPress={props.onSubmit}
+                />
+            </View>
         </View>
     );
 };
@@ -42,5 +48,19 @@ SignUpForm.propTypes = {
 };
 
 const styles = StyleSheet.create({
-    form: {width: '90%'},
+    container: {
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+        height: 180,
+    },
+    input: {
+        backgroundColor: '#FACA8E',
+        width: 300,
+        height: 50,
+        fontSize: 18,
+        borderRadius: 5,
+        borderWidth: 2,
+        borderColor: '#F7971D',
+        textAlign: 'center'
+    }
 });
