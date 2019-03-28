@@ -13,10 +13,10 @@ const AppHeader = (props) => {
     );
 };
 
-export default AppHeader;
-
 AppHeader.propTypes = {
     title: PropTypes.string.isRequired,
     backgroundColor: PropTypes.string,
     onPress: PropTypes.func
 };
+
+export default AppHeader;
