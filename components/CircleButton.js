@@ -25,10 +25,10 @@ const CircleButton = (props) => {
     )
 };
 
-export default CircleButton;
-
 CircleButton.propTypes = {
     backgroundColor: PropTypes.string,
     onPress: PropTypes.func,
     title: PropTypes.string.isRequired
 };
+
+export default CircleButton;

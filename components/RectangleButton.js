@@ -25,10 +25,11 @@ const RectangleButton = (props) => {
     )
 };
 
-export default RectangleButton;
-
 RectangleButton.propTypes = {
     backgroundColor: PropTypes.string,
     onPress: PropTypes.func,
     title: PropTypes.string.isRequired
 };
+
+export default RectangleButton;
+
