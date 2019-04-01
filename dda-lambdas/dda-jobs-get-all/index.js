@@ -14,7 +14,7 @@ let pool = mysql.createPool({
 exports.handler = (event, context, callback) => {
   console.log(event);
   context.callbackWaitsForEmptyEventLoop = false;
-  pool.getConnection(function (error, connection) {
+  pool.getConnection(function (err, connection) {
     let sqlquery = 'SELECT * FROM Jobs;';
     connection.query(sqlquery, function (error, results, fields) {
       connection.release();
