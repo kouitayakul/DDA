@@ -32,6 +32,12 @@ export default class AuthScreen extends React.Component {
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignIn}
                     />
+                <View style={[styles.smallText, {flexDirection: 'row', textAlign: 'center', paddingTop: 30}]}>
+                    <Text>Forgot your password? Click </Text>
+                    <Text style={styles.link} onPress={() =>
+                        this.props.navigation.navigate('ForgotPassword')}>
+                        here.</Text>
+                </View>
             </View>
         );
     }
@@ -43,5 +49,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    smallText: {
+        fontSize: 14,
+    },
+    link: {
+        color: '#F98C04',
+        fontWeight: 'bold',
     },
 });

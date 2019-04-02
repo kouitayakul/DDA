@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, TextInput, View} from 'react-native';
-import PropTypes from 'prop-types';
+import {StyleSheet, View, TextInput} from 'react-native';
+
+import PropTypes from 'prop-types'
 import RectangleButton from "../RectangleButton";
 
-const SignInForm = (props) => {
+const ChangePasswordForm = (props) => {
     return (
         <View>
             <View style={styles.container}>
@@ -15,8 +16,21 @@ const SignInForm = (props) => {
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={(value) => props.onFormChange("password", value)}
-                    placeholder="Password"
+                    onChangeText={(value) => props.onFormChange("tempPassword", value)}
+                    placeholder="Temporary password"
+                    placeholderTextColor="black"
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => props.onFormChange("newPassword", value)}
+                    placeholder="New password"
+                    placeholderTextColor="black"
+                    secureTextEntry
+                />
+                <TextInput
+                    style={styles.input}
+                    onChangeText={(value) => props.onFormChange("confirmNewPassword", value)}
+                    placeholder="Confirm new password"
                     placeholderTextColor="black"
                     secureTextEntry
                 />
@@ -31,9 +45,10 @@ const SignInForm = (props) => {
         </View>
     );
 };
-export default SignInForm;
 
-SignInForm.propTypes = {
+export default ChangePasswordForm;
+
+ChangePasswordForm.propTypes = {
     onFormChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };
@@ -42,7 +57,7 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        height: 120
+        height: 180,
     },
     input: {
         backgroundColor: '#FACA8E',
@@ -53,5 +68,5 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#F7971D',
         textAlign: 'center'
-    },
+    }
 });

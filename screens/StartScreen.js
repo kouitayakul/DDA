@@ -33,7 +33,7 @@ export default class StartScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>(logo goes here)</Text>
+                <Text>(logo goes here)</Text>
                 <View style={styles.inputWrapper}>
                     <CodeInput
                         ref="codeInputRef1"
@@ -49,7 +49,7 @@ export default class StartScreen extends React.Component {
                 </View>
                 <View style={[styles.smallText, {flexDirection: 'row', paddingTop: 30}]}>
                     <Text>If you are DDA staff or an Employer, please login </Text>
-                    <Text style={styles.link} onPress={() => this.props.navigate('Auth')}>here.</Text>
+                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}>here.</Text>
                 </View>
             </View>
         );
@@ -73,11 +73,6 @@ const styles = StyleSheet.create({
     inputWrapper: {
         height: 70,
         width: '100%',
-    },
-    text: {
-        fontSize: 16,
-        color: 'black',
-        lineHeight: 19,
     },
     smallText: {
         fontSize: 14,

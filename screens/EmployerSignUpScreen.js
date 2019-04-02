@@ -10,7 +10,6 @@ export default class EmployerSignUpScreen extends React.Component {
             email: '',
             password: '',
             confirmPassword: '',
-            confirmationCode: '',
         };
         this.handleFormChange = this.handleFormChange.bind(this);
     }
