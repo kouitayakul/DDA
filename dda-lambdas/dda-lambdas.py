@@ -1,11 +1,14 @@
 # RUN IN DIRECTORY WHERE LAMBDA FUNCTION DIRECTORIES RESIDE
-# Depending on input argument, delete lambda functions, or create them
-# Creating includes putting the node_modules and config.json into directory before zipping it and uploading it.
+# Depending on input arguments, delete specified lambda functions, or create specified/all lambda functions
+# Creating includes putting the node_modules and config.json from this directory into function directory before zipping it and uploading it
+# Consequently, the config.json and node_modules for mysql (npm install mysql --save) must be in this directory
     # Examples:
-    # First picks up all folders in current directory starting with 'dda-', bundles them with node_modules and config.json and creates a lambda function for them on aws
-    # python dda-lambdas.py all
-    # python dda-lambdas.py dda-jobs-get
-    # python dda-lambdas.py delete dda-jobs-get dda-jobs-put
+    # Pick up all folders in current directory starting with 'dda-', bundle them with node_modules and config.json and create a lambda function for each on aws
+        # python dda-lambdas.py all
+    # Do the above only for specific lambda function
+        # python dda-lambdas.py dda-jobs-get
+    # Delete specified lambda functions
+        # python dda-lambdas.py delete dda-jobs-get dda-jobs-put
 import os
 import zipfile
 import sys
