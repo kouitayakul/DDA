@@ -1,0 +1,793 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server DDA server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).      For this sample, you can use the api key `special-key` to test the authorization     filters."
+  version: "1.0.0"
+  title: "Swagger DDA"
+host: "dda.swagger.io"
+basePath: "/v2"
+tags:
+- name: "DDA"
+  description: "Everything about your DDA"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /user:
+    post:
+      tags:
+      - "user"
+      summary: "create new user"
+      description: ""
+      operationId: "createUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created user object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        default:
+          description: "successful operation"
+    get:
+      tags:
+      - "user"
+      summary: "get all users"
+      description: ""
+      operationId: "getUsers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+    delete:
+      tags: 
+      - "user"
+      summary: "delete all users"
+      description: ""
+      operationId: "deleteUsers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: OK
+  /user/{uid}:
+    get:
+      tags:
+      - "user"
+      summary: "get {uid}  "
+      description: ""
+      operationId: "getUid"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid uid supplied"
+    put:
+      tags: 
+      - "user"
+      summary: "update {uid}"
+      description: ""
+      operationId: "updateUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: "uid that needs to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Updated uid object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid uid supplied"
+        404:
+          description: "Uid not found"
+  /users/{uid}/stars:
+    get:
+      tags:
+      - "user"
+      summary: "get stars for {uid}"
+      description: ""
+      operationId: "getStars"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid uid supplied"
+    put:
+      tags: 
+      - "user"
+      summary: "update stars for {uid}"
+      description: ""
+      operationId: "updateStars"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: "uid that needs to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Updated uid object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid uid supplied"
+        404:
+          description: "Uid not found"
+  
+  /users/{uid}/jobs:
+    get:
+      tags:
+      - "user"
+      summary: "get all jobs for {uid}"
+      description: ""
+      operationId: "getAllJobsForUid"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/User"
+        400:
+          description: "Invalid username supplied"
+        404:
+          description: "User not found"
+    post:
+      tags: 
+      - "user"
+      summary: "assign job to {uid}"
+      description: ""
+      operationId: "assignJob"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "body"
+        in: "body"
+        description: "Created job object"
+        required: true
+        schema:
+          $ref: "#/definitions/UserWithAJob"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags:
+      - "user"
+      summary: "remove job from {uid}"
+      description: ""
+      operationId: "deleteJob"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: "The job that needs to be deleted from an uid"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid uid supplied"
+        404:
+          description: "Uid not found"
+  /users/{uid}/employers:
+    get:
+      tags: 
+      - "user"
+      summary: "get all employers for {uid}"
+      description: ""
+      operationId: "getEmployers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid uid supplied"
+    post:
+      tags: 
+      - "user"
+      summary: "assign employer to {uid}"
+      description: ""
+      operationId: "assignEmployer"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "Created job object"
+        required: true
+        schema:
+          $ref: "#/definitions/UserWithAnEmployer"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags: 
+      - "user"
+      summary: "remove employer from {uid}"
+      description: ""
+      operationId: "deleteEmployer"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: "The employer that needs to be deleted from an uid"
+        required: true
+        type: "integer"
+      responses:
+        400:
+          description: "Invalid uid supplied"
+        404:
+          description: "Uid not found"
+
+  /job:
+    post:
+      tags:
+      - "job"
+      summary: "create new job"
+      description: "This can only be done by the logged in user."
+      operationId: "createNewJob"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Created new job object"
+        required: true
+        schema:
+          $ref: "#/definitions/Job"
+      responses:
+        default:
+          description: "successful operation"
+    get:
+      tags:
+      - "job"
+      summary: "get all jobs"
+      description: ""
+      operationId: "getJob"
+      produces: 
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "string"
+          headers:
+            X-Rate-Limit:
+              type: "integer"
+              format: "int32"
+              description: "calls per hour allowed by the user"
+            X-Expires-After:
+              type: "string"
+              format: "date-time"
+              description: "date in UTC when token expires"
+        400:
+          description: "Invalid username/password supplied"
+    delete:
+      tags:
+      - "job"
+      summary: "delete all jobs"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteJobs"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        400:
+          description: "Invalid job supplied"
+        404:
+          description: "Job not found"
+  /jobs/{jobId}:
+    get:
+      tags: 
+      - "job"
+      summary: "get a particular job" 
+      description: ""
+      operationId: "getJobId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+      - name: "jobId"
+        in: "path"
+        description: "The id of job"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Job not found"
+    put:
+      tags:
+      - "job"
+      summary: "update jobId"
+      description: ""
+      operationId: "updateJobId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "name that need to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Updated jobId"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+    delete:
+      tags:
+      - "job"
+      summary: "delete a job with an Id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteAJob"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The id of the job that needs to delete its subjob(s)"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid job id supplied"
+        404:
+          description: "Job not found"
+  /jobs/{jobId}/subjobs:
+    get:
+      tags: 
+      - "job"
+      summary: "get all subjobs for {jobId}"
+      description: ""
+      operationId: "getAllSubJobs"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The jobId"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+    post:
+      tags: 
+      - "job"
+      summary: "create subjob for {jobId}"
+      description: ""
+      operationId: "createSubJob"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+        format: "int64"
+      - in: "body"
+        name: "body"
+        description: "created new subjob object"
+        required: true
+        schema:
+          $ref: "#/definitions/SubJobForAJob"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags: 
+      - "job"
+      summary: "delete subjob for {jobId}"
+      description: ""
+      operationId: "deleteSubJob"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The id of the job that needs to delete its subjob(s)"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid job supplied"
+        404:
+          description: "Job not found"
+  /jobs/{jobId}/subjobs/{subjobId}:
+    get:
+      tags: 
+      - "job"
+      summary: "get {subjobId} for {jobId}"
+      description: ""
+      operationId: "getSubJobForJobId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The jobId"
+        required: true
+        type: "integer"
+      - name: "subjobId"
+        in: "path"
+        description: "The subjobId"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+    put:
+      tags: 
+      - "job"
+      summary: "update {subjobId} for {jobId}"
+      description: ""
+      operationId: "updateSubJobIdForJobId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "jobId that needs to be updated"
+        required: true
+        type: "integer"
+      - name: "subjobId"
+        in: "path"
+        description: "subjobId that needs to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "Updated subjobId for jobId"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+  /jobs/{jobId}/users:
+    get:
+      tags: 
+      - "job"
+      summary: "get all users assigned to {jobId}"
+      description: ""
+      operationId: "getAllUsersAssigned"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The jobId"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+    post:
+      tags: 
+      - "job"
+      summary: "assign user to {jobId}"
+      description: ""
+      operationId: "assignUser"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "jobId that needs to be assigned"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "assigned user"
+        required: true
+        schema:
+          $ref: "#/definitions/JobForAUser"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags: 
+      - "job"
+      summary: "remove user from {jobId}"
+      description: ""
+      operationId: "deleteUserFromJobId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The id of the job that needs to delete its user(s)"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+          
+  /employers/{empId}/users:
+    get:
+      tags: 
+      - "employer"
+      summary: "get all users for {empId}"
+      description: ""
+      operationId: "getAllEmployersForEmpId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "empId"
+        in: "path"
+        description: "The empId"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+    post:
+      tags: 
+      - "employer"
+      summary: "assign user to {empId}"
+      description: ""
+      operationId: "assignUserToEmpId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "empId"
+        in: "path"
+        description: "empId that needs to be assign"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "assigned user to empId"
+        required: true
+        schema:
+          $ref: "#/definitions/UserForAnEmployer"
+      responses:
+        default:
+          description: "successful operation"
+    delete:
+      tags: 
+      - "employer"
+      summary: "remove user from {empId}"
+      description: ""
+      operationId: "deleteUserFromEmpId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "empId"
+        in: "path"
+        description: "The empId that needs to delete its user(s)"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
+    
+    
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  User:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int64"
+      firstName:
+        type: "string"
+      lastName:
+        type: "string"
+      stars:
+        type: "integer"
+        format:  "int64"
+    xml:
+      name: "User"
+  UserWithAJob:
+    type: "object"
+    properties:
+      userId:
+        type: "integer"
+        format: "int64"
+      jobId:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "UserWithAJob"
+  UserWithAnEmployer:
+    type: "object"
+    properties:
+      empId:
+        type: "integer"
+        format: "int64"
+      userId:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "UserWithAnEmployer"
+  Job:
+    type: "object"
+    properties:
+      jobId:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      description:
+        type: "string"
+    xml:
+      name: "Job"
+  SubJobForAJob:
+    type: "object"
+    properties:
+      subJobId:
+        type: "integer"
+        format: "int64"
+      jobId:
+        type: "integer"
+        format: "int64"
+      title:
+        type: "string"
+      description:
+        type: "string"
+      imgLink:
+        type: "string"
+      orderNumber:
+        type: "integer"
+        format: "int64"
+    xml:
+      name: "SubJobForAJob"
+  JobForAUser:
+    type: "object"
+    properties:
+      userId:
+        type: "integer"
+        format: "int64"
+      jobId:
+        type: "integer"
+        format: "int64"
+  UserForAnEmployer:
+    type: "object"
+    properties:
+      empId:
+        type: "integer"
+        format: "int64"
+      userId:
+        type: "integer"
+        format: "int64"
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
