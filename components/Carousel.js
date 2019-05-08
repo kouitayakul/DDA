@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { Animated, View, StyleSheet, Image, Dimensions, ScrollView } from 'react-native';
+import { Animated, View, StyleSheet, Image, Dimensions, ScrollView, Text, Button } from 'react-native';
+import { ButtonGroup, Icon } from 'react-native-elements';
 import PropTypes from 'prop-types'
 
 
 const deviceWidth = Dimensions.get('window').width
 
+
 const Carousel = (props) => {
     let imageArray = []
-    let barArray = []
+    let buttonArray = []
     props.images.forEach((image, i) => {
       const thisImage = (
         <Image
@@ -16,9 +18,17 @@ const Carousel = (props) => {
         style={{ width: deviceWidth }}
         />
       )
-      imageArray.push(thisImage)
+      imageArray.push(thisImage);
     }
   )
+  const button = () => <Icon
+                        name='circle'
+                        type='font-awesome'
+                        color ='#B6BF80'
+                        />
+  for (let i= 0; i < imageArray.length; i++) {
+    buttonArray.push({element: button});
+  }
     return (
       <View style={styles.container}>
       <ScrollView
@@ -28,6 +38,9 @@ const Carousel = (props) => {
       >
       {imageArray}
       </ScrollView>
+      <ButtonGroup
+        buttons={buttonArray}
+      />
       </View>
     )
 }

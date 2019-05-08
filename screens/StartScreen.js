@@ -7,19 +7,19 @@ import {
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 
-
 export default class StartScreen extends React.Component {
 
-    renderAuthLink() {
-        return <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}> here.</Text>;
-    }
+
+  renderAuthLink() {
+    return <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}> here.</Text>;
+}
 
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>Sign in to DDA.</Text>
-                <Text style={styles.text}>____ _____ _____ ____</Text>
-                <Text style={styles.smallText}>If you are DDA staff or an Employer, please login </Text>{this.renderAuthLink()}
+              <Text style={styles.text}>Sign in to DDA.</Text>
+              <Text style={styles.text}>____ _____ _____ ____</Text>
+              <Text style={styles.smallText}>If you are DDA staff or an Employer, please login </Text>{this.renderAuthLink()}
             </View>
         );
     }
