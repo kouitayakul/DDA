@@ -1,6 +1,8 @@
 import React from 'react';
 import {StyleSheet, Text, View } from 'react-native';
 import ForgotPasswordForm from "../components/auth/ForgotPasswordForm";
+import { Auth } from 'aws-amplify';
+
 
 export default class ForgotPasswordScreen extends React.Component {
     constructor(props) {
@@ -16,8 +18,11 @@ export default class ForgotPasswordScreen extends React.Component {
     }
 
     handleForgotPassword() {
-        console.log("Forgot password for " + this.state.email + ".");
-        // TODO: Trigger forgot pass, tell them to check email for temp password.
+        Auth.forgotPassword(this.state.email)
+            .then(data => console.log(data))
+            // TODO: alert user email has been sent with code,
+            //  navigate user to form where they can enter code and change password
+            .catch(err => console.log(err));
     }
 
     render() {

@@ -20,7 +20,14 @@ export default class ChangePasswordScreen extends React.Component {
     }
 
     handlePasswordChange = () => {
-        console.log("Change the password for " + this.state.email + ".");
+            if (this.state.newPassword === this.state.confirmPassword) {
+                Auth.currentAuthenticatedUser()
+                    .then(user => {
+                        return Auth.changePassword(user, this.state.tempPassword, this.state.newPassword);
+                    })
+                    .catch(err => console.log(err));
+                // TODO: error handling, alert if fail
+            }
     };
 
     render() {
