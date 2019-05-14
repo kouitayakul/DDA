@@ -314,6 +314,34 @@ paths:
         404:
           description: "Job not found"
   /jobs/{jobId}:
+    get:
+      tags: 
+      - "job"
+      summary: "get a job with an Id"
+      description: ""
+      operationId: "getJobId"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters: 
+      - name: "jobId"
+        in: "path"
+        description: "Id for a job"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: ""
+        required: true
+        schema:
+          $ref: "#/definitions/Job"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid id supplied"
+        404:
+          description: "Id not found"
     put:
       tags:
       - "job"
@@ -340,28 +368,6 @@ paths:
           description: "Invalid id supplied"
         404:
           description: "Id not found"
-    delete:
-      tags:
-      - "job"
-      summary: "delete a job with an Id"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteAJob"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "jobId"
-        in: "path"
-        description: "The id of the job that needs to delete its subjob(s)"
-        required: true
-        type: "integer"
-      responses:
-        200:
-          description: OK
-        400:
-          description: "Invalid job id supplied"
-        404:
-          description: "Job not found"
   /jobs/{jobId}/subjobs:
     get:
       tags: 
