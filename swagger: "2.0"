@@ -35,18 +35,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-    get:
-      tags:
-      - "user"
-      summary: "get all users"
-      description: ""
-      operationId: "getUsers"
-      produces:
-      - "application/xml"
-      - "application/json"
-      responses:
-        200:
-          description: "successful operation"
     delete:
       tags: 
       - "user"
@@ -61,21 +49,21 @@ paths:
           description: OK
   /user/{uid}:
     get:
-      tags:
+     tags:
       - "user"
-      summary: "get {uid}  "
-      description: ""
-      operationId: "getUid"
-      produces:
+     summary: "get all users"
+     description: ""
+     operationId: "getUsers"
+     produces:
       - "application/xml"
       - "application/json"
-      parameters:
+     parameters:
       - name: "uid"
         in: "path"
         description: ""
         required: true
         type: "integer"
-      responses:
+     responses:
         200:
           description: "successful operation"
         400:
@@ -311,31 +299,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-    get:
-      tags:
-      - "job"
-      summary: "get all jobs"
-      description: ""
-      operationId: "getJob"
-      produces: 
-      - "application/xml"
-      - "application/json"
-      responses:
-        200:
-          description: "successful operation"
-          schema:
-            type: "string"
-          headers:
-            X-Rate-Limit:
-              type: "integer"
-              format: "int32"
-              description: "calls per hour allowed by the user"
-            X-Expires-After:
-              type: "string"
-              format: "date-time"
-              description: "date in UTC when token expires"
-        400:
-          description: "Invalid username/password supplied"
     delete:
       tags:
       - "job"
@@ -351,28 +314,6 @@ paths:
         404:
           description: "Job not found"
   /jobs/{jobId}:
-    get:
-      tags: 
-      - "job"
-      summary: "get a particular job" 
-      description: ""
-      operationId: "getJobId"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters: 
-      - name: "jobId"
-        in: "path"
-        description: "The id of job"
-        required: true
-        type: "integer"
-      responses:
-        200:
-          description: OK
-        400:
-          description: "Invalid id supplied"
-        404:
-          description: "Job not found"
     put:
       tags:
       - "job"
@@ -444,31 +385,6 @@ paths:
           description: "Invalid id supplied"
         404:
           description: "Id not found"
-    post:
-      tags: 
-      - "job"
-      summary: "create subjob for {jobId}"
-      description: ""
-      operationId: "createSubJob"
-      produces:
-      - "application/xml"
-      - "application/json"
-      parameters:
-      - name: "jobId"
-        in: "path"
-        description: ""
-        required: true
-        type: "integer"
-        format: "int64"
-      - in: "body"
-        name: "body"
-        description: "created new subjob object"
-        required: true
-        schema:
-          $ref: "#/definitions/SubJobForAJob"
-      responses:
-        default:
-          description: "successful operation"
     delete:
       tags: 
       - "job"
@@ -522,34 +438,34 @@ paths:
     put:
       tags: 
       - "job"
-      summary: "update {subjobId} for {jobId}"
+      summary: "create subjob for {jobId}"
       description: ""
-      operationId: "updateSubJobIdForJobId"
+      operationId: "createSubJob"
       produces:
       - "application/xml"
       - "application/json"
       parameters:
       - name: "jobId"
         in: "path"
-        description: "jobId that needs to be updated"
+        description: ""
         required: true
         type: "integer"
+        format: "int64"
       - name: "subjobId"
         in: "path"
-        description: "subjobId that needs to be updated"
+        description: ""
         required: true
         type: "integer"
+        format: "int64"
       - in: "body"
         name: "body"
-        description: "Updated subjobId for jobId"
+        description: "created new subjob object"
         required: true
         schema:
-          $ref: "#/definitions/User"
+          $ref: "#/definitions/SubJobForAJob"
       responses:
-        400:
-          description: "Invalid id supplied"
-        404:
-          description: "Id not found"
+        default:
+          description: "successful operation"
   /jobs/{jobId}/users:
     get:
       tags: 
