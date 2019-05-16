@@ -15,7 +15,21 @@ schemes:
 - "https"
 - "http"
 paths:
-  /user:
+  /users:
+    get:
+      tags: 
+      - "user"
+      summary: "get all users"
+      description: ""
+      operationId: "getUsers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad request"
     post:
       tags:
       - "user"
@@ -35,25 +49,13 @@ paths:
       responses:
         default:
           description: "successful operation"
-    delete:
-      tags: 
-      - "user"
-      summary: "delete all users"
-      description: ""
-      operationId: "deleteUsers"
-      produces:
-      - "application/xml"
-      - "application/json"
-      responses:
-        200:
-          description: OK
-  /user/{uid}:
+  /users/{uid}:
     get:
      tags:
       - "user"
      summary: "get all users"
      description: ""
-     operationId: "getUsers"
+     operationId: "getAUser"
      produces:
       - "application/xml"
       - "application/json"
@@ -63,6 +65,12 @@ paths:
         description: ""
         required: true
         type: "integer"
+      - in: "body"
+        name: "body"
+        description: "get user with uid"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
      responses:
         200:
           description: "successful operation"
@@ -94,6 +102,30 @@ paths:
           description: "Invalid uid supplied"
         404:
           description: "Uid not found"
+    delete:
+      tags: 
+      - "user"
+      summary: "delete all users"
+      description: ""
+      operationId: "deleteUsers"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "uid"
+        in: "path"
+        description: ""
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "deleted uid object"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        200:
+          description: OK
   /users/{uid}/stars:
     get:
       tags:
@@ -279,7 +311,21 @@ paths:
         404:
           description: "Uid not found"
 
-  /job:
+  /jobs:
+    get:
+      tags: 
+      - "job"
+      summary: "get all jobs"
+      description: ""
+      operationId: "getJobs"
+      produces:
+      - "application/xml"
+      - "application/json"
+      responses:
+        200:
+          description: "OK"
+        400:
+          description: "Bad request"
     post:
       tags:
       - "job"
@@ -299,20 +345,6 @@ paths:
       responses:
         default:
           description: "successful operation"
-    delete:
-      tags:
-      - "job"
-      summary: "delete all jobs"
-      description: "This can only be done by the logged in user."
-      operationId: "deleteJobs"
-      produces:
-      - "application/xml"
-      - "application/json"
-      responses:
-        400:
-          description: "Invalid job supplied"
-        404:
-          description: "Job not found"
   /jobs/{jobId}:
     get:
       tags: 
@@ -362,12 +394,38 @@ paths:
         description: "Updated jobId"
         required: true
         schema:
-          $ref: "#/definitions/User"
+          $ref: "#/definitions/Job"
       responses:
         400:
           description: "Invalid id supplied"
         404:
           description: "Id not found"
+    delete:
+      tags:
+      - "job"
+      summary: "delete a job with an id"
+      description: "This can only be done by the logged in user."
+      operationId: "deleteJobs"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "name that need to be updated"
+        required: true
+        type: "integer"
+      - in: "body"
+        name: "body"
+        description: "delete jobId"
+        required: true
+        schema:
+          $ref: "#/definitions/Job"
+      responses:
+        400:
+          description: "Invalid job supplied"
+        404:
+          description: "Job not found"
   /jobs/{jobId}/subjobs:
     get:
       tags: 
@@ -394,7 +452,7 @@ paths:
     delete:
       tags: 
       - "job"
-      summary: "delete subjob for {jobId}"
+      summary: "delete all subjobs for {jobId}"
       description: ""
       operationId: "deleteSubJob"
       produces:
@@ -417,7 +475,7 @@ paths:
     get:
       tags: 
       - "job"
-      summary: "get {subjobId} for {jobId}"
+      summary: "get a subjob with a {subjobId} for {jobId}"
       description: ""
       operationId: "getSubJobForJobId"
       produces:
@@ -472,6 +530,29 @@ paths:
       responses:
         default:
           description: "successful operation"
+    delete:
+      tags: 
+      - "job"
+      summary: "delete subjob for a job"
+      description: ""
+      parameters:
+      - name: "jobId"
+        in: "path"
+        description: "The id of the job that needs to delete its subjob(s)"
+        required: true
+        type: "integer"
+      - name: "subjobId"
+        in: "path"
+        description: "The id for the subjob"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: OK
+        400:
+          description: "Invalid job supplied"
+        404:
+          description: "Job not found"
   /jobs/{jobId}/users:
     get:
       tags: 
