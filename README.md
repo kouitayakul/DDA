@@ -6,6 +6,8 @@ Our project for the Developmental Disabilities Association is a mobile applicati
 
 I am responsible for translating the entity-relationship diagram to a relational schema. Using SQL, I wrote queries to create database tables and inserted mocked data into them. I also designed the API by using Swagger Editor to write parameters and responses for each endpoint. Here are an example of how a DELETE endpoint is designed using Swagger Editor:
 
+<img src="deleteEndpoint" width="300" height="500">
+
 
 
 ## Getting Started
