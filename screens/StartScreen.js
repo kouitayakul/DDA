@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import { Auth } from 'aws-amplify';
 
+
 export default class StartScreen extends React.Component {
 
 

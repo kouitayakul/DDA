@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView, Text, Button } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 
 
 const deviceWidth = Dimensions.get('window').width
 
-
 const Carousel = (props) => {
     let imageArray = []
     let buttonArray = []
+
+    goToNext = (index) => {
+      this.scroll.scrollTo({x: index * deviceWidth});
+    }
     props.images.forEach((image, i) => {
       const thisImage = (
         <Image
@@ -18,23 +21,25 @@ const Carousel = (props) => {
         style={{ width: deviceWidth }}
         />
       )
+      const button = () => (
+                            <Icon
+                            name='circle'
+                            type='font-awesome'
+                            color ='#B6BF80'
+                            onPress= {() => this.goToNext(i)}
+                            />
+                          );
       imageArray.push(thisImage);
+      buttonArray.push({element: button});
     }
   )
-  const button = () => <Icon
-                        name='circle'
-                        type='font-awesome'
-                        color ='#B6BF80'
-                        />
-  for (let i= 0; i < imageArray.length; i++) {
-    buttonArray.push({element: button});
-  }
     return (
       <View style={styles.container}>
       <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
       pagingEnabled
+      ref={(c) => this.scroll = c}
       >
       {imageArray}
       </ScrollView>
@@ -44,8 +49,6 @@ const Carousel = (props) => {
       </View>
     )
 }
-
-export default Carousel;
 
 Carousel.propTypes = {
   images: PropTypes.array
@@ -57,4 +60,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-})
+});
+
+export default Carousel;
