@@ -6,14 +6,20 @@ import PropTypes from 'prop-types';
 
 const deviceWidth = Dimensions.get('window').width
 
-const Carousel = (props) => {
+class Carousel extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
     let imageArray = []
     let buttonArray = []
 
-    goToNext = (index) => {
+    const goToNext = (index) => {
       this.scroll.scrollTo({x: index * deviceWidth});
     }
-    props.images.forEach((image, i) => {
+
+    this.props.images.forEach((image, i) => {
       const thisImage = (
         <Image
         key={`image${i}`}
@@ -26,7 +32,7 @@ const Carousel = (props) => {
                             name='circle'
                             type='font-awesome'
                             color ='#B6BF80'
-                            onPress= {() => this.goToNext(i)}
+                            onPress= {() => goToNext(i)}
                             />
                           );
       imageArray.push(thisImage);
@@ -48,6 +54,7 @@ const Carousel = (props) => {
       />
       </View>
     )
+  }
 }
 
 Carousel.propTypes = {
