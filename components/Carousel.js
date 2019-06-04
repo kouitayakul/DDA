@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import { Animated, View, StyleSheet, Image, Dimensions, ScrollView, Text, Button } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
+import moment from "moment";
 
 
 const deviceWidth = Dimensions.get('window').width
+let start = moment();
+let time = 0;
+const timeArray = [];
 
 class Carousel extends React.Component {
   constructor(props) {
@@ -17,6 +21,14 @@ class Carousel extends React.Component {
 
     const goToNext = (index) => {
       this.scroll.scrollTo({x: index * deviceWidth});
+    }
+
+    const startTimer = () => {
+      time = moment(start).fromNow(true);
+      console.log(time);
+      timeArray.push({element: time});
+      start = moment();
+
     }
 
     this.props.images.forEach((image, i) => {
@@ -46,8 +58,10 @@ class Carousel extends React.Component {
       showsHorizontalScrollIndicator={false}
       pagingEnabled
       ref={(c) => this.scroll = c}
+      onScroll= {() => startTimer()}
       >
       {imageArray}
+      {timeArray}
       </ScrollView>
       <ButtonGroup
         buttons={buttonArray}

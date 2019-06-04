@@ -6,6 +6,13 @@ import {
     View,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
+import Carousel from '../components/Carousel';
+
+const images = [
+  'https://s-media-cache-ak0.pinimg.com/originals/ee/51/39/ee5139157407967591081ee04723259a.png',
+  'https://s-media-cache-ak0.pinimg.com/originals/40/4f/83/404f83e93175630e77bc29b3fe727cbe.jpg',
+  'https://s-media-cache-ak0.pinimg.com/originals/8d/1a/da/8d1adab145a2d606c85e339873b9bb0e.jpg',
+]
 
 export default class StartScreen extends React.Component {
 
@@ -20,6 +27,7 @@ export default class StartScreen extends React.Component {
               <Text style={styles.text}>Sign in to DDA.</Text>
               <Text style={styles.text}>____ _____ _____ ____</Text>
               <Text style={styles.smallText}>If you are DDA staff or an Employer, please login </Text>{this.renderAuthLink()}
+              <Carousel images={images}/>
             </View>
         );
     }
