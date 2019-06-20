@@ -4,7 +4,7 @@ import {StyleSheet, View, TextInput} from 'react-native';
 import PropTypes from 'prop-types'
 import RectangleButton from "../RectangleButton";
 
-const SignUpForm = (props) => {
+const ChangePasswordForm = (props) => {
     return (
         <View>
             <View style={styles.container}>
@@ -18,16 +18,24 @@ const SignUpForm = (props) => {
                 <TextInput
                     style={styles.input}
                     autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("password", value)}
-                    placeholder="Password"
+                    onChangeText={(value) => props.onFormChange("oldPassword", value)}
+                    placeholder="Temporary password"
                     placeholderTextColor="black"
                     secureTextEntry
                 />
                 <TextInput
                     style={styles.input}
                     autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("confirmPassword", value)}
-                    placeholder="Confirm password"
+                    onChangeText={(value) => props.onFormChange("newPassword", value)}
+                    placeholder="New password"
+                    placeholderTextColor="black"
+                    secureTextEntry
+                />
+                <TextInput
+                    style={styles.input}
+                    autoCapitalize="none"
+                    onChangeText={(value) => props.onFormChange("confirmNewPassword", value)}
+                    placeholder="Confirm new password"
                     placeholderTextColor="black"
                     secureTextEntry
                 />
@@ -43,9 +51,10 @@ const SignUpForm = (props) => {
     );
 };
 
-export default SignUpForm;
+export default ChangePasswordForm;
 
-SignUpForm.propTypes = {
+ChangePasswordForm.propTypes = {
+    tempPassword: PropTypes.bool,
     onFormChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, StyleSheet, View, Alert} from 'react-native';
 import {Auth} from 'aws-amplify';
-import SignUpForm from "../components/auth/SignUpForm";
+import SignUpForm from "../../components/auth/SignUpForm";
 
 export default class EmployerSignUpScreen extends React.Component {
     constructor(props) {
@@ -20,7 +20,8 @@ export default class EmployerSignUpScreen extends React.Component {
     }
 
     handleSignUp = () => {
-        const {email, password, confirmPassword} = this.state;
+        const { password, confirmPassword} = this.state;
+        const email = this.state.email;
         // Make sure passwords match
         if (password === confirmPassword) {
             Auth.signUp({

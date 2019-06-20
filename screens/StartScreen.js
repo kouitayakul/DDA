@@ -49,7 +49,7 @@ export default class StartScreen extends React.Component {
                 </View>
                 <View style={[styles.smallText, {flexDirection: 'row', paddingTop: 30}]}>
                     <Text>If you are DDA staff or an Employer, please login </Text>
-                    <Text style={styles.link} onPress={() => this.props.navigate('Auth')}>here.</Text>
+                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}>here.</Text>
                 </View>
             </View>
         );

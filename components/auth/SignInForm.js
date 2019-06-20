@@ -9,12 +9,14 @@ const SignInForm = (props) => {
             <View style={styles.container}>
                 <TextInput
                     style={styles.input}
+                    autoCapitalize="none"
                     onChangeText={(value) => props.onFormChange("email", value)}
                     placeholder="Email"
                     placeholderTextColor="black"
                 />
                 <TextInput
                     style={styles.input}
+                    autoCapitalize="none"
                     onChangeText={(value) => props.onFormChange("password", value)}
                     placeholder="Password"
                     placeholderTextColor="black"
