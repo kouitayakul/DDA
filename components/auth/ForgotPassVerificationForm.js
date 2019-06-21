@@ -3,7 +3,7 @@ import {StyleSheet, View, TextInput} from 'react-native';
 import PropTypes from 'prop-types'
 import RectangleButton from "../RectangleButton";
 
-const ChangePasswordForm = (props) => {
+const ForgotPassVerificationForm = (props) => {
     return (
         <View>
             <View style={styles.container}>
@@ -16,11 +16,10 @@ const ChangePasswordForm = (props) => {
                 />
                 <TextInput
                     style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("oldPassword", value)}
-                    placeholder="Temporary password"
+                    keyboardType="numeric"
+                    onChangeText={(value) => props.onFormChange("verificationCode", value)}
+                    placeholder="Verification code"
                     placeholderTextColor="black"
-                    secureTextEntry
                 />
                 <TextInput
                     style={styles.input}
@@ -50,9 +49,9 @@ const ChangePasswordForm = (props) => {
     );
 };
 
-export default ChangePasswordForm;
+export default ForgotPassVerificationForm;
 
-ChangePasswordForm.propTypes = {
+ForgotPassVerificationForm.propTypes = {
     onFormChange: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
 };

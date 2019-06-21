@@ -20,8 +20,7 @@ export default class EmployerSignUpScreen extends React.Component {
     }
 
     handleSignUp = () => {
-        const { password, confirmPassword} = this.state;
-        const email = this.state.email;
+        const { email, password, confirmPassword} = this.state;
         // Make sure passwords match
         if (password === confirmPassword) {
             Auth.signUp({
