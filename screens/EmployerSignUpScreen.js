@@ -47,11 +47,15 @@ export default class EmployerSignUpScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Enter the desired sign-in credentials for the Employer account.</Text>
-                <SignUpForm
-                    onFormChange={this.handleFormChange}
-                    onSubmit={this.handleSignUp}
-                />
+                <View style={styles.instruction}>
+                    <Text style={{fontSize: 20}}>Enter the desired sign-in credentials for the Employer account</Text>
+                </View>
+                <View style={styles.signUpForm}>
+                    <SignUpForm
+                        onFormChange={this.handleFormChange}
+                        onSubmit={this.handleSignUp}
+                    />
+                </View>
             </View>
         );
     }
@@ -61,6 +65,16 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'column',
+        backgroundColor: '#fff'
     },
+    instruction: {
+        flex: 1, 
+        justifyContent: 'flex-end',
+        marginTop: 60
+    },
+    signUpForm: {
+        flex: 7,
+    }
 });
