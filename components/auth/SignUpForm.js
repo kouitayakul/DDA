@@ -8,39 +8,72 @@ const SignUpForm = (props) => {
     return (
         <View>
             <View style={styles.container}>
+            <View>
+              <View>
                 <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("email", value)}
-                    placeholder="Email"
-                    placeholderTextColor="black"
+                  onChangeText={value => props.onFormChange('name', value)}
+                  placeholder="First & Last Name"
+                  style={styles.input}
                 />
+              </View>
+              <View>
                 <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("password", value)}
-                    placeholder="Password"
-                    placeholderTextColor="black"
-                    secureTextEntry
+                  onChangeText={value => props.onFormChange('company', value)}
+                  placeholder="Company"
+                  style={styles.input}
                 />
+              </View>
+              <View>
                 <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("confirmPassword", value)}
-                    placeholder="Confirm password"
-                    placeholderTextColor="black"
-                    secureTextEntry
+                  onChangeText={value => props.onFormChange('email', value)}
+                  placeholder="Email"
+                  style={styles.input}
                 />
-            </View>
-            <View style={styles.container}>
+              </View>
+              <View>
+                <TextInput
+                  onChangeText={value => props.onFormChange('password', value)}
+                  placeholder="Password"
+                  style={styles.input}
+                  secureTextEntry
+                />
+              </View>
+              <View>
+                <TextInput
+                  onChangeText={value => props.onFormChange('confirmPassword', value)}
+                  placeholder="Confirm password"
+                  style={styles.input}
+                  secureTextEntry
+                />
+              </View>
+              <View>
+                <TextInput
+                  onChangeText={value => props.onFormChange('phone', value)}
+                  placeholder="Phone Number"
+                  style={styles.input}
+                  secureTextEntry
+                />
+              </View>
+              <View>
+                <TextInput
+                  onChangeText={value => props.onFormChange('address', value)}
+                  placeholder="Address"
+                  style={styles.input}
+                  secureTextEntry
+                />
+              </View>
+              </View>
+              <View style={styles.submit}>
                 <RectangleButton
-                    title="Submit"
-                    backgroundColor="#F7971D"
-                    onPress={props.onSubmit}
+                  title="Submit"
+                  onPress={props.onSubmit}
+                  style={styles.submit}
+                  backgroundColor= '#F7971D'
                 />
-            </View>
+              </View>
         </View>
-    );
+    </View>
+  );
 };
 
 export default SignUpForm;
@@ -52,18 +85,21 @@ SignUpForm.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         justifyContent: 'space-around',
         flexDirection: 'column',
-        height: 180,
     },
     input: {
-        backgroundColor: '#FACA8E',
         width: 300,
         height: 50,
         fontSize: 18,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: '#F7971D',
-        textAlign: 'center'
+        textAlign: 'left',
+        borderBottomWidth: 1,
+        borderBottomColor: 'gray',
+        marginBottom: 18
+    },
+    submit: {
+        alignItems: 'center',
+        marginBottom: 50
     }
 });
