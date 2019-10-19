@@ -6,6 +6,7 @@ import {
     View,
 } from 'react-native';
 import { Auth } from 'aws-amplify';
+import Header from "../components/Header";
 
 
 export default class StartScreen extends React.Component {
@@ -17,10 +18,11 @@ export default class StartScreen extends React.Component {
 
     render() {
         return (
+          <Header title="Title"/>
             <View style={styles.container}>
               <Text style={styles.text}>Sign in to DDA.</Text>
               <Text style={styles.text}>____ _____ _____ ____</Text>
-              <Text style={styles.smallText}>If you are DDA staff or an Employer, please login </Text>{this.renderAuthLink()}
+              <Text style={styles.smallText}>If you are DDA staff or an Employer, please login </Text>{this.renderAuthLink()
             </View>
         );
     }
