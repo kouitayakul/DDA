@@ -12,7 +12,7 @@ import { Auth } from 'aws-amplify';
 export default class HomeScreen extends React.Component {
     handleSignOut = () => {
         Auth.signOut()
-            .then(() => this.props.navigation.navigate('Start'))
+            .then(() => this.props.navigation('Start'))
             .catch(err => console.log(err));
     };
 
