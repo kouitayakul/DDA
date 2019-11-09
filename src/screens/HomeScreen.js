@@ -15,9 +15,9 @@ export default class HomeScreen extends React.Component {
     };
 
     render() {
-        const user = this.props.navigation.state.params.user;
-        const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
-        let isAdmin = !!(userGroups && userGroups.includes("admin"));
+        // const user = this.props.navigation.state.params.user;
+        // const userGroups = user.signInUserSession.accessToken.payload['cognito:groups'];
+        let isAdmin = true;
         return (
             <View style={styles.container}>
                 <Text style={{ fontSize: 24, textAlign: 'center'}}> Admin user? {isAdmin ? "YES" : "NO"}</Text>

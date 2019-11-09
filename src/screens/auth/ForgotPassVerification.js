@@ -5,7 +5,7 @@ import {Auth} from 'aws-amplify';
 import ForgotPassVerificationForm from "../../components/auth/ForgotPassVerificationForm";
 
 
-export default class ForgotPassVerificationScreen extends React.Component {
+export default class ForgotPassVerification extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

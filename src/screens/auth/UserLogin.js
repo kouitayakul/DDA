@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import CodeInput from 'react-native-confirmation-code-input';
 
-export default class StartScreen extends React.Component {
+export default class UserLogin extends React.Component {
     onFulfill(code) {
         const testCodes = ["1234", "5678"];
         // TODO: check database for a matching user code, navigate to User menu on success
@@ -18,6 +18,7 @@ export default class StartScreen extends React.Component {
                 [{text: 'OK'}],
                 {cancelable: false}
             );
+            this.props.navigation.navigate('App');
         } else {
             Alert.alert(
                 'Confirmation Code',
@@ -49,7 +50,7 @@ export default class StartScreen extends React.Component {
                 </View>
                 <View style={[styles.smallText, {flexDirection: 'row', paddingTop: 30}]}>
                     <Text>If you are DDA staff or an Employer, please login </Text>
-                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}>here.</Text>
+                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('AdminLogin')}>here.</Text>
                 </View>
             </View>
         );

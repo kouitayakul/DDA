@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import ChangePasswordForm from "../../components/auth/ChangePasswordForm";
 
 
-export default class ChangePasswordScreen extends React.Component {
+export default class ChangePassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
