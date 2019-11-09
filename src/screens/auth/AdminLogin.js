@@ -3,7 +3,7 @@ import {Alert, StyleSheet, Text, View} from 'react-native';
 import {Auth} from 'aws-amplify';
 import SignInForm from "../../components/auth/SignInForm";
 
-export default class AuthScreen extends React.Component {
+export default class AdminLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {

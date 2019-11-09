@@ -4,7 +4,7 @@ import ForgotPasswordForm from "../../components/auth/ForgotPasswordForm";
 import {Auth} from 'aws-amplify';
 
 
-export default class ForgotPasswordScreen extends React.Component {
+export default class ForgotPassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
