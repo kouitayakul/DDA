@@ -9,25 +9,28 @@ import CodeInput from 'react-native-confirmation-code-input';
 
 export default class UserLogin extends React.Component {
     onFulfill(code) {
-        const testCodes = ["1234", "5678"];
-        // TODO: check database for a matching user code, navigate to User menu on success
-        if (testCodes.includes(code)) {
-            Alert.alert(
-                'Confirmation Code',
-                'Successful!',
-                [{text: 'OK'}],
-                {cancelable: false}
-            );
-            this.props.navigation.navigate('App');
-        } else {
-            Alert.alert(
-                'Confirmation Code',
-                'Code does not match!',
-                [{text: 'OK'}],
-                {cancelable: false}
-            );
-            // If code does not match, clear input with: this.refs.codeInputRef1.clear()
-            this.refs.codeInputRef1.clear();
+        try{
+            fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${code}`)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+                if(data[0].code == code) {
+                    this.props.navigation.navigate('App');
+                } else {
+                    Alert.alert(
+                        'Confirmation Code',
+                        'Code does not match!',
+                        [{text: 'OK'}],
+                        {cancelable: false}
+                    );
+                     // If code does not match, clear input with: this.refs.codeInputRef1.clear()
+                    this.refs.codeInputRef1.clear();
+                }
+            });
+        }catch (err) {
+            console.log(err);
         }
     }
 
