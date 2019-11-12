@@ -1,6 +1,6 @@
 # Developmental Disabilities Association
 
-Our project for the Developmental Disabilities Association is a mobile application designed to help the developmentally disabled in their day jobs by giving them an approved set of tasks and instructions on how to complete them. Each set of jobs is assigned by their employers and DDA staff.
+Our project for the Developmental Disabilities Association is a mobile application designed to help the developmentally disabled in their daily jobs by giving them an approved set of tasks and instructions on how to complete them. Each set of jobs is assigned by their employers and DDA staff.
 
 ## My Responsibilities:
 
