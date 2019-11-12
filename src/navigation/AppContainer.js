@@ -10,7 +10,7 @@ import ForgotPassword from "../screens/auth/ForgotPassword";
 import UserLogin from "../screens/auth/UserLogin";
 
 //App Screens
-import HomeScreen from "../screens/HomeScreen";
+import HomeScreen from "../screens/user/HomeScreen";
 
 const AuthNavigation = createStackNavigator(
   {
