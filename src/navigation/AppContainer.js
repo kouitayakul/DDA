@@ -12,7 +12,7 @@ import UserLogin from "../screens/auth/UserLogin";
 //App Screens
 import HomeScreen from "../screens/HomeScreen";
 
-const AuthNavigation = createStackNavigator(
+const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
     ChangePassword: { screen: ChangePassword },

@@ -6,20 +6,19 @@ const RectangleButton = (props) => {
     return (
         <Button
             title={props.title}
-            raised
             onPress={props.onPress}
             titleStyle={{
+                color: props.color ? props.color : '#FFF',
                 textAlign: 'center',
-                fontSize: 24,
-                fontWeight: '700',
-                letterSpacing: 1.5,
-                textTransform: 'uppercase'
+                fontSize: 17,
+                fontWeight: '600'
             }}
             buttonStyle={{
                 backgroundColor: props.backgroundColor ? props.backgroundColor : '#9ACD32',
-                width: 300,
-                height: 50,
-                borderRadius: 30
+                height: 48,
+                width: '100%',
+                paddingHorizontal: 30,
+                borderRadius: 10
             }}
         />
     )
@@ -27,6 +26,7 @@ const RectangleButton = (props) => {
 
 RectangleButton.propTypes = {
     backgroundColor: PropTypes.string,
+    color: PropTypes.string,
     onPress: PropTypes.func,
     title: PropTypes.string.isRequired
 };
