@@ -4,7 +4,7 @@ Our project for the Developmental Disabilities Association is a mobile applicati
 
 ## My Responsibilities:
 
-I am responsible for translating the entity-relationship diagram to a relational schema. Using SQL, I wrote queries to create database tables and inserted mocked data into them. I also designed the API by using Swagger Editor to write parameters and responses for each endpoint. Lastly, I am currently creating front-end components through React Native using HTML and styling them with 'react-native' library.
+I am responsible for translating the entity-relationship diagram to a relational schema. Using SQL, I wrote queries to create database tables and inserted mocked data into them for testing purposes. I also designed the API by using Swagger Editor to write parameters and responses for each endpoint. Furthermore, I built the backend architecture using Amazon Web Services (AWS) to orchestrate the flow of data. I utilized API Gateway to connect endpoints with Lambda functions in order to query the database hosted by RDS. I am also currently creating front-end components through React Native using HTML, Javascript, and styling them with CSS and 'react-native' library.
 
 ## Credits:
 
