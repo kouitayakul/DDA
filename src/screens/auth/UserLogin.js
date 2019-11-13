@@ -5,11 +5,20 @@ import {
     StyleSheet,
     Alert,
     View,
+    AsyncStorage
 } from 'react-native';
 import PinView from 'react-native-pin-view'
 import RectangleButton from '../../components/RectangleButton'
 
 export default class UserLogin extends React.Component {
+    _storeData = async (code) => {
+        try {
+            await AsyncStorage.setItem('userCode', code);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     onFulfill(code, clear) {
         try{
             fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${code}`)
@@ -19,6 +28,7 @@ export default class UserLogin extends React.Component {
             .then((data) => {
                 console.log(data);
                 if(data[0].code == code) {
+                    this._storeData(code);
                     this.props.navigation.navigate('App');
                 } else {
                     Alert.alert(
