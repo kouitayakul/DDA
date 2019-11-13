@@ -11,24 +11,22 @@ const SignInForm = (props) => {
                 autoCapitalize="none"
                 onChangeText={(value) => props.onFormChange("email", value)}
                 placeholder="Email"
-                placeholderTextColor="black"
+                placeholderTextColor="#CCC"
             />
             <TextInput
                 style={styles.input}
                 autoCapitalize="none"
                 onChangeText={(value) => props.onFormChange("password", value)}
                 placeholder="Password"
-                placeholderTextColor="black"
+                placeholderTextColor="#CCC"
                 secureTextEntry
             />
-            <View>
-                <RectangleButton
-                    title="Login"
-                    color="#007AFF"
-                    backgroundColor="#EFEFF4"
-                    onPress={props.onSubmit}
-                />
-            </View>
+            <RectangleButton
+                title="Login"
+                color="#007AFF"
+                backgroundColor="#EFEFF4"
+                onPress={props.onSubmit}
+            />
         </View>
     );
 };
@@ -45,7 +43,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         height: 120,
         paddingHorizontal: 16,
-        alignSelf: 'stretch',
+        alignSelf: 'stretch'
     },
     input: {
         // backgroundColor: '#FACA8E',
@@ -61,6 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'left',
         borderBottomWidth: 1,
-        borderBottomColor: 'gray'
+        borderBottomColor: '#CCC',
+        marginBottom: 70
     }
 });
