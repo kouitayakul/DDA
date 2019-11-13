@@ -4,29 +4,43 @@ import {
     StyleSheet,
     Alert,
     View,
+    AsyncStorage
 } from 'react-native';
 import CodeInput from 'react-native-confirmation-code-input';
 
-export default class StartScreen extends React.Component {
+export default class UserLogin extends React.Component {
+    _storeData = async (code) => {
+        try {
+            await AsyncStorage.setItem('userCode', code);
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
     onFulfill(code) {
-        const testCodes = ["1234", "5678"];
-        // TODO: check database for a matching user code, navigate to User menu on success
-        if (testCodes.includes(code)) {
-            Alert.alert(
-                'Confirmation Code',
-                'Successful!',
-                [{text: 'OK'}],
-                {cancelable: false}
-            );
-        } else {
-            Alert.alert(
-                'Confirmation Code',
-                'Code does not match!',
-                [{text: 'OK'}],
-                {cancelable: false}
-            );
-            // If code does not match, clear input with: this.refs.codeInputRef1.clear()
-            this.refs.codeInputRef1.clear();
+        try{
+            fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${code}`)
+            .then((res) => {
+                return res.json();
+            })
+            .then((data) => {
+                console.log(data);
+                if(data[0].code == code) {
+                    this._storeData(code);
+                    this.props.navigation.navigate('App');
+                } else {
+                    Alert.alert(
+                        'Confirmation Code',
+                        'Code does not match!',
+                        [{text: 'OK'}],
+                        {cancelable: false}
+                    );
+                     // If code does not match, clear input with: this.refs.codeInputRef1.clear()
+                    this.refs.codeInputRef1.clear();
+                }
+            });
+        }catch (err) {
+            console.log(err);
         }
     }
 
@@ -50,7 +64,7 @@ export default class StartScreen extends React.Component {
                 </View>
                 <View style={[styles.smallText, {flexDirection: 'row', paddingTop: 30}]}>
                     <Text>If you are DDA staff or an Employer, please login </Text>
-                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('Auth')}>here.</Text>
+                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('AdminLogin')}>here.</Text>
                 </View>
             </View>
         );

@@ -3,9 +3,13 @@ import {Text, StyleSheet, View, Alert} from 'react-native';
 import {Auth} from 'aws-amplify';
 import SignUpForm from "../../components/auth/SignUpForm";
 
+<<<<<<< HEAD:screens/auth/EmployerSignUpScreen.js
 
 
 export default class EmployerSignUpScreen extends React.Component {
+=======
+export default class EmployerSignUp extends React.Component {
+>>>>>>> ab33ee2315061ecd04cebb1a1f206c271fe0a163:src/screens/auth/EmployerSignUp.js
     constructor(props) {
         super(props);
         this.state = {
