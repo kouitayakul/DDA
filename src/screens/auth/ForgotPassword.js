@@ -46,9 +46,10 @@ export default class ForgotPassword extends React.Component {
             <View style={styles.container}>
                 <Image
                     style={{width: 159, height: 128}}
-                    source={require('../../assets/images/icon.png')}
+                    source={require('../../assets/images/logo.png')}
                 />
                 <View style={{alignSelf: 'stretch'}}>
+                    <Text style={styles.titleText}>Forgot Password</Text>
                     <ForgotPasswordForm
                         onFormChange={this.handleFormChange}
                         onSubmit={() => this.handleForgotPassword()}
@@ -72,6 +73,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingTop: 80,
         paddingBottom: 48
+    },
+    titleText: {
+        fontSize: 22,
+        paddingBottom: 40,
+        textAlign: 'center'
     },
     smallText: {
         fontSize: 18,

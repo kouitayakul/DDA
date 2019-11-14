@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, StyleSheet, Text, View} from 'react-native';
 import ForgotPasswordForm from "../../components/auth/ForgotPasswordForm";
 import {Auth} from 'aws-amplify';
 import ForgotPassVerificationForm from "../../components/auth/ForgotPassVerificationForm";
@@ -52,11 +52,21 @@ export default class ForgotPassVerification extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>(logo goes here)</Text>
-                <ForgotPassVerificationForm
-                    onFormChange={this.handleFormChange}
-                    onSubmit={() => this.handleForgotPasswordChange()}
+                <Image
+                    style={{width: 159, height: 128}}
+                    source={require('../../assets/images/logo.png')}
                 />
+                <View style={{alignSelf: 'stretch'}}>
+                    <Text style={styles.titleText}>Forgot Password Verification Code</Text>
+                    <ForgotPassVerificationForm
+                        onFormChange={this.handleFormChange}
+                        onSubmit={() => this.handleForgotPasswordChange()}
+                    />
+                    <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('AdminLogin')}>Back to login</Text>
+                </View>
+                <View style={[styles.smallText, {flexDirection: 'column'}]}>
+                    <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
+                </View>
             </View>
         );
     }
@@ -67,13 +77,21 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+        paddingTop: 80,
+        paddingBottom: 48
+    },
+    titleText: {
+        fontSize: 22,
+        paddingBottom: 40,
+        textAlign: 'center'
     },
     smallText: {
-        fontSize: 14,
+        fontSize: 18,
+        paddingTop: 30,
+        textAlign: 'center'
     },
     link: {
-        color: '#F98C04',
-        fontWeight: 'bold',
+        color: '#007AFF',
     },
 });

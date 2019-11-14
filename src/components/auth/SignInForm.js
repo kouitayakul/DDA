@@ -41,25 +41,14 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        height: 120,
         paddingHorizontal: 16,
         alignSelf: 'stretch'
     },
     input: {
-        // backgroundColor: '#FACA8E',
-        // width: 300,
-        // height: 50,
-        // fontSize: 18,
-        // borderRadius: 5,
-        // borderWidth: 2,
-        // borderColor: '#F7971D',
-        // textAlign: 'center'
-        // width: 300,
-        // height: 50,
         fontSize: 18,
         textAlign: 'left',
         borderBottomWidth: 1,
         borderBottomColor: '#CCC',
-        marginBottom: 70
+        marginBottom: 30
     }
 });

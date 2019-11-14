@@ -41,18 +41,16 @@ export default class AdminLogin extends React.Component {
             <View style={styles.container}>
                 <Image
                     style={{width: 159, height: 128}}
-                    source={require('../../assets/images/icon.png')}
+                    source={require('../../assets/images/logo.png')}
                 />
                 <View style={{alignSelf: 'stretch'}}>
+                    <Text style={styles.titleText}>Admin and Employer Login</Text>
                     <SignInForm
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignIn}
                     />
-                    {/* <View style={styles.smallText}>
-                        <Text>If you have a temporary password, update it  </Text>
-                        <Text style={styles.link} onPress={url => this.props.navigation.navigate('ChangePassword')}>here.</Text>
-                    </View> */}
                     <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('ForgotPassword')}>Forgot password?</Text>
+                    <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('ChangePassword')}>Update temporary password</Text>
                 </View>
                 <View style={[styles.smallText, {flexDirection: 'column'}]}>
                     <RectangleButton title='User Login' onPress={() => this.props.navigation.navigate('UserLogin')} backgroundColor='#007AFF'/>
@@ -72,9 +70,14 @@ const styles = StyleSheet.create({
         paddingTop: 80,
         paddingBottom: 48
     },
+    titleText: {
+        fontSize: 22,
+        paddingBottom: 40,
+        textAlign: 'center'
+    },
     smallText: {
         fontSize: 18,
-        paddingTop: 60,
+        paddingTop: 30,
         textAlign: 'center'
     },
     link: {

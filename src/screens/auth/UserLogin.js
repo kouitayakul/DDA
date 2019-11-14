@@ -63,7 +63,7 @@ export default class UserLogin extends React.Component {
             <View style={styles.container}>
                 <Image
                     style={{width: 159, height: 128}}
-                    source={require('../../assets/images/icon.png')}
+                    source={require('../../assets/images/logo.png')}
                 />
                 <View style={styles.inputWrapper}>
                     <PinView
