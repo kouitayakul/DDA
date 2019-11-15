@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, Text, StyleSheet, View, Alert} from 'react-native';
+import {Image, Text, SafeAreaView, StyleSheet, View, Alert} from 'react-native';
 import {Auth} from 'aws-amplify';
 import PropTypes from 'prop-types'
 import ChangePasswordForm from "../../components/auth/ChangePasswordForm";
@@ -62,9 +62,9 @@ export default class ChangePassword extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <Image
-                    style={{width: 159, height: 128}}
+                    style={{width: 159, height: 128, marginTop: 10}}
                     source={require('../../assets/images/logo.png')}
                 />
                 <View style={{alignSelf: 'stretch'}}>
@@ -78,7 +78,7 @@ export default class ChangePassword extends React.Component {
                 <View style={[styles.smallText, {flexDirection: 'column'}]}>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }

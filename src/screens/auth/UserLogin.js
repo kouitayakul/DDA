@@ -3,6 +3,7 @@ import {
     Image,
     Text,
     StyleSheet,
+    SafeAreaView,
     Alert,
     View,
     AsyncStorage
@@ -60,9 +61,9 @@ export default class UserLogin extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <Image
-                    style={{width: 159, height: 128}}
+                    style={{width: 159, height: 128, marginTop: 10}}
                     source={require('../../assets/images/logo.png')}
                 />
                 <View style={styles.inputWrapper}>
@@ -85,7 +86,7 @@ export default class UserLogin extends React.Component {
                     <RectangleButton title='Admin and Employer Login' onPress={() => this.props.navigation.navigate('AdminLogin')} backgroundColor='#007AFF'/>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -95,8 +96,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingTop: 80,
-        paddingBottom: 48
     },
     inputWrapper: {
         width: '100%',

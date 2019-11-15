@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Auth} from 'aws-amplify';
 import SignInForm from "../../components/auth/SignInForm";
 import RectangleButton from '../../components/RectangleButton'
@@ -38,9 +38,9 @@ export default class AdminLogin extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <Image
-                    style={{width: 159, height: 128}}
+                    style={{width: 159, height: 128, marginTop: 10}}
                     source={require('../../assets/images/logo.png')}
                 />
                 <View style={{alignSelf: 'stretch'}}>
@@ -56,7 +56,7 @@ export default class AdminLogin extends React.Component {
                     <RectangleButton title='User Login' onPress={() => this.props.navigation.navigate('UserLogin')} backgroundColor='#007AFF'/>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -67,8 +67,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop: 80,
-        paddingBottom: 48
     },
     titleText: {
         fontSize: 22,

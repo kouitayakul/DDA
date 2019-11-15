@@ -1,5 +1,5 @@
 import React from 'react';
-import {Alert, Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import ForgotPasswordForm from "../../components/auth/ForgotPasswordForm";
 import {Auth} from 'aws-amplify';
 
@@ -43,9 +43,9 @@ export default class ForgotPassword extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <Image
-                    style={{width: 159, height: 128}}
+                    style={{width: 159, height: 128, marginTop: 10}}
                     source={require('../../assets/images/logo.png')}
                 />
                 <View style={{alignSelf: 'stretch'}}>
@@ -60,7 +60,7 @@ export default class ForgotPassword extends React.Component {
                 <View style={[styles.smallText, {flexDirection: 'column'}]}>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -71,8 +71,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingTop: 80,
-        paddingBottom: 48
     },
     titleText: {
         fontSize: 22,
