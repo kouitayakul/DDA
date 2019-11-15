@@ -11,6 +11,7 @@ import UserLogin from "../screens/auth/UserLogin";
 
 //App Screens
 import HomeScreen from "../screens/user/HomeScreen";
+import CarouselScreen from "../screens/user/CarouselScreen";
 
 const AuthNavigation = createStackNavigator(
   {
@@ -19,17 +20,19 @@ const AuthNavigation = createStackNavigator(
     EmployerSignUp: { screen: EmployerSignUp },
     ForgotPassVerification: { screen: ForgotPassVerification },
     ForgotPassword: { screen: ForgotPassword },
-    UserLogin: { screen: UserLogin }
+    UserLogin: { screen: UserLogin },
+    Carousel: { screen: CarouselScreen }
   },
   {
-    headerMode: 'none',
-    initialRouteName: 'UserLogin'
+    // headerMode: 'none',
+    initialRouteName: 'Carousel'
   }
 );
 
 const AppNavigation = createStackNavigator(
   { 
-    Home: { screen: HomeScreen }
+    Home: { screen: HomeScreen },
+    Carousel: { screen: CarouselScreen }
   },
   {
     initialRouteName: 'Home'

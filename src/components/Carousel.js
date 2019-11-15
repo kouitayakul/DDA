@@ -79,9 +79,9 @@ Carousel.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
+        flexDirection: 'column',
+        height: 180,
     },
 });
 

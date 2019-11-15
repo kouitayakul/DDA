@@ -38,6 +38,7 @@ export default class HomeScreen extends React.Component {
     render() {
         const {empIds} = this.state;
         console.log(empIds);
+        const that = this;
 
         const DATA = [
             {
@@ -59,6 +60,7 @@ export default class HomeScreen extends React.Component {
 
           function _onPressButton() {
             // navigate to Jobs
+            that.props.navigation.navigate('Carousel');
         };
 
           function Item({ title, address }) {
