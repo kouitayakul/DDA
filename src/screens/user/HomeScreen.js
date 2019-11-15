@@ -8,7 +8,9 @@ import {
     TouchableHighlight,
     AsyncStorage
 } from 'react-native';
+import AppHeader from '../../components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { DrawerActions } from 'react-navigation-drawer';
 import { Auth } from 'aws-amplify';
 
 export default class HomeScreen extends React.Component {
@@ -77,6 +79,7 @@ export default class HomeScreen extends React.Component {
           
         return (
             <SafeAreaView style={styles.container}>
+              <AppHeader title="Employers" iconStyle = {true} onPressLeft = {() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}/>
                 <FlatList
                     data={DATA}
                     renderItem={({ item }) => 

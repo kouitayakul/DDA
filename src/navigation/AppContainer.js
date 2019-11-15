@@ -1,5 +1,6 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
 
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
@@ -27,12 +28,17 @@ const AuthNavigation = createStackNavigator(
   }
 );
 
-const AppNavigation = createStackNavigator(
+const AppNavigation = createDrawerNavigator(
   { 
-    Home: { screen: HomeScreen }
+    Employers: { screen: HomeScreen },
+    Rewards: { screen: HomeScreen },
+    Logout: { screen: HomeScreen }
+
+  }, {
+    drawerWidth: 300,
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Employers'
   }
 );
 

@@ -46,7 +46,6 @@ export default class UserLogin extends React.Component {
 
     render() {
         return (
-          <Header title="Title"/>
             <View style={styles.container}>
                 <Text style={styles.text}>(logo goes here)</Text>
                 <View style={styles.inputWrapper}>

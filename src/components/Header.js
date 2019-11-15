@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Header } from 'react-native-elements';
 import { Icon } from 'react-native-vector-icons/FontAwesome';
 import PropTypes from 'prop-types';
@@ -7,7 +7,7 @@ const AppHeader = (props) => {
     return (
         <Header
             leftComponent={{ 
-                icon: props.iconStyle ? (props.leftArrow ? 'chevron-left' : 'bars') : null, 
+                icon: props.iconStyle ? (props.leftArrow ? 'chevron-left' : 'menu') : null, 
                 text: props.leftText ? props.leftText : null, 
                 onPress: props.onPressLeft, 
                 color: 'dodgerblue',
@@ -16,7 +16,7 @@ const AppHeader = (props) => {
             }}
             centerComponent={{ 
                 text: props.title ? props.title : null, 
-                style: largeTitle ? { color: '#000', fontSize: 30, fontWeight: '500' } : { color: '#000', fontSize: 25, fontWeight: '400' },
+                style: props.largeTitle ? { color: '#000', fontSize: 30, fontWeight: '500' } : { color: '#000', fontSize: 25, fontWeight: '400' },
             }}
             rightComponent={{
                 text: props.rightText ? props.rightText : null,
@@ -38,7 +38,13 @@ AppHeader.propTypes = {
     onPressRight: PropTypes.func,
     leftText: PropTypes.string,
     rightText: PropTypes.string,
-    leftArrow: PropTypes.bool
+    leftArrow: PropTypes.bool,
+    iconStyle: PropTypes.bool,
 };
+
+AppHeader.defaultProps = {
+    leftArrow: false,
+    iconStyle: false,
+}
 
 export default AppHeader;
