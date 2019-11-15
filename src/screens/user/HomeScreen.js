@@ -12,15 +12,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Auth } from 'aws-amplify';
 
 export default class HomeScreen extends React.Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         empIds: []
     }
 
-    handleSignOut = () => {
-        Auth.signOut()
-            .then(() => this.props.navigation('Start'))
-            .catch(err => console.log(err));
-    };
+    // handleSignOut = () => {
+    //     Auth.signOut()
+    //         .then(() => this.props.navigation('Start'))
+    //         .catch(err => console.log(err));
+    // };
 
     async componentDidMount() {
         try {
@@ -57,13 +60,13 @@ export default class HomeScreen extends React.Component {
             },
           ];
 
-          function _onPressButton() {
-            // navigate to Jobs
+          const _onPressButton = () => {
+            this.props.navigation.navigate('Job');
         };
 
           function Item({ title, address }) {
             return (
-            <TouchableHighlight onPress={_onPressButton}>
+            <TouchableHighlight onPress={() => _onPressButton()}>
               <View style={styles.item}>
                   <View>
                     <Text style={styles.title}>{title}</Text>
