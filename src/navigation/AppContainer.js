@@ -2,6 +2,7 @@ import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator } from 'react-navigation-drawer';
 
+
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
 import ChangePassword from "../screens/auth/ChangePassword";
@@ -30,10 +31,15 @@ const AuthNavigation = createStackNavigator(
 
 const AppNavigation = createDrawerNavigator(
   { 
+    X: { screen: HomeScreen },
     Employers: { screen: HomeScreen },
     Rewards: { screen: HomeScreen },
     Logout: { screen: HomeScreen }
 
+  }, {
+    contentOptions: {
+      labelStyle:  { color: '#000', fontSize: 30, fontWeight: '500' },
+    },
   }, {
     drawerWidth: 300,
   },
