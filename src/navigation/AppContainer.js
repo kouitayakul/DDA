@@ -11,6 +11,7 @@ import UserLogin from "../screens/auth/UserLogin";
 
 //App Screens
 import HomeScreen from "../screens/user/HomeScreen";
+import JobScreen from "../screens/user/JobScreen";
 
 const AuthNavigation = createSwitchNavigator(
   {
@@ -29,7 +30,8 @@ const AuthNavigation = createSwitchNavigator(
 
 const AppNavigation = createStackNavigator(
   { 
-    Home: { screen: HomeScreen }
+    Home: { screen: HomeScreen },
+    Job: { screen: JobScreen}
   },
   {
     initialRouteName: 'Home'
