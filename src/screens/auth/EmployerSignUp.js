@@ -1,11 +1,9 @@
 import React from 'react';
 import {Text, StyleSheet, View, Alert} from 'react-native';
 import {Auth} from 'aws-amplify';
-import SignUpForm from "../components/auth/SignUpForm";
+import SignUpForm from "../../components/auth/SignUpForm";
 
-
-
-export default class EmployerSignUpScreen extends React.Component {
+export default class EmployerSignUp extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +20,7 @@ export default class EmployerSignUpScreen extends React.Component {
     }
 
     handleSignUp = () => {
-        const {email, password, confirmPassword} = this.state;
+        const { email, password, confirmPassword} = this.state;
         // Make sure passwords match
         if (password === confirmPassword) {
             Auth.signUp({
@@ -49,11 +47,15 @@ export default class EmployerSignUpScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Enter the desired sign-in credentials for the Employer account.</Text>
-                <SignUpForm
-                    onFormChange={this.handleFormChange}
-                    onSubmit={this.handleSignUp}
-                />
+                <View style={styles.instruction}>
+                    <Text style={{fontSize: 20}}>Enter the desired sign-in credentials for the Employer account</Text>
+                </View>
+                <View style={styles.signUpForm}>
+                    <SignUpForm
+                        onFormChange={this.handleFormChange}
+                        onSubmit={this.handleSignUp}
+                    />
+                </View>
             </View>
         );
     }
@@ -62,8 +64,17 @@ export default class EmployerSignUpScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        flexDirection: 'column',
+        backgroundColor: '#fff'
     },
+    instruction: {
+        flex: 1, 
+        justifyContent: 'flex-end',
+        marginTop: 60
+    },
+    signUpForm: {
+        flex: 7,
+    }
 });
