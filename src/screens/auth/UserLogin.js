@@ -10,6 +10,9 @@ import {
 } from 'react-native';
 import PinView from 'react-native-pin-view'
 import RectangleButton from '../../components/RectangleButton'
+import Layout from '../../constants/Layout'
+
+const width = Layout.window.width;
 
 export default class UserLogin extends React.Component {
     _storeData = async (code) => {
@@ -77,8 +80,9 @@ export default class UserLogin extends React.Component {
                         inputBgOpacity={1}
                         inputActiveBgColor='#8E8E93'
                         buttonDeletePosition='right'
-                        keyboardViewStyle={{marginVertical:10, marginHorizontal:15}}
+                        keyboardViewStyle = { { marginVertical: width/52, marginHorizontal: width/32, height: width/6, width: width/6, borderRadius: width/3 } }
                         keyboardViewTextStyle={{fontWeight:'normal', fontSize:30}}
+                        keyboardContainerStyle={{marginTop:10}}
                         inputViewStyle={{borderWidth:4, borderColor:'#8E8E93', marginHorizontal:13}}
                     />
                 </View>
