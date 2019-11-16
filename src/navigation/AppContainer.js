@@ -1,7 +1,5 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-
 
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
@@ -13,8 +11,9 @@ import UserLogin from "../screens/auth/UserLogin";
 
 //App Screens
 import HomeScreen from "../screens/user/HomeScreen";
+import JobScreen from "../screens/user/JobScreen";
 
-const AuthNavigation = createStackNavigator(
+const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
     ChangePassword: { screen: ChangePassword },
@@ -29,22 +28,13 @@ const AuthNavigation = createStackNavigator(
   }
 );
 
-const AppNavigation = createDrawerNavigator(
+const AppNavigation = createStackNavigator(
   { 
-    X: { screen: HomeScreen },
-    Employers: { screen: HomeScreen },
-    Rewards: { screen: HomeScreen },
-    Logout: { screen: HomeScreen }
-
-  }, {
-    contentOptions: {
-      labelStyle:  { color: '#000', fontSize: 30, fontWeight: '500' },
-    },
-  }, {
-    drawerWidth: 300,
+    Home: { screen: HomeScreen },
+    Job: { screen: JobScreen}
   },
   {
-    initialRouteName: 'Employers'
+    initialRouteName: 'Home'
   }
 );
 
