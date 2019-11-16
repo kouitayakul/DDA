@@ -8,7 +8,8 @@ export default class JobComplete extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('title'),
-      headerLeft: null
+      headerLeft: null,
+      gesturesEnabled: false,
     };
   };
 
@@ -50,7 +51,7 @@ export default class JobComplete extends React.Component {
           <Text style={styles.largeTitle}>Congratulations</Text>
           <Text style={styles.heading3}>Job Complete</Text>
           <Image
-            style={{height: deviceWidth*0.7, width: deviceWidth*0.7, marginVertical: 20}}
+            style={{height: deviceWidth*0.7, width: deviceWidth*0.7, maxHeight: deviceHeight/3, marginVertical: 20}}
             resizeMode="contain"
             source={require('../../assets/images/star-plus1.png')}
           />

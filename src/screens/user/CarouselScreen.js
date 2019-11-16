@@ -2,15 +2,21 @@ import React from 'react';
 import { Dimensions, Image, Text, StyleSheet, SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native';
 // import Carousel from '../../components/Carousel';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import moment from "moment";
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
+
+let start = moment();
+let time = 0;
+const timeArray = [];
 
 export default class CarouselScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('title'),
-      headerBackImage: (<View style={{paddingLeft: 16}} />)
+      headerBackImage: (<View style={{paddingLeft: 16}} />),
+      gesturesEnabled: false,
     };
   };
 
@@ -50,7 +56,7 @@ export default class CarouselScreen extends React.Component {
           <Text style={styles.description}>{ item.description }</Text>
         </ScrollView>
         <Image
-          style={{height: deviceWidth-60, width: deviceWidth-60}}
+          style={{height: deviceWidth-60, width: deviceWidth-60, maxHeight: deviceHeight/3}}
           source={{ uri: item.imgLink }}
           resizeMode="contain"
         />
@@ -80,6 +86,17 @@ export default class CarouselScreen extends React.Component {
     );
   }
 
+  startTimer = (slideIndex) => {
+    time = moment(start).fromNow(true);
+    console.log(time);
+    timeArray.push({
+      from: this.state.activeSlide,
+      to: slideIndex,
+      took: time
+    });
+    start = moment();
+  }
+
   render () {
     const { error, isLoaded, subjobs } = this.state;
 
@@ -105,6 +122,7 @@ export default class CarouselScreen extends React.Component {
               onPress={() => { 
                 const carousel = this.refs.carousel;
                 if (carousel.currentIndex == subjobs.length-1) {
+                  console.log(timeArray);
                   this.props.navigation.navigate('JobComplete', {title: this.props.navigation.getParam('title')});
                 } else {
                   carousel.snapToNext();
@@ -127,7 +145,7 @@ export default class CarouselScreen extends React.Component {
             activeSlideOffset={10}
             swipeThreshold={10}
             inactiveSlideScale={1}
-            onSnapToItem={(index) => this.setState({ activeSlide: index })}
+            onSnapToItem={(index) => { this.setState({ activeSlide: index }); this.startTimer(index) }}
           />
           { this.pagination }
         </SafeAreaView>
