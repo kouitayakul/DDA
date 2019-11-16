@@ -52,7 +52,7 @@ export default class AdminLogin extends React.Component {
                     <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('ForgotPassword')}>Forgot password?</Text>
                     <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('ChangePassword')}>Update temporary password</Text>
                 </View>
-                <View style={[styles.smallText, {flexDirection: 'column'}]}>
+                <View style={[styles.smallText, {flexDirection: 'column', marginBottom: 10}]}>
                     <RectangleButton title='User Login' onPress={() => this.props.navigation.navigate('UserLogin')} backgroundColor='#007AFF'/>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>

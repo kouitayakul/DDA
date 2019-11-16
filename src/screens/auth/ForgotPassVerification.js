@@ -64,7 +64,7 @@ export default class ForgotPassVerification extends React.Component {
                     />
                     <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('AdminLogin')}>Back to login</Text>
                 </View>
-                <View style={[styles.smallText, {flexDirection: 'column'}]}>
+                <View style={[styles.smallText, {flexDirection: 'column', marginBottom: 10}]}>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
             </SafeAreaView>

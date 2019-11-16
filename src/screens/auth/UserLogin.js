@@ -80,13 +80,13 @@ export default class UserLogin extends React.Component {
                         inputBgOpacity={1}
                         inputActiveBgColor='#8E8E93'
                         buttonDeletePosition='right'
-                        keyboardViewStyle = { { marginVertical: width/52, marginHorizontal: width/32, height: width/6, width: width/6, borderRadius: width/3 } }
+                        keyboardViewStyle = {{marginVertical: 5, marginHorizontal: 15, height: 64, width: 64, borderRadius: 32}}
                         keyboardViewTextStyle={{fontWeight:'normal', fontSize:30}}
                         keyboardContainerStyle={{marginTop:10}}
                         inputViewStyle={{borderWidth:4, borderColor:'#8E8E93', marginHorizontal:13}}
                     />
                 </View>
-                <View style={[styles.smallText, {flexDirection: 'column'}]}>
+                <View style={[styles.smallText, {flexDirection: 'column', marginBottom: 10}]}>
                     <RectangleButton title='Admin and Employer Login' onPress={() => this.props.navigation.navigate('AdminLogin')} backgroundColor='#007AFF'/>
                     <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
