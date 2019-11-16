@@ -15,7 +15,7 @@ import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
 
-const AuthNavigation = createStackNavigator(
+const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
     ChangePassword: { screen: ChangePassword },
