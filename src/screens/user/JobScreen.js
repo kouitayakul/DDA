@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class HomeScreen extends React.Component {
+export default class JobScreen extends React.Component {
     state = {
         jobs: [],
         shiftStarted: false
@@ -26,6 +26,7 @@ export default class HomeScreen extends React.Component {
             const job = await apiCallJob.json();
             const jobObj = {
                 uniqueKey: i.toString(),
+                jobId: jobId,
                 jobName: job[0].name
             };
             jobs.push(jobObj);
@@ -46,59 +47,57 @@ export default class HomeScreen extends React.Component {
         }
     }
 
+    _onPressButton(jobName, jobId) {
+        if (!this.state.shiftStarted) {
+            Alert.alert(
+                'Start Shift',
+                'Start your shift before beginning your job',
+            );
+        } else {
+            this.props.navigation.navigate('Carousel', { title: jobName, jobId: jobId })
+        }
+    };
+
+    renderItem(item) {
+        return (
+            <TouchableHighlight onPress={() => this._onPressButton(item.jobName, item.jobId)}>
+                <View style={styles.jobName}>
+                    <View>
+                        <Text style={styles.title}>{item.jobName}</Text>
+                    </View>
+                    <Icon name='angle-right' style={styles.icon}/>
+                </View>
+            </TouchableHighlight>
+        );
+    };
+
     render() {
         const {jobs, shiftStarted} = this.state;
 
         if(!jobs.length) {
             return null;
         }
-        
-
-          function _onPressButton() {
-            if(!shiftStarted) {
-                Alert.alert(
-                    'Start Shift',
-                    'Start your shift before beginning your job',
-                );
-            }else {
-                //go to carousel
-            }
-        };
-
-          function Item({jobName}) {
-            return (
-            <TouchableHighlight onPress={_onPressButton}>
-              <View style={styles.jobName}>
-                  <View>
-                    <Text style={styles.title}>{jobName}</Text>
-                  </View>
-                  <Icon name='angle-right' style={styles.icon}/>
-              </View>
-            </TouchableHighlight>
-            );
-          };
           
         return (
-            <View style={styles.container}>
-            <SafeAreaView style={styles.safeAreaView}>
+            <SafeAreaView style={styles.container}>
+            <View style={styles.safeAreaView}>
                 <FlatList
                     data={jobs}
-                    renderItem={({ item }) => 
-                    <Item 
-                    jobName={item.jobName}
-                    />
-                    }
+                    renderItem={({ item }) => this.renderItem(item) }
                     keyExtractor={item => item.uniqueKey}
                 />
-            </SafeAreaView>
-            <View style={styles.button}>
+            </View>
+            <View style={[styles.button, {backgroundColor: shiftStarted ? '#DB4848' : '#B6BF00'}]}>
                 <Button 
-                title='Start Shift'
-                type='solid'
-                color='#FFFFFF'
+                    title={shiftStarted ? 'End Shift' : 'Start Shift'}
+                    type='solid'
+                    color='#FFFFFF'
+                    onPress={() => { 
+                        this.setState({shiftStarted: !shiftStarted});
+                    }}
                 />
             </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -116,7 +115,6 @@ const styles = StyleSheet.create({
         flex: 1
     },
     button: {
-        backgroundColor: '#B6BF00',
         height: 50,
         marginTop: 10,
         marginRight: 20,
@@ -124,7 +122,6 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         justifyContent: 'center',
         borderRadius: 10,
-
     },
     jobName: {
         backgroundColor: 'rgba(255, 255, 255, 0.92)',
