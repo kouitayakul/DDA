@@ -30,7 +30,7 @@ export default class HomeScreen extends React.Component {
             const userCode = await AsyncStorage.getItem('userCode');
             const apiCallEmpIds = await fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${userCode}/employers`);
             const empIds = await apiCallEmpIds.json();
-            this.setState({empIds})
+            this.setState({empIds});
         }
         catch (err) {
             console.log(err);
@@ -39,26 +39,12 @@ export default class HomeScreen extends React.Component {
     }
 
     render() {
-        const {empIds} = this.state;
-        console.log(empIds);
-        const that = this;
-
         const DATA = [
             {
               id: '1',
-              title: 'First Comp',
-              address: '123 street'
-            },
-            {
-              id: '2',
-              title: 'Second Comp',
-              address: 'abc street'
-            },
-            {
-              id: '3',
-              title: 'Third Comp',
-              address: 'xyz street'
-            },
+              title: 'Starbucks',
+              address: '123 Example St.'
+            }
           ];
 
           const _onPressButton = () => {
