@@ -1,7 +1,8 @@
 import React from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Auth} from 'aws-amplify';
 import SignInForm from "../../components/auth/SignInForm";
+import RectangleButton from '../../components/RectangleButton'
 
 export default class AdminLogin extends React.Component {
     constructor(props) {
@@ -15,8 +16,20 @@ export default class AdminLogin extends React.Component {
 
     handleSignIn = () => {
         Auth.signIn(this.state.email, this.state.password)
-            .then(user => this.props.navigation.navigate('Home', {user}))
-            .catch(err => console.log(err));
+            .then(user => {
+                this.props.navigation.navigate('Home', {user});
+                console.log(user);
+            })
+            .catch(err => {
+                Alert.alert(
+                    'Unable to Login',
+                    err.message,
+                    [{text: 'OK'}],
+                    {cancelable: false}
+                );
+            });
+
+        
     };
 
     handleFormChange(field, value) {
@@ -25,21 +38,25 @@ export default class AdminLogin extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>(logo goes here)</Text>
+            <SafeAreaView style={styles.container}>
+                <Image
+                    style={{width: 159, height: 128, marginTop: 10}}
+                    source={require('../../assets/images/logo.png')}
+                />
+                <View style={{alignSelf: 'stretch'}}>
+                    <Text style={styles.titleText}>Admin and Employer Login</Text>
                     <SignInForm
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignIn}
                     />
-                <View style={styles.smallText}>
-                <Text>If you have a temporary password, update it  </Text>
-                    <Text style={styles.link} onPress={url => this.props.navigation.navigate('ChangePassword')}>here.</Text>
+                    <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('ForgotPassword')}>Forgot password?</Text>
+                    <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('ChangePassword')}>Update temporary password</Text>
                 </View>
-                    <View style={styles.smallText}>
-                    <Text>If you have forgotten your password, click </Text>
-                    <Text style={styles.link} onPress={() => this.props.navigation.navigate('ForgotPassword')}>here.</Text>
+                <View style={[styles.smallText, {flexDirection: 'column', marginBottom: 10}]}>
+                    <RectangleButton title='User Login' onPress={() => this.props.navigation.navigate('UserLogin')} backgroundColor='#007AFF'/>
+                    <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
                 </View>
-            </View>
+            </SafeAreaView>
         );
     }
 }
@@ -49,18 +66,19 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+    },
+    titleText: {
+        fontSize: 22,
+        paddingBottom: 40,
+        textAlign: 'center'
     },
     smallText: {
-        fontSize: 14,
+        fontSize: 18,
         paddingTop: 30,
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        flexWrap: 'wrap'
+        textAlign: 'center'
     },
     link: {
-        color: '#F98C04',
-        fontWeight: 'bold',
+        color: '#007AFF',
     },
 });

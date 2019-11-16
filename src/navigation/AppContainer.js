@@ -13,7 +13,7 @@ import UserLogin from "../screens/auth/UserLogin";
 import HomeScreen from "../screens/user/HomeScreen";
 import JobScreen from "../screens/user/JobScreen";
 
-const AuthNavigation = createStackNavigator(
+const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
     ChangePassword: { screen: ChangePassword },

@@ -51,7 +51,6 @@ const SignUpForm = (props) => {
                   onChangeText={value => props.onFormChange('phone', value)}
                   placeholder="Phone Number"
                   style={styles.input}
-                  secureTextEntry
                 />
               </View>
               <View>
@@ -59,7 +58,6 @@ const SignUpForm = (props) => {
                   onChangeText={value => props.onFormChange('address', value)}
                   placeholder="Address"
                   style={styles.input}
-                  secureTextEntry
                 />
               </View>
               </View>

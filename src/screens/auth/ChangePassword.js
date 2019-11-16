@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, StyleSheet, View, Alert} from 'react-native';
+import {Image, Text, SafeAreaView, StyleSheet, View, Alert} from 'react-native';
 import {Auth} from 'aws-amplify';
 import PropTypes from 'prop-types'
 import ChangePasswordForm from "../../components/auth/ChangePasswordForm";
@@ -62,13 +62,23 @@ export default class ChangePassword extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <Text>Enter your email and the temporary password that was emailed to you.</Text>
-                <ChangePasswordForm
-                    onFormChange={this.handleFormChange}
-                    onSubmit={() => this.handlePasswordChange()}
+            <SafeAreaView style={styles.container}>
+                <Image
+                    style={{width: 159, height: 128, marginTop: 10}}
+                    source={require('../../assets/images/logo.png')}
                 />
-            </View>
+                <View style={{alignSelf: 'stretch'}}>
+                    <Text style={styles.titleText}>Update Temporary Password</Text>
+                    <ChangePasswordForm
+                        onFormChange={this.handleFormChange}
+                        onSubmit={() => this.handlePasswordChange()}
+                    />
+                    <Text style={[styles.smallText, styles.link]} onPress={() => this.props.navigation.navigate('AdminLogin')}>Back to login</Text>
+                </View>
+                <View style={[styles.smallText, {flexDirection: 'column', marginBottom: 10}]}>
+                    <Text style={{textAlign:'center', color:'#C7C7CC', paddingTop: 10}}>Jobs West is the supported employment division of the Developmental Disabilities Association.</Text>
+                </View>
+            </SafeAreaView>
         );
     }
 }
@@ -76,7 +86,23 @@ export default class ChangePassword extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'space-between',
+        paddingTop: 80,
+        paddingBottom: 48
+    },
+    titleText: {
+        fontSize: 22,
+        paddingBottom: 40,
+        textAlign: 'center'
+    },
+    smallText: {
+        fontSize: 18,
+        paddingTop: 30,
+        textAlign: 'center'
+    },
+    link: {
+        color: '#007AFF',
     },
 });

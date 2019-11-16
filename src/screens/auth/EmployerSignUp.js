@@ -9,6 +9,10 @@ export default class EmployerSignUp extends React.Component {
         this.state = {
             email: '',
             password: '',
+            name: '',
+            company: '',
+            phone: '',
+            address: '',
             confirmPassword: '',
             confirmationCode: '',
         };
@@ -20,13 +24,31 @@ export default class EmployerSignUp extends React.Component {
     }
 
     handleSignUp = () => {
-        const { email, password, confirmPassword} = this.state;
+        const { email, password, name, company, phone, address, confirmPassword} = this.state;
+        const testObj = {
+            username: email,
+            password,
+            attributes: {
+                email,
+                'custom:name': name,
+                'custom:company': company,
+                'custom:phone': phone,
+                'custom:address': address
+            },
+        };
+        console.log(testObj);
         // Make sure passwords match
         if (password === confirmPassword) {
             Auth.signUp({
                 username: email,
                 password,
-                attributes: {email},
+                attributes: {
+                    email,
+                    'custom:name': name,
+                    'custom:company': company,
+                    'custom:phone': phone,
+                    'custom:address': address
+                },
             })
             // On success, show Alert that says Employer will get a verification link, then navigate to Home.
                 .then(() => {

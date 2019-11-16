@@ -5,24 +5,19 @@ import RectangleButton from "../RectangleButton";
 
 const ForgotPasswordForm = (props) => {
     return (
-        <View>
-            <View style={styles.container}>
-                <Text style={{paddingBottom: 5}}> Enter the email address used for the account.</Text>
-                <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("email", value)}
-                    placeholder="Email"
-                    placeholderTextColor="black"
-                />
-            </View>
-            <View style={styles.container}>
-                <RectangleButton
-                    title="Submit"
-                    backgroundColor="#F7971D"
-                    onPress={props.onSubmit}
-                />
-            </View>
+        <View style={styles.container}>
+            <TextInput
+                style={styles.input}
+                autoCapitalize="none"
+                onChangeText={(value) => props.onFormChange("email", value)}
+                placeholder="Email"
+                placeholderTextColor="#CCC"
+            />
+            <RectangleButton
+                title="Submit"
+                backgroundColor="#007AFF"
+                onPress={props.onSubmit}
+            />
         </View>
     );
 };
@@ -35,18 +30,16 @@ ForgotPasswordForm.propTypes = {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         flexDirection: 'column',
-        height: 150
+        paddingHorizontal: 16,
+        alignSelf: 'stretch'
     },
     input: {
-        backgroundColor: '#FACA8E',
-        width: 300,
-        height: 50,
         fontSize: 18,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: '#F7971D',
-        textAlign: 'center'
+        textAlign: 'left',
+        borderBottomWidth: 1,
+        borderBottomColor: '#CCC',
+        marginBottom: 30
     }
 });

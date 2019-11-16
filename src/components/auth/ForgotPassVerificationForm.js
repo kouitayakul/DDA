@@ -5,46 +5,42 @@ import RectangleButton from "../RectangleButton";
 
 const ForgotPassVerificationForm = (props) => {
     return (
-        <View>
-            <View style={styles.container}>
-                <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("email", value)}
-                    placeholder="Email"
-                    placeholderTextColor="black"
-                />
-                <TextInput
-                    style={styles.input}
-                    keyboardType="numeric"
-                    onChangeText={(value) => props.onFormChange("verificationCode", value)}
-                    placeholder="Verification code"
-                    placeholderTextColor="black"
-                />
-                <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("newPassword", value)}
-                    placeholder="New password"
-                    placeholderTextColor="black"
-                    secureTextEntry
-                />
-                <TextInput
-                    style={styles.input}
-                    autoCapitalize="none"
-                    onChangeText={(value) => props.onFormChange("confirmNewPassword", value)}
-                    placeholder="Confirm new password"
-                    placeholderTextColor="black"
-                    secureTextEntry
-                />
-            </View>
-            <View style={styles.container}>
-                <RectangleButton
-                    title="Submit"
-                    backgroundColor="#F7971D"
-                    onPress={props.onSubmit}
-                />
-            </View>
+        <View style={styles.container}>
+            <TextInput
+                style={styles.input}
+                autoCapitalize="none"
+                onChangeText={(value) => props.onFormChange("email", value)}
+                placeholder="Email"
+                placeholderTextColor="#CCC"
+            />
+            <TextInput
+                style={styles.input}
+                keyboardType="numeric"
+                onChangeText={(value) => props.onFormChange("verificationCode", value)}
+                placeholder="Verification code"
+                placeholderTextColor="#CCC"
+            />
+            <TextInput
+                style={styles.input}
+                autoCapitalize="none"
+                onChangeText={(value) => props.onFormChange("newPassword", value)}
+                placeholder="New password"
+                placeholderTextColor="#CCC"
+                secureTextEntry
+            />
+            <TextInput
+                style={styles.input}
+                autoCapitalize="none"
+                onChangeText={(value) => props.onFormChange("confirmNewPassword", value)}
+                placeholder="Confirm new password"
+                placeholderTextColor="#CCC"
+                secureTextEntry
+            />
+            <RectangleButton
+                title="Submit"
+                backgroundColor="#007AFF"
+                onPress={props.onSubmit}
+            />
         </View>
     );
 };
@@ -60,16 +56,14 @@ const styles = StyleSheet.create({
     container: {
         justifyContent: 'space-around',
         flexDirection: 'column',
-        height: 180,
+        paddingHorizontal: 16,
+        alignSelf: 'stretch'
     },
     input: {
-        backgroundColor: '#FACA8E',
-        width: 300,
-        height: 50,
         fontSize: 18,
-        borderRadius: 5,
-        borderWidth: 2,
-        borderColor: '#F7971D',
-        textAlign: 'center'
+        textAlign: 'left',
+        borderBottomWidth: 1,
+        borderBottomColor: '#CCC',
+        marginBottom: 30
     }
 });
