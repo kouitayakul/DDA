@@ -16,6 +16,9 @@ import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
 
+import React, { Component } from 'react';
+import { Icon } from 'react-native-elements';
+import DrawerActions from 'react-navigation-drawer';
 
 
 const AuthNavigation = createSwitchNavigator(
@@ -37,60 +40,61 @@ const EmployerNavigation = createDrawerNavigator({
   Company: {
     screen: HomeScreen,
     navigationOptions: () => ({
-      title: `Company Name`,
-      headerLeft: 'menu',
+      drawerLabel: `Company Name`,
     }),
   },
   Logout: {
     screen: HomeScreen,
     navigationOptions: () => ({
-      title: `Logout`,
-      headerLeft: 'menu',
+      drawerLabel: `Logout`,
     }),
   },
     initialRouteName: 'Company'
-  });
+  }
+);
+
+const EmployersNavigation = createStackNavigator({
+    Home: {
+    screen: HomeScreen,
+    navigationOptions: ({navigation}) => ({
+      title: `Employers`,
+      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
+    }),
+  },
+    Job: {
+    screen: JobScreen,
+    navigationOptions: () => ({
+      title: `Jobs`,
+      headerBackTitle: `Cancel`
+    }),
+  },
+    Carousel: {screen: CarouselScreen},
+    JobComplete: {screen: JobComplete},
+    
+    initialRouteName: 'Employers'
+});
 
 const UserNavigation = createDrawerNavigator(
   { 
     Employers: { 
-      screen: createStackNavigator({
-        Home: {
-        screen: HomeScreen,
-        navigationOptions: () => ({
-          title: `Employers`,
-          headerLeft: 'menu',
-        }),
-      },
-        Jobs: {
-        screen: JobScreen,
-        navigationOptions: () => ({
-          title: `Jobs`,
-          headerBackTitle: `Cancel`
-        }),
-      },
-        Carousel: {screen: CarouselScreen},
-        JobComplete: {screen: JobComplete}
-    }),
+      screen: EmployersNavigation,
+      navigationOptions: () => ({
+        drawerLabel: `Employers`,
+      }),
     },
     Rewards: {
       screen: HomeScreen,
       navigationOptions: () => ({
-        title: `Rewards`,
-        headerLeft: 'menu',
+        drawerLabel: `Rewards`,
       }),
     },
     Logout: {
-      screen: HomeScreen,
+      screen: UserLogin,
       navigationOptions: () => ({
-        title: `Logout`,
-        headerLeft: 'menu',
+        drawerLabel: `Logout`,
       }),
     }
   },
-  {
-    initialRouteName: 'Employers'
-  }
 );
 
 const SwitchNavigator = createSwitchNavigator({
