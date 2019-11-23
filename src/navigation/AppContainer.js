@@ -1,4 +1,5 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
+import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 
 //Auth Screens
@@ -15,6 +16,8 @@ import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
 
+
+
 const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
@@ -30,32 +33,70 @@ const AuthNavigation = createSwitchNavigator(
   }
 );
 
-const AppNavigation = createStackNavigator(
+const EmployerNavigation = createDrawerNavigator({
+  Company: {
+    screen: HomeScreen,
+    navigationOptions: () => ({
+      title: `Company Name`,
+      headerLeft: 'menu',
+    }),
+  },
+  Logout: {
+    screen: HomeScreen,
+    navigationOptions: () => ({
+      title: `Logout`,
+      headerLeft: 'menu',
+    }),
+  },
+    initialRouteName: 'Company'
+  });
+
+const UserNavigation = createDrawerNavigator(
   { 
-    Home: { 
+    Employers: { 
+      screen: createStackNavigator({
+        Home: {
+        screen: HomeScreen,
+        navigationOptions: () => ({
+          title: `Employers`,
+          headerLeft: 'menu',
+        }),
+      },
+        Jobs: {
+        screen: JobScreen,
+        navigationOptions: () => ({
+          title: `Jobs`,
+          headerBackTitle: `Cancel`
+        }),
+      },
+        Carousel: {screen: CarouselScreen},
+        JobComplete: {screen: JobComplete}
+    }),
+    },
+    Rewards: {
       screen: HomeScreen,
       navigationOptions: () => ({
-        title: `Employers`
+        title: `Rewards`,
+        headerLeft: 'menu',
       }),
     },
-    Job: { 
-      screen: JobScreen,
+    Logout: {
+      screen: HomeScreen,
       navigationOptions: () => ({
-        title: `Jobs`,
-        headerBackTitle: `Cancel`
+        title: `Logout`,
+        headerLeft: 'menu',
       }),
-    },
-    Carousel: {screen: CarouselScreen},
-    JobComplete: {screen: JobComplete}
+    }
   },
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Employers'
   }
 );
 
 const SwitchNavigator = createSwitchNavigator({
   Auth: AuthNavigation,
-  App: AppNavigation
+  User: UserNavigation,
+  Employer: EmployerNavigation,
 }, {
   initialRouteName: 'Auth'
 })

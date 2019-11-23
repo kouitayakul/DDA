@@ -69,7 +69,6 @@ export default class HomeScreen extends React.Component {
           
         return (
             <SafeAreaView style={styles.container}>
-              <AppHeader title="Employers" largeTitle ={ true } iconStyle = {true} onPressLeft = {() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}/>
                 <FlatList
                     data={DATA}
                     renderItem={({ item }) => 
