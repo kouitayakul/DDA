@@ -7,7 +7,7 @@ import {
     FlatList,
 } from 'react-native';
 
-export default class HomeScreen extends React.Component {
+export default class EmpJobScreen extends React.Component {
     render() {
         const {navigation} = this.props;
         const jobs = navigation.getParam('jobs');

@@ -10,7 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { forEach } from 'iterall';
 
-export default class HomeScreen extends React.Component {
+export default class EmployeesScreen extends React.Component {
     state = {
         users: [],
     }

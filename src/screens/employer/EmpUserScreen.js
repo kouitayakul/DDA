@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class HomeScreen extends React.Component {
+export default class EmpUserScreen extends React.Component {
     state = {
         user: [],
         jobs: []
