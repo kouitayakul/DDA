@@ -12,6 +12,8 @@ import UserLogin from "../screens/auth/UserLogin";
 //App Screens
 import HomeScreen from "../screens/user/HomeScreen";
 import JobScreen from "../screens/user/JobScreen";
+import CarouselScreen from "../screens/user/CarouselScreen";
+import JobComplete from "../screens/user/JobComplete";
 
 const AuthNavigation = createSwitchNavigator(
   {
@@ -30,8 +32,21 @@ const AuthNavigation = createSwitchNavigator(
 
 const AppNavigation = createStackNavigator(
   { 
-    Home: { screen: HomeScreen },
-    Job: { screen: JobScreen}
+    Home: { 
+      screen: HomeScreen,
+      navigationOptions: () => ({
+        title: `Employers`
+      }),
+    },
+    Job: { 
+      screen: JobScreen,
+      navigationOptions: () => ({
+        title: `Jobs`,
+        headerBackTitle: `Cancel`
+      }),
+    },
+    Carousel: {screen: CarouselScreen},
+    JobComplete: {screen: JobComplete}
   },
   {
     initialRouteName: 'Home'
