@@ -11,6 +11,7 @@ import {
     Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Footer from '../../components/Footer';
 
 export default class HomeScreen extends React.Component {
     state = {
@@ -98,6 +99,9 @@ export default class HomeScreen extends React.Component {
                 color='#FFFFFF'
                 />
             </View>
+            <Footer 
+            info={`${jobs.length} Jobs`}
+            />
             </View>
         );
     }
@@ -120,7 +124,7 @@ const styles = StyleSheet.create({
         height: 50,
         marginTop: 10,
         marginRight: 20,
-        marginBottom: 40,
+        marginBottom: 12,
         marginLeft: 20,
         justifyContent: 'center',
         borderRadius: 10,
