@@ -32,7 +32,7 @@ export default class UserLogin extends React.Component {
             .then((data) => {
                 if(data[0].code == code) {
                     this._storeData(code);
-                    this.props.navigation.navigate('App');
+                    this.props.navigation.navigate('User');
                 } else {
                     Alert.alert(
                         'Invalid Code',

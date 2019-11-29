@@ -13,6 +13,10 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class JobScreen extends React.Component {
+    static navigationOptions = {
+          drawerLabel: () => null
+    };
+
     state = {
         jobs: [],
         shiftStarted: false

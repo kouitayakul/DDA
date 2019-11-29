@@ -10,6 +10,7 @@ export default class JobComplete extends React.Component {
       title: navigation.getParam('title'),
       headerLeft: null,
       gesturesEnabled: false,
+      drawerLabel: () => null,
     };
   };
 

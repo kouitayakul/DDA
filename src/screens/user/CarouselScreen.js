@@ -17,6 +17,7 @@ export default class CarouselScreen extends React.Component {
       title: navigation.getParam('title'),
       headerBackImage: (<View style={{paddingLeft: 16}} />),
       gesturesEnabled: false,
+      drawerLabel: () => null
     };
   };
 
