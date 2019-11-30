@@ -1,5 +1,6 @@
 import React from 'react';
 import { AsyncStorage, Button, Dimensions, Image, Text, StyleSheet, View, SafeAreaView } from 'react-native';
+import API from '../../constants/API'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -27,11 +28,18 @@ export default class JobComplete extends React.Component {
   async componentDidMount() {
     try {
       const userCode = await AsyncStorage.getItem('userCode');
-      const apiCallUpdateStars = await fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${userCode}/stars`);
-      const stars = await apiCallUpdateStars.json();
+      const apiCallGetStars = await fetch(API.endpoint + `users/${userCode}/stars`);
+      let stars = await apiCallGetStars.json();
+      stars = stars[0].stars + 1;
+      const apiCallUpdateStars = await fetch(API.endpoint + `users/${userCode}/stars`, {
+        method: 'PUT',
+        headers: {'content-type': 'application/json'},
+        body: JSON.stringify({stars:stars})
+      });
+      await apiCallUpdateStars.json();
       this.setState({
         isLoaded: true,
-        stars: stars[0].stars
+        stars
       });
     }
     catch (err) {
@@ -56,7 +64,7 @@ export default class JobComplete extends React.Component {
             resizeMode="contain"
             source={require('../../assets/images/star-plus1.png')}
           />
-          <Text style={styles.heading3}>{stars+1} {stars+1==1 ? 'Star' : 'Stars'}</Text>
+          <Text style={styles.heading3}>{stars} {stars==1 ? 'Star' : 'Stars'}</Text>
           <View style={styles.button}>
             <Button 
               title='Continue'

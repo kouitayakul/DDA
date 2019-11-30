@@ -11,6 +11,7 @@ import {
 import PinView from 'react-native-pin-view'
 import RectangleButton from '../../components/RectangleButton'
 import Layout from '../../constants/Layout'
+import API from '../../constants/API'
 
 const width = Layout.window.width;
 
@@ -25,7 +26,7 @@ export default class UserLogin extends React.Component {
     }
     onFulfill(code, clear) {
         try{
-            fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${code}`)
+            fetch(API.endpoint + `users/${code}`)
             .then((res) => {
                 return res.json();
             })
