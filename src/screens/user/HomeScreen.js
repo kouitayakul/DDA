@@ -44,13 +44,13 @@ export default class HomeScreen extends React.Component {
   render() {
     const DATA = this.state.companies;
     
-    const _onPressButton = () => {
-      this.props.navigation.navigate('Job');
+    const _onPressButton = (companyId) => {
+      this.props.navigation.navigate('Job', { companyId: companyId });
     };
     
-    function Item({ title, address }) {
+    function Item({ title, address, companyId }) {
       return (
-        <TouchableHighlight onPress={() => _onPressButton()}>
+        <TouchableHighlight onPress={() => _onPressButton(companyId)}>
           <View style={styles.item}>
             <View>
               <Text style={styles.title}>{title}</Text>
@@ -70,6 +70,7 @@ export default class HomeScreen extends React.Component {
             <Item 
               title={item.name}
               address={item.address}
+              companyId={item.companyId}
             />
           }
           keyExtractor={item => item.companyId.toString()}

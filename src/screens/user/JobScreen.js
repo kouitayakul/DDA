@@ -28,7 +28,9 @@ export default class JobScreen extends React.Component {
             const userCode = await AsyncStorage.getItem('userCode');
             const apiCallJobIds = await fetch(API.endpoint + `users/${userCode}/jobs`);
             const jobs = await apiCallJobIds.json();
-            this.setState({jobs});
+            this.setState({
+                jobs: jobs.filter(job => job.companyId === this.props.navigation.getParam('companyId'))
+            });
         }
         catch (err) {
             console.log(err);
