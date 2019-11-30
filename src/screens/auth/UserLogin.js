@@ -30,10 +30,9 @@ export default class UserLogin extends React.Component {
                 return res.json();
             })
             .then((data) => {
-                console.log(data);
                 if(data[0].code == code) {
                     this._storeData(code);
-                    this.props.navigation.navigate('App');
+                    this.props.navigation.navigate('User');
                 } else {
                     Alert.alert(
                         'Invalid Code',

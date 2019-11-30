@@ -3,6 +3,7 @@ import {StyleSheet, TextInput, View} from 'react-native';
 import PropTypes from 'prop-types';
 import RectangleButton from "../RectangleButton";
 
+
 const SignInForm = (props) => {
     return (
         <View style={styles.container}>
