@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API'
+import Footer from '../../components/Footer';
 
 export default class JobScreen extends React.Component {
     static navigationOptions = {
@@ -87,6 +88,9 @@ export default class JobScreen extends React.Component {
                     }}
                 />
             </View>
+            <Footer 
+            info={`${jobs.length} Jobs`}
+            />
             </SafeAreaView>
         );
     }
@@ -96,19 +100,20 @@ export default class JobScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F2F2F2',
+        backgroundColor: '#FFF',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
     },
     safeAreaView: {
+        backgroundColor: '#F2F2F2',
         flex: 1
     },
     button: {
         height: 50,
         marginTop: 10,
         marginRight: 20,
-        marginBottom: 40,
+        marginBottom: 12,
         marginLeft: 20,
         justifyContent: 'center',
         borderRadius: 10,
