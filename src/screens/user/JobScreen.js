@@ -11,6 +11,7 @@ import {
     Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import API from '../../constants/API'
 import Footer from '../../components/Footer';
 
 export default class JobScreen extends React.Component {
@@ -23,29 +24,14 @@ export default class JobScreen extends React.Component {
         shiftStarted: false
     }
 
-    async getAllJobsName(jobIds) {
-        const jobs = [];
-        for(i = 0; i<jobIds.length; i++) {
-            const jobId = jobIds[i].jobId;
-            const apiCallJob = await fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/jobs/${jobId}`);
-            const job = await apiCallJob.json();
-            const jobObj = {
-                uniqueKey: i.toString(),
-                jobId: jobId,
-                jobName: job[0].name
-            };
-            jobs.push(jobObj);
-        }
-        return jobs; 
-    }
-
     async componentDidMount() {
         try {
             const userCode = await AsyncStorage.getItem('userCode');
-            const apiCallJobIds = await fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${userCode}/jobs`);
-            const jobIds = await apiCallJobIds.json();
-            const jobs = await this.getAllJobsName(jobIds);
-            this.setState({jobs});
+            const apiCallJobIds = await fetch(API.endpoint + `users/${userCode}/jobs`);
+            const jobs = await apiCallJobIds.json();
+            this.setState({
+                jobs: jobs.filter(job => job.companyId === this.props.navigation.getParam('companyId'))
+            });
         }
         catch (err) {
             console.log(err);
@@ -65,10 +51,10 @@ export default class JobScreen extends React.Component {
 
     renderItem(item) {
         return (
-            <TouchableHighlight onPress={() => this._onPressButton(item.jobName, item.jobId)}>
+            <TouchableHighlight onPress={() => this._onPressButton(item.name, item.jobId)}>
                 <View style={styles.jobName}>
                     <View>
-                        <Text style={styles.title}>{item.jobName}</Text>
+                        <Text style={styles.title}>{item.name}</Text>
                     </View>
                     <Icon name='angle-right' style={styles.icon}/>
                 </View>
@@ -89,7 +75,7 @@ export default class JobScreen extends React.Component {
                 <FlatList
                     data={jobs}
                     renderItem={({ item }) => this.renderItem(item) }
-                    keyExtractor={item => item.uniqueKey}
+                    keyExtractor={item => item.jobId.toString()}
                 />
             </View>
             <View style={[styles.button, {backgroundColor: shiftStarted ? '#DB4848' : '#B6BF00'}]}>
@@ -114,12 +100,13 @@ export default class JobScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F2F2F2',
+        backgroundColor: '#FFF',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'stretch',
     },
     safeAreaView: {
+        backgroundColor: '#F2F2F2',
         flex: 1
     },
     button: {
