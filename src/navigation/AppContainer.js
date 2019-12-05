@@ -51,7 +51,7 @@ const EmployersNavigation = createStackNavigator({
       headerBackTitle: `Employees`
     }),
   },
-    User: {
+    Employee: {
     screen: EmpUserScreen,
     navigationOptions: ({navigation}) => ({
       title: navigation.state.params.name,
@@ -93,7 +93,7 @@ const UserNavigation = createStackNavigator({
     headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
   }),
 },
-  Job: {
+  AssignedJobs: {
   screen: JobScreen,
   navigationOptions: () => ({
     title: `Jobs`,

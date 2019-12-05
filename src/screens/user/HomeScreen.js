@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
           ];
 
           const _onPressButton = () => {
-            this.props.navigation.navigate('Job');
+            this.props.navigation.navigate('AssignedJobs');
         };
 
           function Item({ title, address }) {

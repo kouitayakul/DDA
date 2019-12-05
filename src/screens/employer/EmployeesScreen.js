@@ -37,7 +37,7 @@ export default class EmployeesScreen extends React.Component {
 
         
         function _onPressButton(user) {
-            navigate('User', {
+            navigate('Employee', {
                 code: user.code,
                 name: user.name
             });
