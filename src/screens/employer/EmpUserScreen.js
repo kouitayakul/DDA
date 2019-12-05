@@ -55,7 +55,7 @@ export default class EmpUserScreen extends React.Component {
         }
         
         function _onPressButton() {
-        navigate('EmpJobScreen', {
+        navigate('Jobs', {
             jobs
         });
     };

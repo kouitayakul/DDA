@@ -36,15 +36,16 @@ export default class EmployeesScreen extends React.Component {
         }
 
         
-        function _onPressButton(code) {
-            navigate('EmpUserScreen', {
-                code
+        function _onPressButton(user) {
+            navigate('User', {
+                code: user.code,
+                name: user.name
             });
         };
 
         function Item({user}) {
         return (
-            <TouchableHighlight onPress={() => _onPressButton(user.code)}>
+            <TouchableHighlight onPress={() => _onPressButton(user)}>
                 <View style={styles.userName}>
                     <View>
                     <Text style={styles.title}>{user.name}</Text>

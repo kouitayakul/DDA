@@ -17,7 +17,7 @@ export default class AdminLogin extends React.Component {
     handleSignIn = () => {
         Auth.signIn(this.state.email, this.state.password)
             .then(user => {
-                this.props.navigation.navigate('Home', {user});
+                this.props.navigation.navigate('Employees', {user});
                 console.log(user);
             })
             .catch(err => {
