@@ -3,6 +3,7 @@ import { Dimensions, Image, Text, StyleSheet, SafeAreaView, View, ScrollView, To
 // import Carousel from '../../components/Carousel';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
+import API from '../../constants/API'
 
 const deviceWidth = Dimensions.get('window').width;
 const deviceHeight = Dimensions.get('window').height;
@@ -36,7 +37,7 @@ export default class CarouselScreen extends React.Component {
     try {
       const { navigation } = this.props;
       const jobId = navigation.getParam('jobId');
-      const apiCallSubjobs = await fetch(`https://hc8jk7j3d0.execute-api.ca-central-1.amazonaws.com/ddaBeta/jobs/${jobId}/subjobs`);
+      const apiCallSubjobs = await fetch(API.endpoint + `/jobs/${jobId}/subjobs`);
       const subjobs = await apiCallSubjobs.json();
       this.setState({
         isLoaded: true,
