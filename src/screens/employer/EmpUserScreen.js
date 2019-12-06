@@ -16,20 +16,6 @@ export default class EmpUserScreen extends React.Component {
         jobs: []
     }
 
-    async getAllJobsName(jobIds) {
-        const jobs = [];
-        for(i = 0; i<jobIds.length; i++) {
-            const jobId = jobIds[i].jobId;
-            const apiCallJob = await fetch(`${API.endpoint}/jobs/${jobId}`);
-            const job = await apiCallJob.json();
-            const jobObj = {
-                uniqueKey: i.toString(),
-                jobName: job[0].name
-            };
-            jobs.push(jobObj);
-        }
-        return jobs; 
-    }
 
     async componentDidMount() {
         const {navigation} = this.props;
@@ -37,9 +23,8 @@ export default class EmpUserScreen extends React.Component {
         try {
             const apiCallUser = await fetch(`${API.endpoint}/users/${code}`);
             const user = await apiCallUser.json();
-            const apiCallUserJobIds = await fetch(`${API.endpoint}/users/${user[0].code}/jobs`);
-            const userJobIds = await apiCallUserJobIds.json();
-            const jobs = await this.getAllJobsName(userJobIds);
+            const apiCallUserJobs = await fetch(`${API.endpoint}/users/${user[0].code}/jobs`);
+            const jobs = await apiCallUserJobs.json();
             this.setState({user, jobs});
         }
         catch (err) {

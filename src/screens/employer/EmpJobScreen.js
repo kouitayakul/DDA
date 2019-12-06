@@ -36,10 +36,10 @@ export default class EmpJobScreen extends React.Component {
                     data={jobs}
                     renderItem={({ item }) => 
                     <Item 
-                    jobName={item.jobName}
+                    jobName={item.name}
                     />
                     }
-                    keyExtractor={item => item.uniqueKey}
+                    keyExtractor={item => item.jobId.toString()}
                 />
             </SafeAreaView>
             <Footer 
