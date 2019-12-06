@@ -71,7 +71,7 @@ export default class JobComplete extends React.Component {
               type='solid'
               color='#FFFFFF'
               onPress={() => { 
-                this.props.navigation.navigate('Job')
+                this.props.navigation.navigate('AssignedJobs')
               }}
             />
           </View>

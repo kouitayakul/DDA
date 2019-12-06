@@ -16,6 +16,11 @@ import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
 
+//Employer Screens
+import EmpJobScreen from "../screens/employer/EmpJobScreen";
+import EmployeesScreen from "../screens/employer/EmployeesScreen";
+import EmpUserScreen from "../screens/employer/EmpUserScreen";
+
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
 import DrawerActions from 'react-navigation-drawer';
@@ -36,48 +41,75 @@ const AuthNavigation = createSwitchNavigator(
   }
 );
 
-const EmployerNavigation = createDrawerNavigator({
+
+const EmployersNavigation = createStackNavigator({
+    Employees: {
+    screen: EmployeesScreen,
+    navigationOptions: ({navigation}) => ({
+      title: `Employees`,
+      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
+      headerBackTitle: `Employees`
+    }),
+  },
+    Employee: {
+    screen: EmpUserScreen,
+    navigationOptions: ({navigation}) => ({
+      title: navigation.state.params.name,
+      headerBackTitle: navigation.state.params.name
+    }),
+  },
+    Jobs: {
+      screen: EmpJobScreen,
+      navigationOptions: () => ({
+        title: `Jobs`,
+        headerBackTitle: `Cancel`
+      })
+    },
+    
+    initialRouteName: 'Employees'
+});
+
+const EmployerDrawerNavigation = createDrawerNavigator({
   Company: {
-    screen: HomeScreen,
+    screen: EmployersNavigation,
     navigationOptions: () => ({
       drawerLabel: `Company Name`,
     }),
   },
   Logout: {
-    screen: HomeScreen,
+    screen: AuthNavigation,
     navigationOptions: () => ({
       drawerLabel: `Logout`,
     }),
-  },
-    initialRouteName: 'Company'
+  }
   }
 );
 
-const EmployersNavigation = createStackNavigator({
-    Home: {
-    screen: HomeScreen,
-    navigationOptions: ({navigation}) => ({
-      title: `Employers`,
-      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
-    }),
-  },
-    Job: {
-    screen: JobScreen,
-    navigationOptions: () => ({
-      title: `Jobs`,
-      headerBackTitle: `Cancel`
-    }),
-  },
-    Carousel: {screen: CarouselScreen},
-    JobComplete: {screen: JobComplete},
-    
-    initialRouteName: 'Employers'
+const UserNavigation = createStackNavigator({
+  Home: {
+  screen: HomeScreen,
+  navigationOptions: ({navigation}) => ({
+    title: `Employers`,
+    headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
+  }),
+},
+  AssignedJobs: {
+  screen: JobScreen,
+  navigationOptions: () => ({
+    title: `Jobs`,
+    headerBackTitle: `Cancel`
+  }),
+},
+  Carousel: {screen: CarouselScreen},
+  JobComplete: {screen: JobComplete},
+  
+  initialRouteName: 'Home'
 });
 
-const UserNavigation = createDrawerNavigator(
+const UserDrawerNavigation = createDrawerNavigator(
   { 
     Employers: { 
-      screen: EmployersNavigation,
+      screen: UserNavigation,
       navigationOptions: () => ({
         drawerLabel: `Employers`,
       }),
@@ -99,8 +131,8 @@ const UserNavigation = createDrawerNavigator(
 
 const SwitchNavigator = createSwitchNavigator({
   Auth: AuthNavigation,
-  User: UserNavigation,
-  Employer: EmployerNavigation,
+  User: UserDrawerNavigation,
+  Employer: EmployerDrawerNavigation,
 }, {
   initialRouteName: 'Auth'
 })
