@@ -8,7 +8,7 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { forEach } from 'iterall';
+import API from '../../constants/API';
 
 export default class EmployeesScreen extends React.Component {
     state = {
@@ -17,9 +17,9 @@ export default class EmployeesScreen extends React.Component {
 
     async componentDidMount() {
         try {
-            const apiCallUsers = await fetch('https://8izkm790rj.execute-api.ca-central-1.amazonaws.com/ddaBeta/users');
-            const res = await apiCallUsers.json();
-            const users = JSON.parse(res.body);
+            //using 1 for now
+            const apiCallUsers = await fetch(`${API.endpoint}/companies/1/users`);
+            const users = await apiCallUsers.json();
             this.setState({users});
         }
         catch (err) {
@@ -30,6 +30,7 @@ export default class EmployeesScreen extends React.Component {
     render() {
         const {users} = this.state;
         const {navigate} = this.props.navigation;
+        console.log(this.props.navigation.state.params.user);
 
         if(!users.length) {
             return null;

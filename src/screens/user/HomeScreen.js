@@ -45,7 +45,7 @@ export default class HomeScreen extends React.Component {
     const DATA = this.state.companies;
     
     const _onPressButton = (companyId) => {
-      this.props.navigation.navigate('Job', { companyId: companyId });
+      this.props.navigation.navigate('AssignedJobs', { companyId: companyId });
     };
     
     function Item({ title, address, companyId }) {

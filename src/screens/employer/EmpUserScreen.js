@@ -8,6 +8,7 @@ import {
     TouchableHighlight,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import API from '../../constants/API';
 
 export default class EmpUserScreen extends React.Component {
     state = {
@@ -19,7 +20,7 @@ export default class EmpUserScreen extends React.Component {
         const jobs = [];
         for(i = 0; i<jobIds.length; i++) {
             const jobId = jobIds[i].jobId;
-            const apiCallJob = await fetch(`https://8izkm790rj.execute-api.ca-central-1.amazonaws.com/ddaBeta/jobs/${jobId}`);
+            const apiCallJob = await fetch(`${API.endpoint}/jobs/${jobId}`);
             const job = await apiCallJob.json();
             const jobObj = {
                 uniqueKey: i.toString(),
@@ -34,9 +35,9 @@ export default class EmpUserScreen extends React.Component {
         const {navigation} = this.props;
         const code = navigation.getParam('code');
         try {
-            const apiCallUser = await fetch(`https://8izkm790rj.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${code}`);
+            const apiCallUser = await fetch(`${API.endpoint}/users/${code}`);
             const user = await apiCallUser.json();
-            const apiCallUserJobIds = await fetch(`https://8izkm790rj.execute-api.ca-central-1.amazonaws.com/ddaBeta/users/${user[0].code}/jobs`);
+            const apiCallUserJobIds = await fetch(`${API.endpoint}/users/${user[0].code}/jobs`);
             const userJobIds = await apiCallUserJobIds.json();
             const jobs = await this.getAllJobsName(userJobIds);
             this.setState({user, jobs});

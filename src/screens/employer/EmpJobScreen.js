@@ -6,6 +6,7 @@ import {
     SafeAreaView,
     FlatList,
 } from 'react-native';
+import Footer from '../../components/Footer';
 
 export default class EmpJobScreen extends React.Component {
     render() {
@@ -23,6 +24,10 @@ export default class EmpJobScreen extends React.Component {
         </View>
         );
         };
+
+        function _onAdd() {
+            console.log('add');
+        }
           
         return (
             <View style={styles.container}>
@@ -37,6 +42,11 @@ export default class EmpJobScreen extends React.Component {
                     keyExtractor={item => item.uniqueKey}
                 />
             </SafeAreaView>
+            <Footer 
+            info={`${jobs.length} Jobs`}
+            func= {_onAdd}
+            iconName={'plus'}
+            />
             </View>
         );
     }
