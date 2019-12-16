@@ -20,6 +20,7 @@ import JobComplete from "../screens/user/JobComplete";
 import EmpJobScreen from "../screens/employer/EmpJobScreen";
 import EmployeesScreen from "../screens/employer/EmployeesScreen";
 import EmpUserScreen from "../screens/employer/EmpUserScreen";
+import EmpAddJobs from "../components/modals/EmpAddJobs";
 
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
@@ -64,6 +65,9 @@ const EmployersNavigation = createStackNavigator({
         title: `Jobs`,
         headerBackTitle: `Cancel`
       })
+    },
+    AddJobs: {
+      screen: EmpAddJobs,
     },
     
     initialRouteName: 'Employees'

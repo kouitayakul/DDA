@@ -12,8 +12,7 @@ import API from '../../constants/API';
 
 export default class EmpUserScreen extends React.Component {
     state = {
-        user: [],
-        jobs: []
+        user: []
     }
 
 
@@ -23,9 +22,7 @@ export default class EmpUserScreen extends React.Component {
         try {
             const apiCallUser = await fetch(`${API.endpoint}/users/${code}`);
             const user = await apiCallUser.json();
-            const apiCallUserJobs = await fetch(`${API.endpoint}/users/${user[0].code}/jobs`);
-            const jobs = await apiCallUserJobs.json();
-            this.setState({user, jobs});
+            this.setState({user});
         }
         catch (err) {
             console.log(err);
@@ -33,18 +30,19 @@ export default class EmpUserScreen extends React.Component {
     }
 
     render() {
-        const {user, jobs} = this.state;
+        const {user} = this.state;
         const { navigate } = this.props.navigation; 
+        const code = this.props.navigation.getParam('code');
 
         if(!user.length) {
             return null;
         }
         
         function _onPressButton() {
-        navigate('Jobs', {
-            jobs
-        });
-    };
+            navigate('Jobs', {
+                code
+            });
+        };
 
         function User({user}) {
             return (

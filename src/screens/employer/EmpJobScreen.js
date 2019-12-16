@@ -7,11 +7,52 @@ import {
     FlatList,
 } from 'react-native';
 import Footer from '../../components/Footer';
+import EmpAddJobs from '../../components/modals/EmpAddJobs';
+import API from '../../constants/API';
 
 export default class EmpJobScreen extends React.Component {
-    render() {
+    state = {
+        isVisible: false,
+        jobs: []
+    };
+
+    async componentDidMount() {
         const {navigation} = this.props;
-        const jobs = navigation.getParam('jobs');
+        const code = navigation.getParam('code');
+        try {
+            const apiCallUserJobs = await fetch(`${API.endpoint}/users/${code}/jobs`);
+            const jobs = await apiCallUserJobs.json();
+            this.setState({jobs});
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    _onAdd = () => {
+        this.setState({isVisible: true});
+    }
+
+    _onCancel = () => {
+        this.setState({isVisible: false});
+    }
+
+    _onDone = async () => {
+        const {navigation} = this.props;
+        const code = navigation.getParam('code');
+        try {
+            const apiCallUserJobs = await fetch(`${API.endpoint}/users/${code}/jobs`);
+            const jobs = await apiCallUserJobs.json();
+            this.setState({jobs, isVisible: false});
+        }
+        catch (err) {
+            console.log(err);
+        }
+    }
+
+    render() {
+        const {isVisible, jobs} = this.state;
+        const {navigation} = this.props;
 
         if(!jobs.length) {
             return null;
@@ -24,10 +65,6 @@ export default class EmpJobScreen extends React.Component {
         </View>
         );
         };
-
-        function _onAdd() {
-            console.log('add');
-        }
           
         return (
             <View style={styles.container}>
@@ -44,9 +81,14 @@ export default class EmpJobScreen extends React.Component {
             </SafeAreaView>
             <Footer 
             info={`${jobs.length} Jobs`}
-            func= {_onAdd}
+            func= {this._onAdd}
             iconName={'plus'}
             />
+            <EmpAddJobs 
+            isVisible={isVisible}
+            cancel={this._onCancel}
+            done={this._onDone}
+            code={navigation.getParam('code')}/>   
             </View>
         );
     }
@@ -81,4 +123,16 @@ const styles = StyleSheet.create({
         letterSpacing: -0.41,
         color: "#000000"
     },
+    modal: {
+        justifyContent: 'flex-end',
+        margin: 0
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 4,
+        borderColor: 'rgba(0, 0, 0, 0.1)',
+      },
 });
