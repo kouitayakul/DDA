@@ -11,43 +11,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
 
 export default class EmployerHome extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('title'),
-    };
-  };
-
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      company: {}
-    }
-  }
-
-  async componentDidMount() {
-    const employer = this.props.navigation.getParam('employer');
-    const companyId = employer['profile'];
-    try {
-      const apiGetCompany = await fetch(`${API.endpoint}/companies/${companyId}`);
-      const company = await apiGetCompany.json();
-      this.setState({company: company[0]});
-      
-      // const apiGetCompanyJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`);
-      // const jobs = await apiGetCompanyJobs.json();
-      
-      // const apiGetCompanyEmployees = await fetch(`${API.endpoint}/companies/${companyId}/users`);
-      // const employees = await apiGetCompanyEmployees.json();
-      
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
-
+  
   render() {
-    const { company } = this.state;
     const employer = this.props.navigation.getParam('employer');
+    const company = this.props.navigation.getParam('company');
     const { navigate } = this.props.navigation; 
       
     function _onPressJobs() {

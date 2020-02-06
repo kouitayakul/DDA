@@ -91,16 +91,15 @@ const EmployersNavigation = createStackNavigator({
   EmployerHome: {
     screen: EmployerHome,
     navigationOptions: ({navigation}) => ({
-      title: `Employer`,
       headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
-      headerBackTitle: `Employer`
+      headerBackTitle: navigation.state.params.company.name,
+      title: navigation.state.params.company.name,
     }),
   },
   Employees: {
     screen: EmployeesScreen,
     navigationOptions: ({navigation}) => ({
       title: `Employees`,
-      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
       headerBackTitle: `Employees`
     }),
   },
@@ -111,11 +110,10 @@ const EmployersNavigation = createStackNavigator({
       headerBackTitle: navigation.state.params.name
     }),
   },
-  Jobs: {
+  UserJobs: {
     screen: EmpJobScreen,
     navigationOptions: () => ({
       title: `Jobs`,
-      headerBackTitle: `Cancel`
     })
   },
   
@@ -126,7 +124,7 @@ const EmployerDrawerNavigation = createDrawerNavigator({
   Company: {
     screen: EmployersNavigation,
     navigationOptions: () => ({
-      drawerLabel: `Company Name`,
+      drawerLabel: `Home`,
     }),
   },
   Logout: {
@@ -138,7 +136,7 @@ const EmployerDrawerNavigation = createDrawerNavigator({
 });
 
 const AdminNavigation = createStackNavigator({
-  Home: {
+  AdminHome: {
     screen: EmployerSignUp,
     navigationOptions: ({navigation}) => ({
       title: `Admin`,
