@@ -30,7 +30,7 @@ export default class EmployeesScreen extends React.Component {
     render() {
         const {users} = this.state;
         const {navigate} = this.props.navigation;
-        console.log(this.props.navigation.state.params.user);
+        // console.log(this.props.navigation.state.params.user);
 
         if(!users.length) {
             return null;

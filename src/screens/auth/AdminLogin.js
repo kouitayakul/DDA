@@ -17,8 +17,12 @@ export default class AdminLogin extends React.Component {
     handleSignIn = () => {
         Auth.signIn(this.state.email, this.state.password)
             .then(user => {
-                this.props.navigation.navigate('Employees', {user});
-                console.log(user);
+                const group = user.signInUserSession.accessToken.payload['cognito:groups'];
+                if (group && group[0] === 'Admin') {
+                    this.props.navigation.navigate('Admin', {user});
+                } else {
+                    this.props.navigation.navigate('EmployerHome', { employer: user.attributes });
+                }
             })
             .catch(err => {
                 Alert.alert(
@@ -28,8 +32,6 @@ export default class AdminLogin extends React.Component {
                     {cancelable: false}
                 );
             });
-
-        
     };
 
     handleFormChange(field, value) {
