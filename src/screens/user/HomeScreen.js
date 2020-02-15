@@ -12,6 +12,7 @@ import AppHeader from '../../components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Auth } from 'aws-amplify';
+import ShiftSummary from '../../components/ShiftSummaryPopup';
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
@@ -79,6 +80,7 @@ export default class HomeScreen extends React.Component {
                     }
                     keyExtractor={item => item.id}
                 />
+                <ShiftSummary></ShiftSummary>
             </SafeAreaView>
         );
     }
