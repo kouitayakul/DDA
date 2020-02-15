@@ -6370,10 +6370,10 @@ react-native-ratings@^6.3.0:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
-react-native-reanimated@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.4.0.tgz#7f1acbf9be08492d834f512700570978052be2f9"
-  integrity sha512-tO7nSNNP+iRLVbkcSS5GXyDBb7tSI02+XuRL3/S39EAr35rnvUy2JfeLUQG+fWSObJjnMVhasUDEUwlENk8IXw==
+react-native-reanimated@~1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-reanimated/-/react-native-reanimated-1.2.0.tgz#9219227a52a5dfa4d34c324596d6726ccd874293"
+  integrity sha512-vkWRHrPK5qfHP/ZawlRoo38oeYe9NZaaOH/lmFxRcsKzaSK6x3H5ZPXI8lK6MfTLveqwo1QhJje3zIKXO4nQQw==
 
 react-native-safe-area-view@^0.14.1:
   version "0.14.8"
@@ -6833,6 +6833,13 @@ rimraf@~2.2.6:
   version "2.2.8"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.2.8.tgz#e439be2aaee327321952730f99a8929e4fc50582"
   integrity sha1-5Dm+Kq7jJzIZUnMPmaiSnk/FBYI=
+
+rn-bottom-drawer@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/rn-bottom-drawer/-/rn-bottom-drawer-1.4.3.tgz#25468972181c7eaa59095d619d633c8bf4aeb967"
+  integrity sha512-atS7HEQOoqLQftxyBalYHlf+YAEPw9zQ6RG00yf3xIu8TWsd5ST8Z0h3RwLFXsXnbvjP2OBvsvraZsXF8G7r0w==
+  dependencies:
+    prop-types "^15.6.2"
 
 rsvp@^3.3.3:
   version "3.6.2"
