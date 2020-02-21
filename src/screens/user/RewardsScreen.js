@@ -1,5 +1,5 @@
 import React from 'react';
-import { AsyncStorage, Button, Dimensions, Image, Text, StyleSheet, View, SafeAreaView } from 'react-native';
+import { AsyncStorage, Dimensions, Image, Text, StyleSheet, SafeAreaView } from 'react-native';
 import API from '../../constants/API'
 
 const deviceWidth = Dimensions.get('window').width;
@@ -23,9 +23,24 @@ export default class RewardsScreen extends React.Component {
       isLoaded: false,
       stars: undefined
     }
+
+    this.getStars = this.getStars.bind(this)
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.props.navigation.addListener(
+      'willFocus',
+      payload => {
+        this.getStars();
+      }
+    );
+  }
+
+  async getStars() {
+    this.setState({
+      isLoaded: false
+    });
+
     try {
       const userCode = await AsyncStorage.getItem('userCode');
       const apiCallGetStars = await fetch(API.endpoint + `users/${userCode}/stars`);
