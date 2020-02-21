@@ -18,6 +18,7 @@ import HomeScreen from "../screens/user/HomeScreen";
 import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
+import RewardsScreen from "../screens/user/RewardsScreen";
 
 //Employer Screens
 import EmployerHome from "../screens/employer/EmployerHome";
@@ -64,6 +65,16 @@ const UserNavigation = createStackNavigator({
   initialRouteName: 'Home'
 });
 
+const UserRewards = createStackNavigator({
+  RewardsScreen: {
+    screen: RewardsScreen,
+    navigationOptions: ({navigation}) => ({
+      title: `Rewards`,
+      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
+    }),
+  }
+});
+
 const UserDrawerNavigation = createDrawerNavigator(
   { 
     Employers: { 
@@ -73,7 +84,7 @@ const UserDrawerNavigation = createDrawerNavigator(
       }),
     },
     Rewards: {
-      screen: HomeScreen,
+      screen: UserRewards,
       navigationOptions: () => ({
         drawerLabel: `Rewards`,
       }),
