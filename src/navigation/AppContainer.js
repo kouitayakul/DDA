@@ -3,7 +3,7 @@ import { Icon } from 'react-native-elements';
 import DrawerActions from 'react-navigation-drawer';
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
@@ -30,6 +30,7 @@ import EmpUserScreen from "../screens/employer/EmpUserScreen";
 import AdminHome from "../screens/admin/AdminHome";
 import AllEmployers from "../screens/admin/AllEmployers";
 import AllUsers from "../screens/admin/AllUsers";
+import SingleUser from "../screens/admin/SingleUser";
 
 const AuthNavigation = createSwitchNavigator(
   {
@@ -104,10 +105,10 @@ const EmployersNavigation = createStackNavigator({
   EmployerHome: {
     screen: EmployerHome,
     navigationOptions: ({navigation}) => ({
-      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
-      headerBackTitle: navigation.state.params.company.name,
-      title: navigation.state.params.company.name,
-    }),
+      headerLeft: navigation.getParam('employer') ? 
+        (<Icon name='menu' onPress={() => navigation.openDrawer()} />) :
+        (<HeaderBackButton onPress={() => navigation.navigate('AllEmployers')} title='Back' backTitleVisible={true} />),
+    })
   },
   Employees: {
     screen: EmployeesScreen,
@@ -170,7 +171,10 @@ const AdminNavigation = createStackNavigator({
       title: `All Users`,
       headerBackTitle: `All Users`
     }),
-  }
+  },
+  SingleUser: {
+    screen: SingleUser,
+  },
 });
 
 const AdminDrawerNavigation = createDrawerNavigator({

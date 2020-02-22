@@ -32,13 +32,13 @@ export default class AllEmployers extends React.Component {
   render() {
     const { error, isLoaded, companies } = this.state;
 
-    const _onPressButton = (companyId) => {
-      // this.props.navigation.navigate('AssignedJobs', { companyId: companyId });
+    const _onPressButton = (company) => {
+      this.props.navigation.navigate('EmployerHome', { company });
     };
     
-    function Item({ title, address, companyId }) {
+    function Item({ title, address, company }) {
       return (
-        <TouchableHighlight onPress={() => _onPressButton(companyId)}>
+        <TouchableHighlight onPress={() => _onPressButton(company)}>
           <View style={styles.item}>
             <View>
               <Text style={styles.title}>{title}</Text>
@@ -63,7 +63,7 @@ export default class AllEmployers extends React.Component {
               <Item 
                 title={item.name}
                 address={item.address}
-                companyId={item.companyId}
+                company={item}
               />
             }
             keyExtractor={item => item.companyId.toString()}

@@ -28,20 +28,29 @@ export default class AllUsers extends React.Component {
     }
     
   }
+
+  _storeData = async (code) => {
+    try {
+        await AsyncStorage.setItem('userCode', code);
+    }
+    catch (err) {
+        console.log(err);
+    }
+  }
   
   render() {
     const { error, isLoaded, users } = this.state;
 
-    const _onPressButton = (companyId) => {
-      // this.props.navigation.navigate('AssignedJobs', { companyId: companyId });
+    const _onPressButton = async (user) => {
+      this.props.navigation.navigate('SingleUser', { user });
     };
     
-    function Item({ title, code }) {
+    function Item({ user }) {
       return (
-        <TouchableHighlight onPress={() => _onPressButton(code)}>
+        <TouchableHighlight onPress={() => _onPressButton(user)}>
           <View style={styles.item}>
             <View>
-              <Text style={styles.title}>{title}</Text>
+              <Text style={styles.title}>{user.name}</Text>
             </View>
             <Icon name='angle-right' style={styles.icon}/>
           </View>
@@ -60,8 +69,7 @@ export default class AllUsers extends React.Component {
             data={users}
             renderItem={({ item }) => 
               <Item 
-                title={item.name}
-                code={item.code}
+                user={item}
               />
             }
             keyExtractor={item => item.code.toString()}
