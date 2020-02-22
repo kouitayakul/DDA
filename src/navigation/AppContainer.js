@@ -28,6 +28,8 @@ import EmpUserScreen from "../screens/employer/EmpUserScreen";
 
 //Admin Screens
 import AdminHome from "../screens/admin/AdminHome";
+import AllEmployers from "../screens/admin/AllEmployers";
+import AllUsers from "../screens/admin/AllUsers";
 
 const AuthNavigation = createSwitchNavigator(
   {
@@ -148,11 +150,25 @@ const EmployerDrawerNavigation = createDrawerNavigator({
 
 const AdminNavigation = createStackNavigator({
   AdminHome: {
-    screen: EmployerSignUp,
+    screen: AdminHome,
     navigationOptions: ({navigation}) => ({
       title: `Admin`,
-      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()}> </Icon> ),
+      headerLeft: ( <Icon name='menu' onPress={() => navigation.openDrawer()} />),
       headerBackTitle: `Admin`
+    }),
+  },
+  AllEmployers: {
+    screen: AllEmployers,
+    navigationOptions: ({navigation}) => ({
+      title: `All Employers`,
+      headerBackTitle: `All Employers`
+    }),
+  },
+  AllUsers: {
+    screen: AllUsers,
+    navigationOptions: ({navigation}) => ({
+      title: `All Users`,
+      headerBackTitle: `All Users`
     }),
   }
 });
