@@ -11,36 +11,16 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
 
 export default class EmpUserScreen extends React.Component {
-    state = {
-        user: []
-    }
-
-
-    async componentDidMount() {
-        const {navigation} = this.props;
-        const code = navigation.getParam('code');
-        try {
-            const apiCallUser = await fetch(`${API.endpoint}/users/${code}`);
-            const user = await apiCallUser.json();
-            this.setState({user});
-        }
-        catch (err) {
-            console.log(err);
-        }
-    }
-
     render() {
-        const {user} = this.state;
-        const { navigate } = this.props.navigation; 
-        const code = this.props.navigation.getParam('code');
-
-        if(!user.length) {
-            return null;
-        }
+        const { navigate } = this.props.navigation;
+        const { navigation } = this.props;
+        const user = navigation.getParam('user');
+        const code = user.code;
         
         function _onPressButton() {
             navigate('Jobs', {
-                code
+                code,
+                companyId: navigation.getParam('companyId')
             });
         };
 
@@ -67,7 +47,7 @@ export default class EmpUserScreen extends React.Component {
             <View style={styles.container}>
             <SafeAreaView style={styles.safeAreaView}>
                 <FlatList
-                    data={user}
+                    data={[user]}
                     renderItem={({item}) => 
                     <View>
                         <User 

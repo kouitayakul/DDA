@@ -16,9 +16,10 @@ export default class EmpJobScreen extends React.Component {
     this._isMounted = true;
     this.props.navigation.setParams({ onEdit: this.onEdit });
     const { navigation } = this.props;
-    const code = navigation.getParam("code");
+    const code = navigation.getParam('code');
+    const companyId = navigation.getParam('companyId');
     try {
-      const apiCallUserJobs = await fetch(`${API.endpoint}/users/${code}/jobs`);
+      const apiCallUserJobs = await fetch(`${API.endpoint}/companies/${companyId}/users/${code}/jobs`);
       const jobs = await apiCallUserJobs.json();
       if (this._isMounted) this.setState({ jobs });
     } catch (err) {
@@ -41,8 +42,9 @@ export default class EmpJobScreen extends React.Component {
   _onDone = async () => {
     const { navigation } = this.props;
     const code = navigation.getParam("code");
+    const companyId = navigation.getParam('companyId');
     try {
-      const apiCallUserJobs = await fetch(`${API.endpoint}/users/${code}/jobs`);
+      const apiCallUserJobs = await fetch(`${API.endpoint}/companies/${companyId}/users/${code}/jobs`);
       const jobs = await apiCallUserJobs.json();
       this.setState({ jobs, isVisible: false });
     } catch (err) {
@@ -98,6 +100,7 @@ export default class EmpJobScreen extends React.Component {
           cancel={this._onCancel}
           done={this._onDone}
           code={navigation.getParam("code")}
+          companyId={navigation.getParam("companyId")}
           existJobs={jobs}
         />
       </View>

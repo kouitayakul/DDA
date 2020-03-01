@@ -5,7 +5,8 @@ import {
   View,
   SafeAreaView,
   FlatList,
-  TouchableHighlight
+  TouchableHighlight,
+  Dimensions
 } from "react-native";
 import PropTypes from "prop-types";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -13,12 +14,15 @@ import API from "../../constants/API";
 import Modal from "react-native-modal";
 import { Header } from "react-native-elements";
 
+const windowHeight = Dimensions.get('window').height;
+
 export default class EmpAddJobs extends Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     cancel: PropTypes.any.isRequired,
     done: PropTypes.any.isRequired,
     code: PropTypes.number.isRequired,
+    companyId: PropTypes.string.isRequired,
     existJobs: PropTypes.array.isRequired
   };
   state = {
@@ -26,8 +30,9 @@ export default class EmpAddJobs extends Component {
   };
 
   async componentDidMount() {
+    const companyId = this.props.companyId;
     try {
-      const apiJobs = await fetch(`${API.endpoint}/jobs`);
+      const apiJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`);
       const jobsJson = await apiJobs.json();
       const jobs = jobsJson.map(job => {
         job.isSelect = false;
@@ -182,6 +187,7 @@ export default class EmpAddJobs extends Component {
               stickyHeaderIndices={[0]}
               keyExtractor={item => item.jobId.toString()}
               extraData={this.state}
+              style={{minHeight: windowHeight, backgroundColor: "rgba(255, 255, 255, 0.92)"}}
             />
           </View>
         </SafeAreaView>
