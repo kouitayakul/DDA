@@ -9,8 +9,8 @@ export default class AdminLogin extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: 'vinielk@icloud.com',
-            password: 'Password01',
+            email: '',
+            password: '',
         };
         this.handleFormChange = this.handleFormChange.bind(this);
     }
