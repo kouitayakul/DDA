@@ -30,6 +30,7 @@ export default class EmployeesScreen extends React.Component {
     render() {
         const {users} = this.state;
         const {navigate} = this.props.navigation;
+        const {navigation} = this.props;
 
         if(!users.length) {
             return null;
@@ -37,8 +38,8 @@ export default class EmployeesScreen extends React.Component {
 
         function _onPressButton(user) {
             navigate('Employee', {
-                code: user.code,
-                name: user.name
+                companyId: navigation.getParam('companyId'),
+                user
             });
         };
 
