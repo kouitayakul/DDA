@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
 import Footer from '../../components/Footer';
 
-export default class AllEmployers extends React.Component {
+export default class SingleUserEmployers extends React.Component {
   constructor(props) {
     super(props);
 
@@ -16,8 +16,9 @@ export default class AllEmployers extends React.Component {
   }
   
   async componentDidMount() {
+    const code = this.props.navigation.getParam('code');
     try {
-      const apiCallCompanies = await fetch(API.endpoint + 'companies');
+      const apiCallCompanies = await fetch(API.endpoint + `/users/${code}/companies`);
       const companies = await apiCallCompanies.json();
       this.setState({
         companies,
@@ -32,9 +33,14 @@ export default class AllEmployers extends React.Component {
   
   render() {
     const { error, isLoaded, companies } = this.state;
+    const code = this.props.navigation.getParam('code');
+    const {navigate} = this.props.navigation;
 
     const _onPressButton = (company) => {
-      this.props.navigation.navigate('EmployerHome', { company });
+      navigate('SingleUserSingleEmployerJobs', {
+        code,
+        companyId: company.companyId
+    });
     };
     
     function Item({ title, address, company }) {

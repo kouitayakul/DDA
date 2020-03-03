@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
+import Footer from '../../components/Footer';
 
 export default class EmployeesScreen extends React.Component {
     state = {
@@ -68,6 +69,7 @@ export default class EmployeesScreen extends React.Component {
                     }
                     keyExtractor={item => item.code.toString()}
                 />
+                <Footer info={`${users.length} ${users.length === 1 ? 'Employee' : 'Employees'}`} />
             </SafeAreaView>
             </View>
         );

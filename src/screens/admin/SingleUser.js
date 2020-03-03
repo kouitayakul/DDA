@@ -23,7 +23,7 @@ export default class SingleUser extends React.Component {
     const { navigate } = this.props.navigation; 
     
     function _onPressEmployers() {
-      // navigate('Employees', { companyId: company.companyId });
+      navigate('SingleUserEmployers', { code: user.code });
     };
 
     function Employer({info, items}) {

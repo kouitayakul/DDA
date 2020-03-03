@@ -22,7 +22,7 @@ export default class EmpAddJobs extends Component {
     cancel: PropTypes.any.isRequired,
     done: PropTypes.any.isRequired,
     code: PropTypes.number.isRequired,
-    companyId: PropTypes.string.isRequired,
+    companyId: PropTypes.number.isRequired,
     existJobs: PropTypes.array.isRequired
   };
   state = {

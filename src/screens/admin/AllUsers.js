@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, View, SafeAreaView, FlatList, TouchableHighlight, AsyncStorage } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import API from '../../constants/API'
+import API from '../../constants/API';
+import Footer from '../../components/Footer';
 
 export default class AllUsers extends React.Component {
   constructor(props) {
@@ -74,6 +75,7 @@ export default class AllUsers extends React.Component {
             }
             keyExtractor={item => item.code.toString()}
           />
+          <Footer info={`${users.length} ${users.length === 1 ? 'User' : 'Users'}`} />
         </SafeAreaView>
       );
     }

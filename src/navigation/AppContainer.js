@@ -30,6 +30,8 @@ import AdminHome from "../screens/admin/AdminHome";
 import AllEmployers from "../screens/admin/AllEmployers";
 import AllUsers from "../screens/admin/AllUsers";
 import SingleUser from "../screens/admin/SingleUser";
+import SingleUserEmployers from "../screens/admin/SingleUserEmployers";
+import SingleUserSingleEmployerJobs from "../screens/admin/SingleUserSingleEmployerJobs";
 
 const AuthNavigation = createSwitchNavigator(
   {
@@ -173,6 +175,19 @@ const AdminNavigation = createStackNavigator({
   SingleUser: {
     screen: SingleUser,
   },
+  SingleUserEmployers: {
+    screen: SingleUserEmployers,
+    navigationOptions: ({navigation}) => ({
+      title: `Employers`,
+      headerBackTitle: `Employers`
+    }),
+  },
+  SingleUserSingleEmployerJobs: {
+    screen: SingleUserSingleEmployerJobs,
+    navigationOptions: ({navigation}) => ({
+      title: `Jobs`,
+    }),
+  }
 });
 
 const AdminDrawerNavigation = createDrawerNavigator({
