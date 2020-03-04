@@ -40,7 +40,8 @@ export default class EmployeesScreen extends React.Component {
         function _onPressButton(user) {
             navigate('Employee', {
                 companyId: navigation.getParam('companyId'),
-                user
+                user,
+                name: user.name
             });
         };
 
