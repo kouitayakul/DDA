@@ -93,7 +93,7 @@ const UserDrawerNavigation = createDrawerNavigator({
     }),
   },
   Logout: {
-    screen: AuthNavigation,
+    screen: UserLogin,
     navigationOptions: () => ({
       drawerLabel: `Logout`,
     }),
