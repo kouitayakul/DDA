@@ -14,8 +14,10 @@ import Footer from "../../components/Footer";
 import API from "../../constants/API";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import Swipeout from "react-native-swipeout";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 export default class EmployerJobScreen extends Component {
+  _isMounted = false;
   state = {
     jobs: [],
     jobName: "",
@@ -34,26 +36,46 @@ export default class EmployerJobScreen extends Component {
       //using company 2 for now
       const apiCallJobs = await fetch(`${API.endpoint}/companies/2/jobs`);
       const jobs = await apiCallJobs.json();
+      this._isMounted = true;
       this.setState({ jobs });
     } catch (err) {
       console.log(err);
     }
   }
 
+  componentWillMount() {
+    this._isMounted = false;
+  }
+
+  onJobPress = () => {
+    //navigate to subjobs screen
+  };
+
   Item = jobName => {
     return (
-      <View style={styles.jobName}>
-        <Text style={styles.title}>{jobName}</Text>
-      </View>
+      <TouchableHighlight onPress={() => this.onJobPress()}>
+        <View style={styles.jobName}>
+          <Text style={styles.title}>{jobName}</Text>
+          <Icon name="angle-right" style={styles.icon} />
+        </View>
+      </TouchableHighlight>
     );
   };
 
   ItemEdit = job => {
+    const { jobs } = this.state;
     let swipeBtns = [
       {
         text: "Delete",
         backgroundColor: "red",
         onPress: async () => {
+          for (i = 0; i < jobs.length; i++) {
+            const { name, description } = jobs[i];
+            if (name === job.name && description === job.description) {
+              jobs.splice(i, 1);
+            }
+            this.setState({ jobs });
+          }
           try {
             await fetch(`${API.endpoint}/jobs/${job.jobId}`, {
               method: "DELETE"
@@ -61,7 +83,6 @@ export default class EmployerJobScreen extends Component {
           } catch (err) {
             console.log(err);
           }
-          await this.componentDidMount();
         }
       }
     ];
@@ -79,9 +100,14 @@ export default class EmployerJobScreen extends Component {
     );
   };
 
-  onCancel = () => {
-    this.setState({ editMode: false });
+  emptyList = () => {
+    return <Text style={styles.emptyList}>The list is empty</Text>;
+  };
+
+  onCancelAdd = () => {
     this._panelJobs.hide();
+    this._name.clear();
+    this._description.clear();
   };
 
   onDoneAdd = async () => {
@@ -93,16 +119,23 @@ export default class EmployerJobScreen extends Component {
       companyId: 2
     };
 
-    try {
-      await fetch(`${API.endpoint}/jobs`, {
-        method: "POST",
-        body: JSON.stringify(body)
-      });
-      await this.componentDidMount();
-    } catch (err) {
-      console.log(err);
+    if (jobName && jobDescription) {
+      try {
+        await fetch(`${API.endpoint}/jobs`, {
+          method: "POST",
+          body: JSON.stringify(body)
+        });
+        const apiCallJobs = await fetch(`${API.endpoint}/companies/2/jobs`);
+        const jobs = await apiCallJobs.json();
+        this.setState({ jobs });
+      } catch (err) {
+        console.log(err);
+      }
     }
+
     this._panelJobs.hide();
+    this._name.clear();
+    this._description.clear();
   };
 
   onDoneEdit = () => {
@@ -134,11 +167,11 @@ export default class EmployerJobScreen extends Component {
       return (
         <View style={styles.container}>
           <Header
-            backgroundColor="rgb(255, 255, 255)"
+            backgroundColor="rgba(182, 191, 0, 0.82)"
             leftComponent={
               <TouchableHighlight
-                underlayColor="rgba(255, 255, 255, 0.92)"
-                onPress={() => this.onCancel()}
+                underlayColor="rgba(182, 191, 0, 0.82)"
+                onPress={() => this.onCancelAdd()}
               >
                 <Text style={styles.headerText}>Cancel</Text>
               </TouchableHighlight>
@@ -154,11 +187,13 @@ export default class EmployerJobScreen extends Component {
           />
           <SafeAreaView style={styles.textInputLayout}>
             <TextInput
+              ref={input => (this._name = input)}
               style={styles.textInput}
               placeholder="Name"
               onChangeText={jobName => this.setState({ jobName })}
             />
             <TextInput
+              ref={input => (this._description = input)}
               style={styles.textInput}
               placeholder="Description"
               onChangeText={jobDescription => this.setState({ jobDescription })}
@@ -170,18 +205,10 @@ export default class EmployerJobScreen extends Component {
       return (
         <View style={styles.container}>
           <Header
-            backgroundColor="rgb(255, 255, 255)"
-            leftComponent={
-              <TouchableHighlight
-                underlayColor="rgba(255, 255, 255, 0.92)"
-                onPress={() => this.onCancel()}
-              >
-                <Text style={styles.headerText}>Cancel</Text>
-              </TouchableHighlight>
-            }
+            backgroundColor="rgba(182, 191, 0, 0.82)"
             rightComponent={
               <TouchableHighlight
-                underlayColor="rgba(255, 255, 255, 0.92)"
+                underlayColor="rgba(182, 191, 0, 0.82)"
                 onPress={() => this.onDoneEdit()}
               >
                 <Text style={styles.headerText}>Done</Text>
@@ -193,6 +220,7 @@ export default class EmployerJobScreen extends Component {
               data={jobs}
               renderItem={({ item }) => this.ItemEdit(item)}
               keyExtractor={item => item.jobId.toString()}
+              ListEmptyComponent={this.emptyList()}
             />
           </SafeAreaView>
         </View>
@@ -203,6 +231,10 @@ export default class EmployerJobScreen extends Component {
   render() {
     const { jobs } = this.state;
 
+    if (!this._isMounted) {
+      return null;
+    }
+
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.safeAreaView}>
@@ -210,6 +242,7 @@ export default class EmployerJobScreen extends Component {
             data={jobs}
             renderItem={({ item }) => this.Item(item.name)}
             keyExtractor={item => item.jobId.toString()}
+            ListEmptyComponent={this.emptyList()}
           />
         </SafeAreaView>
         <SlidingUpPanel
@@ -219,7 +252,7 @@ export default class EmployerJobScreen extends Component {
             bottom: 0
           }}
           onBottomReached={() => {
-            this.setState({ editMode: false });
+            this.setState({ editMode: false, jobName: "", jobDescription: "" });
           }}
         >
           {this.renderContent()}
@@ -294,5 +327,14 @@ const styles = StyleSheet.create({
     letterSpacing: -0.41,
     color: "#007AFF",
     paddingRight: 10
+  },
+  emptyList: {
+    textAlign: "center",
+    marginTop: "50%",
+    color: "rgba(0,0,0,0.6)"
+  },
+  icon: {
+    fontSize: 20,
+    color: "#C7C7CC"
   }
 });
