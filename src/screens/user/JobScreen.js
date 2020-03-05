@@ -21,9 +21,10 @@ export default class JobScreen extends React.Component {
 
     state = {
         jobs: [],
-        shiftStarted: false
+        shiftStarted: false,
+        shiftEnded: null,
     }
-
+    
     async componentDidMount() {
         try {
             const userCode = await AsyncStorage.getItem('userCode');
@@ -32,6 +33,15 @@ export default class JobScreen extends React.Component {
             this.setState({
                 jobs: jobs.filter(job => job.companyId === this.props.navigation.getParam('companyId'))
             });
+            var allJobs = JSON.stringify(this.state.jobs);
+            await AsyncStorage.setItem('shift', allJobs);
+            console.log(allJobs);
+            var testingJobs = await AsyncStorage.getItem('shift');
+            
+            for(let job of this.state.jobs) {
+                var jobTitle = job.name;
+                await AsyncStorage.setItem(jobTitle, 'Not Completed');
+            }
         }
         catch (err) {
             console.log(err);
@@ -48,6 +58,24 @@ export default class JobScreen extends React.Component {
             this.props.navigation.navigate('Carousel', { title: jobName, jobId: jobId })
         }
     };
+
+    async _onPressShiftButton(shiftStarted) {
+        console.log(shiftStarted);
+        this.setState({shiftStarted: !shiftStarted});
+        console.log(this.state.shiftStarted);
+        if (shiftStarted == true) {
+            console.log("I have started my shift");
+            shiftEnded = true;
+            console.log(shiftEnded);
+        }
+
+        if (shiftStarted == true && shiftEnded == true) {
+            console.log("I have ended my shift");
+            var test = await AsyncStorage.getItem('shift');
+            console.log(test + "getting stuff");
+            this.props.navigation.navigate('ShiftSummary');
+        } 
+    }
 
     renderItem(item) {
         return (
@@ -83,9 +111,7 @@ export default class JobScreen extends React.Component {
                     title={shiftStarted ? 'End Shift' : 'Start Shift'}
                     type='solid'
                     color='#FFFFFF'
-                    onPress={() => { 
-                        this.setState({shiftStarted: !shiftStarted});
-                    }}
+                    onPress={() =>  this._onPressShiftButton(shiftStarted)}
                 />
             </View>
             <Footer 

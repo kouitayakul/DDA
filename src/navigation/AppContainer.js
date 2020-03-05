@@ -24,6 +24,7 @@ import EmpUserScreen from "../screens/employer/EmpUserScreen";
 import React, { Component } from 'react';
 import { Icon } from 'react-native-elements';
 import DrawerActions from 'react-navigation-drawer';
+import ShiftSummaryScreen from '../screens/user/ShiftSummaryScreen';
 
 
 const AuthNavigation = createSwitchNavigator(
@@ -102,6 +103,7 @@ const UserNavigation = createStackNavigator({
 },
   Carousel: {screen: CarouselScreen},
   JobComplete: {screen: JobComplete},
+  ShiftSummary: {screen: ShiftSummaryScreen},
   
   initialRouteName: 'Home'
 });

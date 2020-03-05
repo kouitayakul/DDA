@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, Text, StyleSheet, SafeAreaView, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Dimensions, Image, Text, StyleSheet, SafeAreaView, View, ScrollView, TouchableOpacity, AsyncStorage } from 'react-native';
 // import Carousel from '../../components/Carousel';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import moment from "moment";
@@ -99,6 +99,32 @@ export default class CarouselScreen extends React.Component {
     start = moment();
   }
 
+  onPressButton = async (subjobs) => { 
+    console.log("got here!!!");
+    const carousel = this.refs.carousel;
+    console.log("now :O");
+    if (carousel.currentIndex == subjobs.length-1) {
+      console.log("i am in here");
+      console.log(timeArray);
+      var jobName = this.props.navigation.getParam('title');
+      try {
+        var newTimeArray = JSON.stringify(timeArray);
+        var value = await AsyncStorage.getItem(jobName);
+        if (value != null) {
+          await AsyncStorage.setItem(jobName,newTimeArray);
+        } else {
+          console.log("Job does not")
+        }
+      } catch(err) {
+        console.log(err);
+      }
+      this.props.navigation.navigate('JobComplete', {title: this.props.navigation.getParam('title')});
+    } else {
+      console.log("i am in here :O");
+      carousel.snapToNext();
+    }
+  }
+
   render () {
     const { error, isLoaded, subjobs } = this.state;
 
@@ -121,15 +147,7 @@ export default class CarouselScreen extends React.Component {
           <View style={[styles.arrow, {right: 0, alignItems: 'flex-end'}]}>
             <TouchableOpacity
               style={{padding: 10}}
-              onPress={() => { 
-                const carousel = this.refs.carousel;
-                if (carousel.currentIndex == subjobs.length-1) {
-                  console.log(timeArray);
-                  this.props.navigation.navigate('JobComplete', {title: this.props.navigation.getParam('title')});
-                } else {
-                  carousel.snapToNext();
-                }
-              }}
+              onPress={ () => this.onPressButton(subjobs) }
             > 
               <Image
                 style={{width:10, height:36, opacity:0.4}}

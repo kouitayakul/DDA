@@ -28,6 +28,9 @@ export default class JobComplete extends React.Component {
   async componentDidMount() {
     try {
       const userCode = await AsyncStorage.getItem('userCode');
+      const shift = await AsyncStorage.getItem('shift');
+      console.log(shift + "i got here");
+
       const apiCallGetStars = await fetch(API.endpoint + `users/${userCode}/stars`);
       let stars = await apiCallGetStars.json();
       stars = stars[0].stars + 1;

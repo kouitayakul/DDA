@@ -13,7 +13,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Auth } from 'aws-amplify';
 import API from '../../constants/API'
-import ShiftSummary from '../../components/ShiftSummaryPopup';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
