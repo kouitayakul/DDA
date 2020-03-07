@@ -85,10 +85,6 @@ export default class EmpJobScreen extends React.Component {
       );
     }
 
-    function _onAdd() {
-      console.log("add");
-    }
-
     return (
       <View style={styles.container}>
         <SafeAreaView style={styles.safeAreaView}>
@@ -98,7 +94,7 @@ export default class EmpJobScreen extends React.Component {
             keyExtractor={item => item.jobId.toString()}
           />
         </SafeAreaView>
-        <Footer info={`${jobs.length} Jobs`} func={_onAdd} iconName={"plus"} />
+        <Footer info={`${jobs.length} Jobs`}/>
         <EmpAddJobs
           isVisible={isVisible}
           cancel={this._onCancel}
