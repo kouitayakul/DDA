@@ -2,7 +2,8 @@ import React from 'react';
 import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {Auth} from 'aws-amplify';
 import SignInForm from "../../components/auth/SignInForm";
-import RectangleButton from '../../components/RectangleButton'
+import RectangleButton from '../../components/RectangleButton';
+import API from '../../constants/API';
 
 export default class AdminLogin extends React.Component {
     constructor(props) {
@@ -16,9 +17,20 @@ export default class AdminLogin extends React.Component {
 
     handleSignIn = () => {
         Auth.signIn(this.state.email, this.state.password)
-            .then(user => {
-                this.props.navigation.navigate('Employees', {user});
-                console.log(user);
+            .then(async (user) => {
+                const group = user.signInUserSession.accessToken.payload['cognito:groups'];
+                if (group && group[0] === 'Admin') {
+                    this.props.navigation.navigate('Admin', {user});
+                } else {
+                    try {
+                        const employer = user.attributes;
+                        const apiGetCompany = await fetch(`${API.endpoint}/companies/${employer['profile']}`);
+                        const company = await apiGetCompany.json();
+                        this.props.navigation.navigate('EmployerHome', { employer, company: company[0] });
+                    } catch(err) {
+                        console.log(err);
+                    }
+                }
             })
             .catch(err => {
                 Alert.alert(
@@ -28,8 +40,6 @@ export default class AdminLogin extends React.Component {
                     {cancelable: false}
                 );
             });
-
-        
     };
 
     handleFormChange(field, value) {

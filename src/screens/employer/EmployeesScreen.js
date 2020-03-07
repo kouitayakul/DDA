@@ -17,8 +17,8 @@ export default class EmployeesScreen extends React.Component {
 
     async componentDidMount() {
         try {
-            //using 1 for now
-            const apiCallUsers = await fetch(`${API.endpoint}/companies/1/users`);
+            const companyId = this.props.navigation.getParam('companyId');
+            const apiCallUsers = await fetch(`${API.endpoint}/companies/${companyId}/users`);
             const users = await apiCallUsers.json();
             this.setState({users});
         }
@@ -30,17 +30,16 @@ export default class EmployeesScreen extends React.Component {
     render() {
         const {users} = this.state;
         const {navigate} = this.props.navigation;
-        console.log(this.props.navigation.state.params.user);
+        const {navigation} = this.props;
 
         if(!users.length) {
             return null;
         }
 
-        
         function _onPressButton(user) {
             navigate('Employee', {
-                code: user.code,
-                name: user.name
+                companyId: navigation.getParam('companyId'),
+                user
             });
         };
 

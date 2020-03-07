@@ -1,13 +1,79 @@
 import React from "react";
 import { Text, StyleSheet, View, SafeAreaView, FlatList } from "react-native";
 import Footer from "../../components/Footer";
+import EmpAddJobs from "../../components/modals/EmpAddJobs";
+import API from "../../constants/API";
+import { TouchableHighlight } from "react-native-gesture-handler";
 
 export default class EmpJobScreen extends React.Component {
-  render() {
-    const { navigation } = this.props;
-    const jobs = navigation.getParam("jobs");
+  _isMounted = false;
+  state = {
+    isVisible: false,
+    jobs: []
+  };
 
-    if (!jobs.length) {
+  async componentDidMount() {
+    this._isMounted = true;
+    this.props.navigation.setParams({ onEdit: this.onEdit });
+    const { navigation } = this.props;
+    const code = navigation.getParam('code');
+    const companyId = navigation.getParam('companyId');
+    try {
+      const apiCallUserJobs = await fetch(`${API.endpoint}/companies/${companyId}/users/${code}/jobs`);
+      const jobs = await apiCallUserJobs.json();
+      if (this._isMounted) this.setState({ jobs });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  componentWillMount() {
+    this._isMounted = false;
+  }
+
+  _onAdd = () => {
+    this.setState({ isVisible: true });
+  };
+
+  _onCancel = () => {
+    this.setState({ isVisible: false });
+  };
+
+  _onDone = async () => {
+    const { navigation } = this.props;
+    const code = navigation.getParam("code");
+    const companyId = navigation.getParam('companyId');
+    try {
+      const apiCallUserJobs = await fetch(`${API.endpoint}/companies/${companyId}/users/${code}/jobs`);
+      const jobs = await apiCallUserJobs.json();
+      this.setState({ jobs, isVisible: false });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: () => (
+        <TouchableHighlight
+          underlayColor="rgba(255, 255, 255, 1);"
+          onPress={navigation.getParam("onEdit")}
+        >
+          <Text style={styles.edit}>Edit</Text>
+        </TouchableHighlight>
+      )
+    };
+  };
+
+  onEdit = () => {
+    this.setState({ isVisible: true });
+  };
+
+  render() {
+    const { isVisible, jobs } = this.state;
+    const { navigation } = this.props;
+
+    if (!this._isMounted) {
       return null;
     }
 
@@ -33,6 +99,14 @@ export default class EmpJobScreen extends React.Component {
           />
         </SafeAreaView>
         <Footer info={`${jobs.length} Jobs`} func={_onAdd} iconName={"plus"} />
+        <EmpAddJobs
+          isVisible={isVisible}
+          cancel={this._onCancel}
+          done={this._onDone}
+          code={navigation.getParam("code")}
+          companyId={navigation.getParam("companyId")}
+          existJobs={jobs}
+        />
       </View>
     );
   }
@@ -65,5 +139,24 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.41,
     color: "#000000"
+  },
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 22,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 4,
+    borderColor: "rgba(0, 0, 0, 0.1)"
+  },
+  edit: {
+    fontSize: 17,
+    lineHeight: 22,
+    letterSpacing: -0.41,
+    color: "#007AFF",
+    paddingRight: 10
   }
 });

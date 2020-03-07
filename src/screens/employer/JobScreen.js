@@ -33,8 +33,8 @@ export default class EmployerJobScreen extends Component {
   async componentDidMount() {
     try {
       this.props.navigation.setParams({ onEdit: this.onEdit });
-      //using company 2 for now
-      const apiCallJobs = await fetch(`${API.endpoint}/companies/2/jobs`);
+      const companyId = this.props.navigation.getParam('companyId');
+      const apiCallJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`);
       const jobs = await apiCallJobs.json();
       this._isMounted = true;
       this.setState({ jobs });
@@ -112,11 +112,11 @@ export default class EmployerJobScreen extends Component {
 
   onDoneAdd = async () => {
     const { jobName, jobDescription } = this.state;
+    const companyId = this.props.navigation.getParam('companyId');
     let body = {
       name: jobName,
       description: jobDescription,
-      // using company 2 for now
-      companyId: 2
+      companyId
     };
 
     if (jobName && jobDescription) {
@@ -125,7 +125,7 @@ export default class EmployerJobScreen extends Component {
           method: "POST",
           body: JSON.stringify(body)
         });
-        const apiCallJobs = await fetch(`${API.endpoint}/companies/2/jobs`);
+        const apiCallJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`);
         const jobs = await apiCallJobs.json();
         this.setState({ jobs });
       } catch (err) {
@@ -167,10 +167,10 @@ export default class EmployerJobScreen extends Component {
       return (
         <View style={styles.container}>
           <Header
-            backgroundColor="rgba(182, 191, 0, 0.82)"
+            backgroundColor="#FFF"
             leftComponent={
               <TouchableHighlight
-                underlayColor="rgba(182, 191, 0, 0.82)"
+                underlayColor="#FFF"
                 onPress={() => this.onCancelAdd()}
               >
                 <Text style={styles.headerText}>Cancel</Text>
@@ -205,10 +205,10 @@ export default class EmployerJobScreen extends Component {
       return (
         <View style={styles.container}>
           <Header
-            backgroundColor="rgba(182, 191, 0, 0.82)"
+            backgroundColor="#FFF"
             rightComponent={
               <TouchableHighlight
-                underlayColor="rgba(182, 191, 0, 0.82)"
+                underlayColor="#FFF"
                 onPress={() => this.onDoneEdit()}
               >
                 <Text style={styles.headerText}>Done</Text>
@@ -248,7 +248,7 @@ export default class EmployerJobScreen extends Component {
         <SlidingUpPanel
           ref={r => (this._panelJobs = r)}
           draggableRange={{
-            top: this.dim.height - 200,
+            top: this.dim.height - 100,
             bottom: 0
           }}
           onBottomReached={() => {
