@@ -69,7 +69,11 @@ export default class AllEmployers extends React.Component {
             }
             keyExtractor={item => item.companyId.toString()}
           />
-          <Footer info={`${companies.length} ${companies.length === 1 ? 'Employer' : 'Employers'}`} />
+          <Footer 
+            info={`${companies.length} ${companies.length === 1 ? 'Employer' : 'Employers'}`}
+            func={() => this.props.navigation.navigate('EmployerSignUp')}
+            iconName={"plus"}
+          />
         </SafeAreaView>
       );
     }

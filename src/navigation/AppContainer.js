@@ -7,7 +7,6 @@ import { createStackNavigator, HeaderBackButton } from 'react-navigation-stack';
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
 import ChangePassword from "../screens/auth/ChangePassword";
-import EmployerSignUp from "../screens/auth/EmployerSignUp";
 import ForgotPassVerification from "../screens/auth/ForgotPassVerification";
 import ForgotPassword from "../screens/auth/ForgotPassword";
 import UserLogin from "../screens/auth/UserLogin";
@@ -29,6 +28,7 @@ import EmployerJobsScreen from "../screens/employer/JobScreen";
 //Admin Screens
 import AdminHome from "../screens/admin/AdminHome";
 import AllEmployers from "../screens/admin/AllEmployers";
+import EmployerSignUp from "../screens/admin/EmployerSignUp";
 import AllUsers from "../screens/admin/AllUsers";
 import SingleUser from "../screens/admin/SingleUser";
 import SingleUserEmployers from "../screens/admin/SingleUserEmployers";
@@ -38,7 +38,6 @@ const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
     ChangePassword: { screen: ChangePassword },
-    EmployerSignUp: { screen: EmployerSignUp },
     ForgotPassVerification: { screen: ForgotPassVerification },
     ForgotPassword: { screen: ForgotPassword },
     UserLogin: { screen: UserLogin }
@@ -173,6 +172,7 @@ const AdminNavigation = createStackNavigator({
       headerBackTitle: `All Employers`
     }),
   },
+  EmployerSignUp: { screen: EmployerSignUp },
   AllUsers: {
     screen: AllUsers,
     navigationOptions: ({navigation}) => ({
