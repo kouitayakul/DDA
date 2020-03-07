@@ -11,7 +11,8 @@ export default class ShiftSummaryScreen extends React.Component {
         drawerLabel: () => null
     };
     state = {
-            allJobs: []
+            allJobs: [
+            ]
     }
 
     async componentDidMount() {
@@ -19,8 +20,19 @@ export default class ShiftSummaryScreen extends React.Component {
         try {
             const shift = await AsyncStorage.getItem('shift');
             console.log(shift + "i got here!!!");
-            const shiftJobs = JSON.parse(shift);
-            console.log(shiftJobs)
+            const temp = JSON.parse(shift);
+            let shiftJobs = [];
+            for(let singleJob of temp) {
+            console.log("Got here! LP");
+            let value = singleJob.name;    
+            let firstSubJobs = await AsyncStorage.getItem(value);
+            console.log(value);
+            let objToPush = {value: firstSubJobs};
+            console.log("Line 32 of Shift SUmmary:");
+            console.log(objToPush);
+            shiftJobs.push(objToPush);
+            }
+            console.log(shiftJobs + "I have received end of COmponent Moutn");
             this.setState({ allJobs: shiftJobs});
         } catch(err) {
             this.setState({error: err});
@@ -28,30 +40,31 @@ export default class ShiftSummaryScreen extends React.Component {
         
     };
     
-    userJobs = async () => {
-        console.log("I got here");
+    userJobs = () => {
+        console.log("I got here :O");
         console.log(this.state.allJobs);
         var returnObjs = [];
-        for (let job of this.state.allJobs) {
-            console.log(job);
-            value = job.name;
+        for (let [key, value] of Object.entries(this.state.allJobs)) {
+            console.log(key);
+            console.log("Line 49:" + value);
             returnObjs.push(
-                <Text style={styles.subtitle}> {value} </Text>
+                <Text style={styles.subtitle}> {key} </Text>
             )
-            console.log(value);
-            try {
-                let firstSubJobs = await AsyncStorage.getItem(value);
-                subjobs = JSON.parse(firstSubJobs);
+            if (value == "Not Completed") {
+                returnObjs.push(
+                    <Text style={styles.subtitle}> {value} </Text>
+                )
+            } else {
+                let subjobs = JSON.parse(JSON.stringify(value));
                 console.log(subjobs);
-                    for (let subjob of subjobs) {
-                            returnObjs.push(
-                                <Text style={{textAlign:"center"}}>{subjobs.name}: {subjob.took}</Text>
-                            )
-                        }
-            } catch (err) {
-                this.setState({error: err});
+                for (let subjob of subjobs) {
+                    returnObjs.push(
+                        <Text style={{textAlign:"center"}}>{subjobs.name}: {subjob.took}</Text>
+                        )
+                }
             }
         }
+        return returnObjs;
     }
 
     render() {
