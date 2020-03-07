@@ -12,7 +12,11 @@ import AppHeader from '../../components/Header';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { DrawerActions } from 'react-navigation-drawer';
 import { Auth } from 'aws-amplify';
+<<<<<<< HEAD
 import API from '../../constants/API'
+=======
+import ShiftSummary from '../../components/ShiftSummaryPopup';
+>>>>>>> d70f1c79468a4d3c09d0be60d0ff940af8c77162
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
