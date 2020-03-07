@@ -24,6 +24,7 @@ import EmployerHome from "../screens/employer/EmployerHome";
 import EmpJobScreen from "../screens/employer/EmpJobScreen";
 import EmployeesScreen from "../screens/employer/EmployeesScreen";
 import EmpUserScreen from "../screens/employer/EmpUserScreen";
+import EmployerJobsScreen from "../screens/employer/JobScreen";
 
 //Admin Screens
 import AdminHome from "../screens/admin/AdminHome";
@@ -125,8 +126,15 @@ const EmployersNavigation = createStackNavigator({
       headerBackTitle: `Cancel`
     })
   },
+  EmployerJobs: {
+    screen: EmployerJobsScreen,
+    navigationOptions: () => ({
+      title: `Jobs`,
+      headerBackTitle: `Jobs`
+    })
+  },
 
-  initialRouteName: "Employees"
+  initialRouteName: "EmployerHome"
 });
 
 const EmployerDrawerNavigation = createDrawerNavigator({
