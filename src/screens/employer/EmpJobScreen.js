@@ -94,7 +94,7 @@ export default class EmpJobScreen extends React.Component {
             keyExtractor={item => item.jobId.toString()}
           />
         </SafeAreaView>
-        <Footer info={`${jobs.length} Jobs`}/>
+        <Footer info={`${jobs.length} Jobs`} />
         <EmpAddJobs
           isVisible={isVisible}
           cancel={this._onCancel}
