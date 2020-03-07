@@ -92,17 +92,15 @@ export default class CarouselScreen extends React.Component {
     time = moment(start).fromNow(true);
     console.log(time);
     timeArray.push({
-      from: this.state.activeSlide,
-      to: slideIndex,
+      name: this.state.subjobs[slideIndex].title,
       took: time
     });
     start = moment();
+    console.log(this.state.subjobs[slideIndex].title);
   }
 
   onPressButton = async (subjobs) => { 
-    console.log("got here!!!");
     const carousel = this.refs.carousel;
-    console.log("now :O");
     if (carousel.currentIndex == subjobs.length-1) {
       console.log("i am in here");
       console.log(timeArray);
@@ -110,17 +108,18 @@ export default class CarouselScreen extends React.Component {
       try {
         var newTimeArray = JSON.stringify(timeArray);
         var value = await AsyncStorage.getItem(jobName);
+        console.log(value);
         if (value != null) {
           await AsyncStorage.setItem(jobName,newTimeArray);
         } else {
-          console.log("Job does not")
+          console.log("Job does not exist")
         }
       } catch(err) {
         console.log(err);
       }
+     
       this.props.navigation.navigate('JobComplete', {title: this.props.navigation.getParam('title')});
     } else {
-      console.log("i am in here :O");
       carousel.snapToNext();
     }
   }

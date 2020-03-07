@@ -36,7 +36,6 @@ export default class JobScreen extends React.Component {
             var allJobs = JSON.stringify(this.state.jobs);
             await AsyncStorage.setItem('shift', allJobs);
             console.log(allJobs);
-            var testingJobs = await AsyncStorage.getItem('shift');
             
             for(let job of this.state.jobs) {
                 var jobTitle = job.name;

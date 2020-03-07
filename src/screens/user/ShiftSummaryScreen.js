@@ -20,6 +20,7 @@ export default class ShiftSummaryScreen extends React.Component {
             const shift = await AsyncStorage.getItem('shift');
             console.log(shift + "i got here!!!");
             const shiftJobs = JSON.parse(shift);
+            console.log(shiftJobs)
             this.setState({ allJobs: shiftJobs});
         } catch(err) {
             this.setState({error: err});
@@ -30,25 +31,27 @@ export default class ShiftSummaryScreen extends React.Component {
     userJobs = async () => {
         console.log("I got here");
         console.log(this.state.allJobs);
-        let returnObjs = [];
+        var returnObjs = [];
         for (let job of this.state.allJobs) {
-            console.log("woah doggy");
             console.log(job);
             value = job.name;
             returnObjs.push(
                 <Text style={styles.subtitle}> {value} </Text>
             )
-            let subjobs = await AsyncStorage.getItem(value);
-            console.log(subjobs);
-            subjobs.forEach(element => {
-                for (let [key2, value2] of Object.entries(element)) {
-                        returnObjs.push(
-                            <Text style={{textAlign:"center"}}>{key2}: {value2}</Text>
-                        )
-                    }
-            });
+            console.log(value);
+            try {
+                let firstSubJobs = await AsyncStorage.getItem(value);
+                subjobs = JSON.parse(firstSubJobs);
+                console.log(subjobs);
+                    for (let subjob of subjobs) {
+                            returnObjs.push(
+                                <Text style={{textAlign:"center"}}>{subjobs.name}: {subjob.took}</Text>
+                            )
+                        }
+            } catch (err) {
+                this.setState({error: err});
+            }
         }
-        return returnObjs;
     }
 
     render() {
