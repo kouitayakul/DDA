@@ -20,26 +20,27 @@ export default class ShiftSummaryScreen extends React.Component {
             const shift = await AsyncStorage.getItem('shift');
             console.log(shift + "i got here!!!");
             const shiftJobs = JSON.parse(shift);
-            this.setState({ allJobs: shift});
+            this.setState({ allJobs: shiftJobs});
         } catch(err) {
             this.setState({error: err});
         }
         
     };
     
-    userJobs = () => {
+    userJobs = async () => {
         console.log("I got here");
         console.log(this.state.allJobs);
         let returnObjs = [];
         for (let job of this.state.allJobs) {
             console.log("woah doggy");
-            console.log(job.name);
+            console.log(job);
             value = job.name;
             returnObjs.push(
                 <Text style={styles.subtitle}> {value} </Text>
             )
-            console.log("I am moving up bby");
-            value.forEach(element => {
+            let subjobs = await AsyncStorage.getItem(value);
+            console.log(subjobs);
+            subjobs.forEach(element => {
                 for (let [key2, value2] of Object.entries(element)) {
                         returnObjs.push(
                             <Text style={{textAlign:"center"}}>{key2}: {value2}</Text>
