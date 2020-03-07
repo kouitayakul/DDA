@@ -25,7 +25,7 @@ export default class EmployerHome extends React.Component {
     const { navigate } = this.props.navigation; 
       
     function _onPressJobs() {
-      navigate('EmployerJobs', { companyId: employer['profile'] });
+      navigate('EmployerJobs', { companyId: company.companyId });
     };
     
     function _onPressEmployees() {
