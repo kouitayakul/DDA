@@ -105,25 +105,20 @@ export default class CarouselScreen extends React.Component {
 
   startTimer = slideIndex => {
     time = moment(start).fromNow(true);
-    console.log(time);
     timeArray.push({
       name: this.state.subjobs[slideIndex].title,
       took: time
     });
     start = moment();
-    console.log(this.state.subjobs[slideIndex].title);
   };
 
   onPressButton = async subjobs => {
     const carousel = this.refs.carousel;
     if (carousel.currentIndex == subjobs.length - 1) {
-      console.log("i am in here");
-      console.log(timeArray);
       var jobName = this.props.navigation.getParam("title");
       try {
         var newTimeArray = JSON.stringify(timeArray);
         var value = await AsyncStorage.getItem(jobName);
-        console.log(value);
         if (value != null) {
           await AsyncStorage.setItem(jobName, newTimeArray);
         } else {

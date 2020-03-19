@@ -39,7 +39,6 @@ export default class JobScreen extends React.Component {
       });
       var allJobs = JSON.stringify(this.state.jobs);
       await AsyncStorage.setItem("shift", allJobs);
-      console.log(allJobs);
 
       for (let job of this.state.jobs) {
         var jobTitle = job.name;
@@ -62,19 +61,13 @@ export default class JobScreen extends React.Component {
   }
 
   async _onPressShiftButton(shiftStarted) {
-    console.log(shiftStarted);
     this.setState({ shiftStarted: !shiftStarted });
-    console.log(this.state.shiftStarted);
     if (shiftStarted == true) {
-      console.log("I have started my shift");
       shiftEnded = true;
-      console.log(shiftEnded);
     }
 
     if (shiftStarted == true && shiftEnded == true) {
-      console.log("I have ended my shift");
       var test = await AsyncStorage.getItem("shift");
-      console.log(test + "getting stuff");
       this.props.navigation.navigate("ShiftSummary");
     }
   }

@@ -19,9 +19,9 @@ export default class ShiftSummaryScreen extends React.Component {
       const temp = JSON.parse(shift);
       let shiftJobs = [];
       for (let singleJob of temp) {
-        let value = singleJob.name;
-        let firstSubJobs = await AsyncStorage.getItem(value);
-        let objToPush = { value: firstSubJobs };
+        let firstJob = singleJob.name;
+        let firstSubJobs = await AsyncStorage.getItem(firstJob);
+        let objToPush = { [firstJob]: firstSubJobs };
         shiftJobs.push(objToPush);
       }
       this.setState({ allJobs: shiftJobs });
@@ -36,11 +36,10 @@ export default class ShiftSummaryScreen extends React.Component {
 
     for (i = 0; i < allJobs.length; i++) {
       for (let [key, value] of Object.entries(allJobs[i])) {
-        returnObjs.push(<Text style={styles.subtitle}> {key} </Text>);
-
         if (value == "Not Completed") {
-          returnObjs.push(<Text style={styles.subtitle}> {value} </Text>);
+          returnObjs.push(<Text style={styles.subtitle}> {key}: {value} </Text>);
         } else {
+        returnObjs.push(<Text style={styles.subtitle}> {key} </Text>);
           let subjobs = JSON.parse(value);
           for (let subjob of subjobs) {
             returnObjs.push(
@@ -56,7 +55,6 @@ export default class ShiftSummaryScreen extends React.Component {
   };
 
   render() {
-    let completedJobs = this.userJobs;
     return (
       <View style={{ flex: 1, flexDirection: "column", alignItems: "center" }}>
         <Text style={styles.title}> Shift Summary</Text>
