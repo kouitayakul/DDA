@@ -5,71 +5,63 @@ import PropTypes from 'prop-types'
 import RectangleButton from "../RectangleButton";
 
 const SignUpForm = (props) => {
-    return (
-        <View>
-            <View style={styles.container}>
-            <View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('name', value)}
-                  placeholder="First & Last Name"
-                  style={styles.input}
-                />
-              </View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('company', value)}
-                  placeholder="Company"
-                  style={styles.input}
-                />
-              </View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('email', value)}
-                  placeholder="Email"
-                  style={styles.input}
-                />
-              </View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('password', value)}
-                  placeholder="Password"
-                  style={styles.input}
-                  secureTextEntry
-                />
-              </View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('confirmPassword', value)}
-                  placeholder="Confirm password"
-                  style={styles.input}
-                  secureTextEntry
-                />
-              </View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('phone', value)}
-                  placeholder="Phone Number"
-                  style={styles.input}
-                />
-              </View>
-              <View>
-                <TextInput
-                  onChangeText={value => props.onFormChange('address', value)}
-                  placeholder="Address"
-                  style={styles.input}
-                />
-              </View>
-              </View>
-              <View style={styles.submit}>
-                <RectangleButton
-                  title="Submit"
-                  onPress={props.onSubmit}
-                  style={styles.submit}
-                  backgroundColor= '#F7971D'
-                />
-              </View>
-        </View>
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('name', value)}
+        placeholder="First & Last Name"
+        placeholderTextColor="#CCC"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('company', value)}
+        placeholder="Company"
+        placeholderTextColor="#CCC"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('email', value)}
+        autoCapitalize="none"
+        placeholder="Email"
+        placeholderTextColor="#CCC"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('password', value)}
+        autoCapitalize="none"
+        placeholder="Password"
+        placeholderTextColor="#CCC"
+        secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('confirmPassword', value)}
+        autoCapitalize="none"
+        placeholder="Confirm password"
+        placeholderTextColor="#CCC"
+        secureTextEntry
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('phone', value)}
+        autoCapitalize="none"
+        placeholder="Phone Number"
+        placeholderTextColor="#CCC"
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={value => props.onFormChange('address', value)}
+        autoCapitalize="none"
+        placeholder="Address"
+        placeholderTextColor="#CCC"
+      />
+      <RectangleButton
+        title="Submit"
+        onPress={props.onSubmit}
+        style={styles.submit}
+        backgroundColor= '#007AFF'
+      />
     </View>
   );
 };
@@ -82,22 +74,17 @@ SignUpForm.propTypes = {
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'space-around',
-        flexDirection: 'column',
-    },
-    input: {
-        width: 300,
-        height: 50,
-        fontSize: 18,
-        textAlign: 'left',
-        borderBottomWidth: 1,
-        borderBottomColor: 'gray',
-        marginBottom: 18
-    },
-    submit: {
-        alignItems: 'center',
-        marginBottom: 50
-    }
+  container: {
+    justifyContent: 'space-around',
+    flexDirection: 'column',
+    paddingHorizontal: 16,
+    alignSelf: 'stretch'
+  },
+  input: {
+    fontSize: 18,
+    textAlign: 'left',
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCC',
+    marginBottom: 30
+  },
 });
