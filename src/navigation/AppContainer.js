@@ -106,9 +106,9 @@ const EmployersNavigation = createStackNavigator({
   EmployerHome: {
     screen: EmployerHome,
     navigationOptions: ({ navigation }) => ({
-      headerLeft: (<Icon name='menu' onPress={() => navigation.openDrawer()} />),
-      title: navigation.state.params.company.name,
+      headerLeft: <Icon name="menu" onPress={() => navigation.openDrawer()} />,
       headerBackTitle: navigation.state.params.company.name,
+      title: navigation.state.params.company.name,
     })
   },
   Employees: {
