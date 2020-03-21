@@ -106,9 +106,9 @@ const EmployersNavigation = createStackNavigator({
   EmployerHome: {
     screen: EmployerHome,
     navigationOptions: ({navigation}) => ({
-      headerLeft: navigation.getParam('employer') ? 
-        (<Icon name='menu' onPress={() => navigation.openDrawer()} />) :
-        (<HeaderBackButton onPress={() => navigation.navigate('AllEmployers')} title='Back' backTitleVisible={true} />),
+      title: navigation.state.params.company.name,
+      headerLeft: (<Icon name='menu' onPress={() => navigation.openDrawer()} />),
+      headerBackTitle: navigation.state.params.company.name,
     })
   },
   Employees: {
@@ -178,7 +178,6 @@ const AdminNavigation = createStackNavigator({
     navigationOptions: ({navigation}) => ({
       title: `Admin`,
       headerLeft: <Icon name="menu" onPress={() => navigation.openDrawer()} />,
-      headerBackTitle: `Admin`
     }),
   },
   AllEmployers: {
@@ -189,6 +188,55 @@ const AdminNavigation = createStackNavigator({
     }),
   },
   EmployerSignUp: { screen: EmployerSignUp },
+  EmployerHome: {
+    screen: EmployerHome,
+    navigationOptions: ({navigation}) => ({
+      title: navigation.state.params.company.name,
+      headerBackTitle: navigation.state.params.company.name
+    })
+  },
+  Employees: {
+    screen: EmployeesScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `Employees`,
+      headerBackTitle: `Employees`
+    })
+  },
+  Employee: {
+    screen: EmpUserScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.name,
+      headerBackTitle: navigation.state.params.name
+    })
+  },
+  Jobs: {
+    screen: EmpJobScreen,
+    navigationOptions: () => ({
+      title: `Jobs`,
+      headerBackTitle: `Cancel`
+    })
+  },
+  EmployerJobs: {
+    screen: EmployerJobScreen,
+    navigationOptions: () => ({
+      title: `Jobs`,
+      headerBackTitle: `Jobs`
+    })
+  },
+  EmployerSubJobs: {
+    screen: EmployerSubJobScreen,
+    navigationOptions: () => ({
+      title: `SubJobs`,
+      headerBackTitle: `SubJobs`
+    })
+  },
+  EmployerSubJobsDetail: {
+    screen: EmployerSubJobDetailScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.title,
+      headerBackTitle: `SubJobs`
+    })
+  },
   AllUsers: {
     screen: AllUsers,
     navigationOptions: ({navigation}) => ({

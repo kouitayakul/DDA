@@ -12,12 +12,6 @@ import API from '../../constants/API';
 import { HeaderBackButton } from 'react-navigation-stack';
 
 export default class EmployerHome extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('company').name,
-      headerBackTitle: navigation.getParam('company').name,
-    };
-  };
 
   render() {
     const employer = this.props.navigation.getParam('employer');
