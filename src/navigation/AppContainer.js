@@ -2,7 +2,7 @@ import React from "react";
 import { Icon } from "react-native-elements";
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
-import { createStackNavigator, HeaderBackButton } from "react-navigation-stack";
+import { createStackNavigator } from "react-navigation-stack";
 
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
@@ -105,9 +105,9 @@ const UserDrawerNavigation = createDrawerNavigator({
 const EmployersNavigation = createStackNavigator({
   EmployerHome: {
     screen: EmployerHome,
-    navigationOptions: ({navigation}) => ({
-      title: navigation.state.params.company.name,
+    navigationOptions: ({ navigation }) => ({
       headerLeft: (<Icon name='menu' onPress={() => navigation.openDrawer()} />),
+      title: navigation.state.params.company.name,
       headerBackTitle: navigation.state.params.company.name,
     })
   },
@@ -175,14 +175,14 @@ const EmployerDrawerNavigation = createDrawerNavigator({
 const AdminNavigation = createStackNavigator({
   AdminHome: {
     screen: AdminHome,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: `Admin`,
       headerLeft: <Icon name="menu" onPress={() => navigation.openDrawer()} />,
     }),
   },
   AllEmployers: {
     screen: AllEmployers,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: `All Employers`,
       headerBackTitle: `All Employers`
     }),
@@ -190,7 +190,7 @@ const AdminNavigation = createStackNavigator({
   EmployerSignUp: { screen: EmployerSignUp },
   EmployerHome: {
     screen: EmployerHome,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: navigation.state.params.company.name,
       headerBackTitle: navigation.state.params.company.name
     })
@@ -239,7 +239,7 @@ const AdminNavigation = createStackNavigator({
   },
   AllUsers: {
     screen: AllUsers,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: `All Users`,
       headerBackTitle: `All Users`
     }),
@@ -249,14 +249,14 @@ const AdminNavigation = createStackNavigator({
   },
   SingleUserEmployers: {
     screen: SingleUserEmployers,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: `Employers`,
       headerBackTitle: `Employers`
     }),
   },
   SingleUserSingleEmployerJobs: {
     screen: SingleUserSingleEmployerJobs,
-    navigationOptions: ({navigation}) => ({
+    navigationOptions: ({ navigation }) => ({
       title: `Jobs`,
     }),
   }

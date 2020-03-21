@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
-import { HeaderBackButton } from 'react-navigation-stack';
 
 export default class EmployerHome extends React.Component {
 
@@ -49,7 +48,7 @@ export default class EmployerHome extends React.Component {
       <View style={styles.container}>
         <SafeAreaView style={styles.safeAreaView}>
           <FlatList
-            data={[{employer: employer, company: company}]}
+            data={[{employer, company}]}
             renderItem={({item}) => 
               <View>
                 <Employer info={item} items={{name: 'employer.name', company: 'company.name', email: 'employer.email', phone: 'employer.phone_number', address: 'company.address'}} />
