@@ -18,6 +18,7 @@ import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
 import RewardsScreen from "../screens/user/RewardsScreen";
+import ShiftSummaryScreen from "../screens/user/ShiftSummaryScreen";
 
 //Employer Screens
 import EmployerHome from "../screens/employer/EmployerHome";
@@ -63,6 +64,7 @@ const UserNavigation = createStackNavigator({
   },
   Carousel: { screen: CarouselScreen },
   JobComplete: { screen: JobComplete },
+  ShiftSummary: { screen: ShiftSummaryScreen },
 
   initialRouteName: "Home"
 });
