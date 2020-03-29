@@ -1,9 +1,12 @@
-import React from "react";
-import { StyleSheet } from "react-native";
+import React, { createContext } from "react";
+import qs from 'qs';
+import { StyleSheet, Linking } from "react-native";
 import { Text, View, Dimensions, AsyncStorage } from "react-native";
 import RectangleButton from "../../components/RectangleButton";
 
 const WINDOW_HEIGHT = Dimensions.get("window").height;
+
+let emailBody = [];
 
 export default class ShiftSummaryScreen extends React.Component {
   static navigationOptions = {
@@ -30,6 +33,33 @@ export default class ShiftSummaryScreen extends React.Component {
     }
   }
 
+  async sendEmail(to, subject, body, options = {}) {
+    const {cc, bcc} = options;
+    let url = `mailto:${to}`;
+
+    const query = qs.stringify({
+      subject: subject,
+      body: body,
+      cc: cc,
+      bcc: bcc
+    });
+
+    if (query.length) {
+      url += `?${query}`;
+    }
+
+    // check if we can use this link
+    const canOpen = await Linking.canOpenURL(url);
+
+    if (!canOpen) {
+        throw new Error('Provided URL can not be handled');
+    }
+    
+    return Linking.openURL(url);
+
+  }
+
+  
   userJobs = () => {
     const { allJobs } = this.state;
     let returnObjs = [];
@@ -38,8 +68,10 @@ export default class ShiftSummaryScreen extends React.Component {
       for (let [key, value] of Object.entries(allJobs[i])) {
         if (value == "Not Completed") {
           returnObjs.push(<Text style={styles.subtitle}> {key}: {value} </Text>);
+          emailBody.push(`${key} : ${value}`);
         } else {
         returnObjs.push(<Text style={styles.subtitle}> {key} </Text>);
+        emailBody.push(`${key}`);
           let subjobs = JSON.parse(value);
           for (let subjob of subjobs) {
             returnObjs.push(
@@ -47,6 +79,7 @@ export default class ShiftSummaryScreen extends React.Component {
                 {subjob.name}: {subjob.took}
               </Text>
             );
+            emailBody.push(`${subjob.name}: ${subjob.took}`);
           }
         }
       }
@@ -60,7 +93,10 @@ export default class ShiftSummaryScreen extends React.Component {
         <Text style={styles.title}> Shift Summary</Text>
         <View style={{ flex: 4 }}>{this.userJobs()}</View>
         <View style={{ flex: 2 }}>
-          <RectangleButton title="Send email and finish" />
+          <RectangleButton title="Send email and finish" onPress={() => this.sendEmail('nandini@codethechange.ca', 'Shift Summary', JSON.stringify(emailBody)).then(
+            this.props.navigation.navigate("AssignedJobs")
+          )
+        }/>
         </View>
       </View>
     );
