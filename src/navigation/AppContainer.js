@@ -7,7 +7,6 @@ import { createStackNavigator } from "react-navigation-stack";
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
 import ChangePassword from "../screens/auth/ChangePassword";
-import EmployerSignUp from "../screens/auth/EmployerSignUp";
 import ForgotPassVerification from "../screens/auth/ForgotPassVerification";
 import ForgotPassword from "../screens/auth/ForgotPassword";
 import UserLogin from "../screens/auth/UserLogin";
@@ -30,12 +29,17 @@ import EmployerSubJobDetailScreen from "../screens/employer/SubJobDetailScreen";
 
 //Admin Screens
 import AdminHome from "../screens/admin/AdminHome";
+import AllEmployers from "../screens/admin/AllEmployers";
+import EmployerSignUp from "../screens/admin/EmployerSignUp";
+import AllUsers from "../screens/admin/AllUsers";
+import SingleUser from "../screens/admin/SingleUser";
+import SingleUserEmployers from "../screens/admin/SingleUserEmployers";
+import SingleUserSingleEmployerJobs from "../screens/admin/SingleUserSingleEmployerJobs";
 
 const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
     ChangePassword: { screen: ChangePassword },
-    EmployerSignUp: { screen: EmployerSignUp },
     ForgotPassVerification: { screen: ForgotPassVerification },
     ForgotPassword: { screen: ForgotPassword },
     UserLogin: { screen: UserLogin }
@@ -91,7 +95,7 @@ const UserDrawerNavigation = createDrawerNavigator({
     })
   },
   Logout: {
-    screen: AuthNavigation,
+    screen: UserLogin,
     navigationOptions: () => ({
       drawerLabel: `Logout`
     })
@@ -170,12 +174,91 @@ const EmployerDrawerNavigation = createDrawerNavigator({
 
 const AdminNavigation = createStackNavigator({
   AdminHome: {
-    screen: EmployerSignUp,
+    screen: AdminHome,
     navigationOptions: ({ navigation }) => ({
       title: `Admin`,
       headerLeft: <Icon name="menu" onPress={() => navigation.openDrawer()} />,
-      headerBackTitle: `Admin`
+    }),
+  },
+  AllEmployers: {
+    screen: AllEmployers,
+    navigationOptions: ({ navigation }) => ({
+      title: `All Employers`,
+      headerBackTitle: `All Employers`
+    }),
+  },
+  EmployerSignUp: { screen: EmployerSignUp },
+  EmployerHome: {
+    screen: EmployerHome,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.company.name,
+      headerBackTitle: navigation.state.params.company.name
     })
+  },
+  Employees: {
+    screen: EmployeesScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: `Employees`,
+      headerBackTitle: `Employees`
+    })
+  },
+  Employee: {
+    screen: EmpUserScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.name,
+      headerBackTitle: navigation.state.params.name
+    })
+  },
+  Jobs: {
+    screen: EmpJobScreen,
+    navigationOptions: () => ({
+      title: `Jobs`,
+      headerBackTitle: `Cancel`
+    })
+  },
+  EmployerJobs: {
+    screen: EmployerJobScreen,
+    navigationOptions: () => ({
+      title: `Jobs`,
+      headerBackTitle: `Jobs`
+    })
+  },
+  EmployerSubJobs: {
+    screen: EmployerSubJobScreen,
+    navigationOptions: () => ({
+      title: `SubJobs`,
+      headerBackTitle: `SubJobs`
+    })
+  },
+  EmployerSubJobsDetail: {
+    screen: EmployerSubJobDetailScreen,
+    navigationOptions: ({ navigation }) => ({
+      title: navigation.state.params.title,
+      headerBackTitle: `SubJobs`
+    })
+  },
+  AllUsers: {
+    screen: AllUsers,
+    navigationOptions: ({ navigation }) => ({
+      title: `All Users`,
+      headerBackTitle: `All Users`
+    }),
+  },
+  SingleUser: {
+    screen: SingleUser,
+  },
+  SingleUserEmployers: {
+    screen: SingleUserEmployers,
+    navigationOptions: ({ navigation }) => ({
+      title: `Employers`,
+      headerBackTitle: `Employers`
+    }),
+  },
+  SingleUserSingleEmployerJobs: {
+    screen: SingleUserSingleEmployerJobs,
+    navigationOptions: ({ navigation }) => ({
+      title: `Jobs`,
+    }),
   }
 });
 

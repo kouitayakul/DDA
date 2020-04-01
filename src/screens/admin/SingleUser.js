@@ -10,19 +10,20 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
 
-export default class EmployerHome extends React.Component {
+export default class SingleUser extends React.Component {
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.getParam('user').name,
+      headerBackTitle: navigation.getParam('user').name,
+    };
+  };
 
   render() {
-    const employer = this.props.navigation.getParam('employer');
-    const company = this.props.navigation.getParam('company');
+    const user = this.props.navigation.getParam('user');
     const { navigate } = this.props.navigation; 
-      
-    function _onPressJobs() {
-      navigate('EmployerJobs', { companyId: company.companyId });
-    };
     
-    function _onPressEmployees() {
-      navigate('Employees', { companyId: company.companyId });
+    function _onPressEmployers() {
+      navigate('SingleUserEmployers', { code: user.code });
     };
 
     function Employer({info, items}) {
@@ -48,22 +49,14 @@ export default class EmployerHome extends React.Component {
       <View style={styles.container}>
         <SafeAreaView style={styles.safeAreaView}>
           <FlatList
-            data={[{employer, company}]}
+            data={[{user: user}]}
             renderItem={({item}) => 
               <View>
-                <Employer info={item} items={{name: 'employer.name', company: 'company.name', email: 'employer.email', phone: 'employer.phone_number', address: 'company.address'}} />
-                <TouchableHighlight onPress={_onPressEmployees}>
+                <Employer info={item} items={{name: 'user.name', code: 'user.code', stars: 'user.stars'}} />
+                <TouchableHighlight onPress={_onPressEmployers}>
                   <View style={styles.jobs}>
                     <View>
-                      <Text style={styles.jobsTitle}>Employees</Text>
-                    </View>
-                    <Icon name='angle-right' style={styles.icon}/>
-                  </View>
-                </TouchableHighlight>
-                <TouchableHighlight onPress={_onPressJobs}>
-                  <View style={styles.jobs}>
-                    <View>
-                      <Text style={styles.jobsTitle}>Jobs</Text>
+                      <Text style={styles.jobsTitle}>Employers</Text>
                     </View>
                     <Icon name='angle-right' style={styles.icon}/>
                   </View>
@@ -77,7 +70,6 @@ export default class EmployerHome extends React.Component {
     );
   }
 }
-
 
 const styles = StyleSheet.create({
     container: {
