@@ -17,6 +17,7 @@ import JobScreen from "../screens/user/JobScreen";
 import CarouselScreen from "../screens/user/CarouselScreen";
 import JobComplete from "../screens/user/JobComplete";
 import RewardsScreen from "../screens/user/RewardsScreen";
+import ShiftSummaryScreen from "../screens/user/ShiftSummaryScreen";
 
 //Employer Screens
 import EmployerHome from "../screens/employer/EmployerHome";
@@ -26,7 +27,6 @@ import EmpUserScreen from "../screens/employer/EmpUserScreen";
 import EmployerJobScreen from "../screens/employer/JobScreen";
 import EmployerSubJobScreen from "../screens/employer/SubJobScreen";
 import EmployerSubJobDetailScreen from "../screens/employer/SubJobDetailScreen";
-
 //Admin Screens
 import AdminHome from "../screens/admin/AdminHome";
 import AllEmployers from "../screens/admin/AllEmployers";
@@ -35,6 +35,7 @@ import AllUsers from "../screens/admin/AllUsers";
 import SingleUser from "../screens/admin/SingleUser";
 import SingleUserEmployers from "../screens/admin/SingleUserEmployers";
 import SingleUserSingleEmployerJobs from "../screens/admin/SingleUserSingleEmployerJobs";
+
 
 const AuthNavigation = createSwitchNavigator(
   {
@@ -67,6 +68,7 @@ const UserNavigation = createStackNavigator({
   },
   Carousel: { screen: CarouselScreen },
   JobComplete: { screen: JobComplete },
+  ShiftSummary: { screen: ShiftSummaryScreen },
 
   initialRouteName: "Home"
 });
@@ -261,7 +263,6 @@ const AdminNavigation = createStackNavigator({
     }),
   }
 });
-
 const AdminDrawerNavigation = createDrawerNavigator({
   Admin: {
     screen: AdminNavigation,
