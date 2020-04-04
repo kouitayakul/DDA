@@ -7,7 +7,9 @@ import {
   FlatList,
   TouchableHighlight,
   AsyncStorage,
-  Dimensions
+  Dimensions,
+  TextInput,
+  Alert
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../../constants/API";
@@ -24,7 +26,10 @@ export default class AllUsers extends React.Component {
       users: [],
       error: null,
       isLoaded: false,
-      editMode: false
+      editMode: false,
+      code: "",
+      name: "",
+      stars: 0
     };
   }
 
@@ -119,31 +124,111 @@ export default class AllUsers extends React.Component {
     return <Text style={styles.emptyList}>The list is empty</Text>;
   };
 
+  onCancelAdd = () => {
+    this._panelUsers.hide();
+    this._code.clear();
+    this._name.clear();
+  };
+
+  onDoneAdd = async () => {
+    let { code, name, stars } = this.state;
+    code = parseInt(code);
+
+    if (isNaN(code)) {
+      Alert.alert("Please enter a valid code");
+    } else {
+      let body = {
+        code,
+        name,
+        stars
+      };
+
+      if (code && name) {
+        try {
+          await fetch(`${API.endpoint}/users`, {
+            method: "POST",
+            body: JSON.stringify(body)
+          });
+          const apiCallUsers = await fetch(`${API.endpoint}/users`);
+          const users = await apiCallUsers.json();
+          this.setState({ users });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+
+      this._panelUsers.hide();
+      this._code.clear();
+      this._name.clear();
+    }
+  };
+
   renderContent = () => {
-    const { users } = this.state;
-    return (
-      <View style={styles.container}>
-        <Header
-          backgroundColor="#FFF"
-          rightComponent={
-            <TouchableHighlight
-              underlayColor="#FFF"
-              onPress={() => this.onDoneEdit()}
-            >
-              <Text style={styles.headerText}>Done</Text>
-            </TouchableHighlight>
-          }
-        />
-        <SafeAreaView style={styles.safeAreaView}>
-          <FlatList
-            data={users}
-            renderItem={({ item }) => this.ItemEdit(item)}
-            keyExtractor={item => item.code.toString()}
-            ListEmptyComponent={this.emptyList()}
+    const { users, editMode } = this.state;
+
+    if (editMode) {
+      return (
+        <View style={styles.container}>
+          <Header
+            backgroundColor="#FFF"
+            rightComponent={
+              <TouchableHighlight
+                underlayColor="#FFF"
+                onPress={() => this.onDoneEdit()}
+              >
+                <Text style={styles.headerText}>Done</Text>
+              </TouchableHighlight>
+            }
           />
-        </SafeAreaView>
-      </View>
-    );
+          <SafeAreaView style={styles.safeAreaView}>
+            <FlatList
+              data={users}
+              renderItem={({ item }) => this.ItemEdit(item)}
+              keyExtractor={item => item.code.toString()}
+              ListEmptyComponent={this.emptyList()}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Header
+            backgroundColor="#FFF"
+            leftComponent={
+              <TouchableHighlight
+                underlayColor="#FFF"
+                onPress={() => this.onCancelAdd()}
+              >
+                <Text style={styles.headerText}>Cancel</Text>
+              </TouchableHighlight>
+            }
+            rightComponent={
+              <TouchableHighlight
+                underlayColor="rgba(255, 255, 255, 0.92)"
+                onPress={() => this.onDoneAdd()}
+              >
+                <Text style={styles.headerText}>Done</Text>
+              </TouchableHighlight>
+            }
+          />
+          <SafeAreaView style={styles.textInputLayout}>
+            <TextInput
+              ref={input => (this._code = input)}
+              style={styles.textInput}
+              placeholder="Please enter a 4 digits code"
+              onChangeText={code => this.setState({ code })}
+            />
+            <TextInput
+              ref={input => (this._name = input)}
+              style={styles.textInput}
+              placeholder="Name"
+              onChangeText={name => this.setState({ name })}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    }
   };
 
   render() {
@@ -193,7 +278,9 @@ export default class AllUsers extends React.Component {
             {this.renderContent()}
           </SlidingUpPanel>
           <Footer
-            info={`${users.length} ${users.length === 1 ? "User" : "Users"}`}
+            info={`${users.length} Jobs`}
+            func={() => this._panelUsers.show()}
+            iconName={"plus"}
           />
         </SafeAreaView>
       );
@@ -250,5 +337,25 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.41,
     color: "#007AFF"
+  },
+  textInputLayout: {
+    flex: 1,
+    flexDirection: "column",
+    marginTop: 40
+  },
+  textInput: {
+    borderTopWidth: 0,
+    borderRightWidth: 0,
+    borderLeftWidth: 0,
+    borderBottomWidth: 0.4,
+    borderBottomColor: "rgba(0,0,0,0.6)",
+    fontSize: 17,
+    color: "#000000",
+    opacity: 0.6,
+    paddingBottom: 7,
+    paddingLeft: 4,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 40
   }
 });
