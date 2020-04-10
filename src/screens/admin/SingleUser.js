@@ -35,9 +35,6 @@ export default class SingleUser extends React.Component {
   async componentWillMount() {
     this.props.navigation.setParams({ onEdit: this.onEdit });
     const user = this.props.navigation.getParam("user");
-    // const apiCallUser = await fetch(`${API.endpoint}/users/${user.code}`);
-    // const jsonUser = await apiCallUser.json();
-    // const { name, stars } = jsonUser[0];
     const { name, code, stars } = user;
     this.setState({
       name,
