@@ -6,7 +6,8 @@ import {
   SafeAreaView,
   TextInput,
   Dimensions,
-  TouchableHighlight
+  TouchableHighlight,
+  Alert
 } from "react-native";
 import { Header } from "react-native-elements";
 import API from "../../constants/API";
@@ -20,7 +21,8 @@ export default class EmployerSubJobDetailScreen extends Component {
     subJobTitle: "",
     subJobDescription: "",
     imgLink: "",
-    orderNumber: 0
+    orderNumber: 0,
+    error: null
   };
 
   dim = {
@@ -41,6 +43,7 @@ export default class EmployerSubJobDetailScreen extends Component {
         imgLink,
         orderNumber
       } = subJob;
+      this._isMounted = true;
       this.setState({
         subJobId,
         jobId,
@@ -49,13 +52,18 @@ export default class EmployerSubJobDetailScreen extends Component {
         imgLink,
         orderNumber
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      this.setState({ error });
     }
+  }
+
+  componentWillMount() {
+    this._isMounted = false;
   }
 
   static navigationOptions = ({ navigation }) => {
     return {
+      title: navigation.getParam("subJob").title,
       headerRight: () => (
         <TouchableHighlight
           underlayColor="rgba(255, 255, 255, 1);"
@@ -84,7 +92,7 @@ export default class EmployerSubJobDetailScreen extends Component {
   };
 
   onDoneEdit = async () => {
-    const {
+    let {
       subJobId,
       jobId,
       subJobTitle,
@@ -92,11 +100,23 @@ export default class EmployerSubJobDetailScreen extends Component {
       imgLink,
       orderNumber
     } = this.state;
+    const updatedSubJob = {
+      subJobId,
+      jobId,
+      title: subJobTitle,
+      description: subJobDescription,
+      imgLink,
+      orderNumber
+    };
+
+    orderNumber = parseInt(orderNumber);
+    if (isNaN(orderNumber)) Alert.alert("Please enter a valid number");
+
     let body = {
       title: subJobTitle,
       description: subJobDescription,
       imgLink,
-      orderNumber: parseInt(orderNumber)
+      orderNumber
     };
 
     try {
@@ -108,6 +128,7 @@ export default class EmployerSubJobDetailScreen extends Component {
       console.log(err);
     }
     this._panelSubJobDetail.hide();
+    this.props.navigation.setParams({ subJob: updatedSubJob });
   };
 
   renderContent = () => {
@@ -167,7 +188,19 @@ export default class EmployerSubJobDetailScreen extends Component {
   };
 
   render() {
-    const { subJobTitle, subJobDescription, imgLink, orderNumber } = this.state;
+    const {
+      subJobTitle,
+      subJobDescription,
+      imgLink,
+      orderNumber,
+      error
+    } = this.state;
+
+    if (error) {
+      return <Text>Error: {error.message}</Text>;
+    } else if (!this._isMounted) {
+      return <Text>Loading...</Text>;
+    }
 
     return (
       <View style={styles.container}>
