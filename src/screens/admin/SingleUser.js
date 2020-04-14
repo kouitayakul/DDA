@@ -81,8 +81,6 @@ export default class SingleUser extends React.Component {
 
     if (isNaN(stars)) {
       Alert.alert("Please enter a valid number");
-    } else if (stars > 5) {
-      Alert.alert("Exceeding limit");
     } else {
       let body = {
         name,
