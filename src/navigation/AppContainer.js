@@ -36,7 +36,6 @@ import SingleUser from "../screens/admin/SingleUser";
 import SingleUserEmployers from "../screens/admin/SingleUserEmployers";
 import SingleUserSingleEmployerJobs from "../screens/admin/SingleUserSingleEmployerJobs";
 
-
 const AuthNavigation = createSwitchNavigator(
   {
     AdminLogin: { screen: AdminLogin },
@@ -150,8 +149,7 @@ const EmployersNavigation = createStackNavigator({
   },
   EmployerSubJobsDetail: {
     screen: EmployerSubJobDetailScreen,
-    navigationOptions: ({ navigation }) => ({
-      title: navigation.state.params.title,
+    navigationOptions: () => ({
       headerBackTitle: `SubJobs`
     })
   },
@@ -179,15 +177,15 @@ const AdminNavigation = createStackNavigator({
     screen: AdminHome,
     navigationOptions: ({ navigation }) => ({
       title: `Admin`,
-      headerLeft: <Icon name="menu" onPress={() => navigation.openDrawer()} />,
-    }),
+      headerLeft: <Icon name="menu" onPress={() => navigation.openDrawer()} />
+    })
   },
   AllEmployers: {
     screen: AllEmployers,
     navigationOptions: ({ navigation }) => ({
       title: `All Employers`,
       headerBackTitle: `All Employers`
-    }),
+    })
   },
   EmployerSignUp: { screen: EmployerSignUp },
   EmployerHome: {
@@ -244,23 +242,23 @@ const AdminNavigation = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       title: `All Users`,
       headerBackTitle: `All Users`
-    }),
+    })
   },
   SingleUser: {
-    screen: SingleUser,
+    screen: SingleUser
   },
   SingleUserEmployers: {
     screen: SingleUserEmployers,
     navigationOptions: ({ navigation }) => ({
       title: `Employers`,
       headerBackTitle: `Employers`
-    }),
+    })
   },
   SingleUserSingleEmployerJobs: {
     screen: SingleUserSingleEmployerJobs,
     navigationOptions: ({ navigation }) => ({
-      title: `Jobs`,
-    }),
+      title: `Jobs`
+    })
   }
 });
 const AdminDrawerNavigation = createDrawerNavigator({

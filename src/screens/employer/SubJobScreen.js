@@ -25,7 +25,8 @@ export default class EmployerSubJobScreen extends Component {
     subJobDescription: "",
     imgLink: "",
     orderNumber: 0,
-    editMode: false
+    editMode: false,
+    error: null
   };
 
   dim = {
@@ -37,13 +38,33 @@ export default class EmployerSubJobScreen extends Component {
     try {
       this.props.navigation.setParams({ onEdit: this.onEdit });
       const jobId = this.props.navigation.getParam("jobId");
-      const apiCallJobs = await fetch(`${API.endpoint}/jobs/${jobId}/subjobs`);
-      const subJobs = await apiCallJobs.json();
+      const apiCallSubJobs = await fetch(
+        `${API.endpoint}/jobs/${jobId}/subjobs`
+      );
+      const subJobs = await apiCallSubJobs.json();
       this._isMounted = true;
       this.setState({ subJobs, jobId });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      this.setState({ error });
     }
+    // Updated subjob(s) needs to be re-fetch when user comes back from SubJobDetailScreen
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      async () => {
+        try {
+          const jobId = this.props.navigation.getParam("jobId");
+          const apiCallSubJobs = await fetch(
+            `${API.endpoint}/jobs/${jobId}/subjobs`
+          );
+          const subJobs = await apiCallSubJobs.json();
+          this.setState({
+            subJobs
+          });
+        } catch (error) {
+          this.setState({ error });
+        }
+      }
+    );
   }
 
   componentWillMount() {
@@ -268,10 +289,12 @@ export default class EmployerSubJobScreen extends Component {
   };
 
   render() {
-    const { subJobs } = this.state;
+    const { subJobs, error } = this.state;
 
-    if (!this._isMounted) {
-      return null;
+    if (error) {
+      return <Text>Error: {error.message}</Text>;
+    } else if (!this._isMounted) {
+      return <Text>Loading...</Text>;
     }
 
     return (
