@@ -50,6 +50,21 @@ export default class AllUsers extends React.Component {
     } catch (error) {
       this.setState({ error });
     }
+    // Updated user(s) needs to be re-fetch when user comes back from SingleUser
+    this.willFocusSubscription = this.props.navigation.addListener(
+      "willFocus",
+      async () => {
+        try {
+          const apiCallUsers = await fetch(API.endpoint + "users");
+          const users = await apiCallUsers.json();
+          this.setState({
+            users
+          });
+        } catch (error) {
+          this.setState({ error });
+        }
+      }
+    );
   }
 
   _storeData = async code => {
