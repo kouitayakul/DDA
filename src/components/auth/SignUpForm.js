@@ -56,12 +56,6 @@ const SignUpForm = (props) => {
         placeholder="Address"
         placeholderTextColor="#CCC"
       />
-      <RectangleButton
-        title="Submit"
-        onPress={props.onSubmit}
-        style={styles.submit}
-        backgroundColor= '#007AFF'
-      />
     </View>
   );
 };
@@ -69,8 +63,7 @@ const SignUpForm = (props) => {
 export default SignUpForm;
 
 SignUpForm.propTypes = {
-    onFormChange: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
+    onFormChange: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -78,7 +71,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     flexDirection: 'column',
     paddingHorizontal: 16,
-    alignSelf: 'stretch'
+    alignSelf: 'stretch',
+    paddingTop: 20
   },
   input: {
     fontSize: 18,
