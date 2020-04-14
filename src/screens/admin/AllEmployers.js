@@ -140,7 +140,7 @@ export default class AllEmployers extends React.Component {
               underlayColor="rgba(255, 255, 255, 0.92)"
               onPress={() => this.onDoneAdd()}
             >
-              <Text style={styles.headerText}>Done</Text>
+              <Text style={styles.headerText}>Create</Text>
             </TouchableHighlight>
           }
         />
