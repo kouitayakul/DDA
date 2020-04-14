@@ -55,57 +55,61 @@ export default class AllEmployers extends React.Component {
 
   handleSignUp = async () => {
     const { email, password, name, company, phone, address, confirmPassword} = this.state;
-    try {
+    if (!email || !password || !name || !company || !phone || !address || !confirmPassword) {
+      alert("Please fill in all required fields");
+    } else {
+      try {
         const apiCreateCompany = await fetch(`${API.endpoint}/companies`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: company,
-                address,
-            }),
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: company,
+            address,
+          }),
         });
         const createdCompany = await apiCreateCompany.json();
         const companyId = createdCompany.insertId.toString();
-        console.log(companyId);
-        // Make sure passwords match
         if (password === confirmPassword) {
-            Auth.signUp({
-                username: email,
-                password,
-                attributes: {
-                    email,
-                    name,
-                    'phone_number': phone,
-                    'profile': companyId,
-                },
+          try {
+            await Auth.signUp({
+              username: email,
+              password,
+              attributes: {
+                email, 
+                name, 
+                'phone_number': phone, 
+                'profile': companyId,
+              },
             })
-            // On success, show Alert that says Employer will get a verification link, then navigate to Home.
-            .then(() => {
-                Alert.alert(
-                    "Employer sign-up pending confirmation.",
-                    "A verification email has been sent to the Employer. They may sign in after clicking the verification link.", [{
-                        title: "OK",
-                        // onPress: () => {
-                        //     navigation.navigate('Admin');
-                        // }
-                    }]
-                )
-            })
-            .catch(err => console.log(err))
+            Alert.alert(
+              "Employer sign-up pending confirmation.",
+              "A verification email has been sent to the Employer. They may sign in after clicking the verification link.", 
+              [{title: "OK"}]
+            )
+          } catch (err) {
+            console.log(err);
+            alert(err.message);
+            try {
+              await fetch(`${API.endpoint}/companies/${companyId}`, {
+                method: 'DELETE'
+              });
+            } catch (err) {
+              console.log(err)
+            }
+          }
         } else {
-            alert('Passwords do not match.');
+          alert('Passwords do not match.');
         }
-    } catch (err) {
+      } catch (err) {
         console.log(err);
         Alert.alert(
           "Employer sign-up failed.",
           err,
-          [{
-              title: "OK",
-          }]
-      )
+          [{title: "OK"}]
+        )
+      }
     }
   };
 
