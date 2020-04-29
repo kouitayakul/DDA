@@ -34,6 +34,9 @@ export default class HomeScreen extends React.Component {
       const apiCallCompanies = await fetch(API.endpoint + `users/${userCode}/companies`);
       const companies = await apiCallCompanies.json();
       this.setState({companies});
+      if(companies.length == 1) {
+        this.props.navigation.navigate('AssignedJobs', { companyId: companies[0].companyId });
+      }
     }
     catch (err) {
       console.log(err);
