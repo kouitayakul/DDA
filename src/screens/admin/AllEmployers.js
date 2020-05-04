@@ -1,11 +1,12 @@
 import React from 'react';
-import { Text, StyleSheet, View, SafeAreaView, FlatList, TouchableHighlight, Dimensions, TextInput, Alert } from 'react-native';
+import { Text, StyleSheet, View, SafeAreaView, FlatList, TouchableHighlight, Dimensions, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
 import Footer from '../../components/Footer';
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Header } from "react-native-elements";
 import SignUpForm from "../../components/auth/SignUpForm";
+import KeyboardShift from "../../components/KeyboardShift";
 import {Auth} from 'aws-amplify';
 
 const HEIGHT = Dimensions.get("window").height;
@@ -89,21 +90,23 @@ export default class AllEmployers extends React.Component {
               [{title: "OK"}]
             )
           } catch (err) {
-            console.log(err);
             alert(err.message);
             try {
               await fetch(`${API.endpoint}/companies/${companyId}`, {
                 method: 'DELETE'
               });
             } catch (err) {
-              console.log(err)
+              Alert.alert(
+                "Employer sign-up failed.",
+                err,
+                [{title: "OK"}]
+              )
             }
           }
         } else {
           alert('Passwords do not match.');
         }
       } catch (err) {
-        console.log(err);
         Alert.alert(
           "Employer sign-up failed.",
           err,
@@ -114,11 +117,11 @@ export default class AllEmployers extends React.Component {
   };
 
   onCancelAdd = () => {
-    this._panelUsers.hide();
+    this._panelEmployerSignUp.hide();
   };
 
   onDoneAdd = async () => {
-    this._panelUsers.hide();
+    this._panelEmployerSignUp.hide();
     await this.handleSignUp();
   }
 
@@ -126,6 +129,7 @@ export default class AllEmployers extends React.Component {
     return (
       <View style={styles.container}>
         <Header
+          containerStyle={{zIndex: 20}}
           backgroundColor="#FFF"
           leftComponent={
             <TouchableHighlight
@@ -144,10 +148,14 @@ export default class AllEmployers extends React.Component {
             </TouchableHighlight>
           }
         />
-        <SafeAreaView style={{flex: 1}}>
-          <SignUpForm
-            onFormChange={this.handleFormChange}
-          />
+        <SafeAreaView style={{flex: 1, zIndex: 10, overflow: "hidden"}}>
+          <KeyboardShift>
+            {() => (
+              <SignUpForm
+                onFormChange={this.handleFormChange}
+              />
+            )}
+          </KeyboardShift>
         </SafeAreaView>
       </View>
     );
@@ -193,7 +201,7 @@ export default class AllEmployers extends React.Component {
             keyExtractor={item => item.companyId.toString()}
           />
           <SlidingUpPanel
-            ref={r => (this._panelUsers = r)}
+            ref={r => (this._panelEmployerSignUp = r)}
             draggableRange={{
               top: HEIGHT - 100,
               bottom: 0
@@ -208,7 +216,7 @@ export default class AllEmployers extends React.Component {
           </SlidingUpPanel>
           <Footer 
             info={`${companies.length} ${companies.length === 1 ? 'Employer' : 'Employers'}`}
-            func={() => this._panelUsers.show()}
+            func={() => this._panelEmployerSignUp.show()}
             iconName={"plus"}
           />
         </SafeAreaView>
