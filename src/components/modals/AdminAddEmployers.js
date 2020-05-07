@@ -16,83 +16,84 @@ import { Header } from "react-native-elements";
 
 const windowHeight = Dimensions.get("window").height;
 
-export default class EmpAddJobs extends Component {
+export default class AdminAddEmployers extends Component {
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     cancel: PropTypes.any.isRequired,
     done: PropTypes.any.isRequired,
     code: PropTypes.number.isRequired,
-    companyId: PropTypes.number.isRequired,
-    existJobs: PropTypes.array.isRequired
+    existEmployers: PropTypes.array.isRequired
   };
   state = {
-    jobs: [],
+    employers: [],
     error: null,
     isLoaded: false
   };
 
   async componentDidMount() {
-    const companyId = this.props.companyId;
     try {
-      const apiJobs = await fetch(
-        `${API.endpoint}/companies/${companyId}/jobs`
-      );
-      const jobsJson = await apiJobs.json();
-      const jobs = jobsJson.map(job => {
-        job.isSelect = false;
-        return job;
+      const apiEmployers = await fetch(`${API.endpoint}/companies`);
+      const employersJson = await apiEmployers.json();
+      const employers = employersJson.map(employer => {
+        employer.isSelect = false;
+        return employer;
       });
-      this.setState({ jobs, isLoaded: true });
-      this.prepExistJobs();
+
+      this.setState({ employers, isLoaded: true });
+      this.prepExistEmployers();
     } catch (error) {
       this.setState({ error });
     }
   }
 
-  prepExistJobs() {
-    let existJobs = this.props.existJobs;
-    for (let i = 0; i < existJobs.length; i++) {
-      let index = this.state.jobs.findIndex(
-        job => existJobs[i].jobId === job.jobId
+  prepExistEmployers() {
+    let existEmployers = this.props.existEmployers;
+    for (let i = 0; i < existEmployers.length; i++) {
+      let index = this.state.employers.findIndex(
+        employer => existEmployers[i].companyId === employer.companyId
       );
-      this.state.jobs[index].isSelect = true;
+      this.state.employers[index].isSelect = true;
     }
   }
 
-  selectItem(job) {
-    job.isSelect = !job.isSelect;
+  selectItem(employer) {
+    employer.isSelect = !employer.isSelect;
 
-    const index = this.state.jobs.findIndex(item => job.jobId === item.jobId);
+    const index = this.state.employers.findIndex(
+      item => employer.companyId === item.companyId
+    );
 
-    this.state.jobs[index] = job;
+    this.state.employers[index] = employer;
     this.setState({
-      jobs: this.state.jobs
+      employers: this.state.employers
     });
   }
 
-  async editSelectedJobs() {
-    const { jobs } = this.state;
-    let existJobs = this.props.existJobs;
+  async editSelectedEmployers() {
+    const { employers } = this.state;
+    let existEmployers = this.props.existEmployers;
 
-    for (let i = 0; i < jobs.length; i++) {
-      if (jobs[i].isSelect) {
-        await this.addJobs(jobs[i]);
+    for (let i = 0; i < employers.length; i++) {
+      if (employers[i].isSelect) {
+        await this.addEmployers(employers[i]);
       } else {
-        let index = existJobs.findIndex(exj => exj.jobId === jobs[i].jobId);
+        let index = existEmployers.findIndex(
+          exEmp => exEmp.companyId === employers[i].companyId
+        );
         if (index !== -1) {
-          await this.removeJob(jobs[i]);
+          await this.removeEmployers(employers[i]);
         }
       }
     }
     this.props.done();
   }
 
-  async addJobs(job) {
+  async addEmployers(employer) {
     let body = {};
 
-    body.jobId = job.jobId;
+    body.companyId = employer.companyId;
     try {
-      await fetch(`${API.endpoint}/users/${this.props.code}/jobs`, {
+      await fetch(`${API.endpoint}/users/${this.props.code}/companies`, {
         method: "POST",
         body: JSON.stringify(body)
       });
@@ -102,25 +103,27 @@ export default class EmpAddJobs extends Component {
   }
 
   onCancel() {
-    let { jobs } = this.state;
-    let existJobs = this.props.existJobs;
+    let { employers } = this.state;
+    let existEmployers = this.props.existEmployers;
 
-    for (let i = 0; i < jobs.length; i++) {
-      let index = existJobs.findIndex(exj => exj.jobId === jobs[i].jobId);
+    for (let i = 0; i < employers.length; i++) {
+      let index = existEmployers.findIndex(
+        exEmp => exEmp.companyId === employers[i].companyId
+      );
       if (index === -1) {
-        jobs[i].isSelect = false;
+        employers[i].isSelect = false;
       } else {
-        jobs[i].isSelect = true;
+        employers[i].isSelect = true;
       }
     }
     this.props.cancel();
   }
 
-  async removeJob(job) {
+  async removeEmployers(employer) {
     let body = {};
-    body.jobId = job.jobId;
+    body.companyId = employer.companyId;
     try {
-      await fetch(`${API.endpoint}/users/${this.props.code}/jobs`, {
+      await fetch(`${API.endpoint}/users/${this.props.code}/companies`, {
         method: "DELETE",
         body: JSON.stringify(body)
       });
@@ -129,18 +132,18 @@ export default class EmpAddJobs extends Component {
     }
   }
 
-  renderItem(job) {
+  renderItem(employer) {
     return (
-      <TouchableHighlight onPress={() => this.selectItem(job)}>
-        <View style={styles.job}>
+      <TouchableHighlight onPress={() => this.selectItem(employer)}>
+        <View style={styles.employer}>
           <View>
-            <Text style={styles.title}>{job.name}</Text>
+            <Text style={styles.title}>{employer.name}</Text>
           </View>
           <Icon
             name="check-circle"
             style={[
               styles.icon,
-              { color: job.isSelect ? "#B6BF00" : "#C7C7CC" }
+              { color: employer.isSelect ? "#B6BF00" : "#C7C7CC" }
             ]}
           />
         </View>
@@ -163,7 +166,7 @@ export default class EmpAddJobs extends Component {
         rightComponent={
           <TouchableHighlight
             underlayColor="rgba(255, 255, 255, 0.92)"
-            onPress={() => this.editSelectedJobs()}
+            onPress={() => this.editSelectedEmployers()}
           >
             <Text style={styles.headerText}>Done</Text>
           </TouchableHighlight>
@@ -173,7 +176,7 @@ export default class EmpAddJobs extends Component {
   };
 
   render() {
-    const { jobs, error, isLoaded } = this.state;
+    const { employers, error, isLoaded } = this.state;
     const { isVisible } = this.props;
 
     if (error) {
@@ -186,11 +189,11 @@ export default class EmpAddJobs extends Component {
           <SafeAreaView>
             <View>
               <FlatList
-                data={jobs}
+                data={employers}
                 renderItem={({ item }) => this.renderItem(item)}
                 ListHeaderComponent={this.renderHeader}
                 stickyHeaderIndices={[0]}
-                keyExtractor={item => item.jobId.toString()}
+                keyExtractor={item => item.companyId.toString()}
                 extraData={this.state}
                 style={{
                   minHeight: windowHeight,
@@ -206,7 +209,7 @@ export default class EmpAddJobs extends Component {
 }
 
 const styles = StyleSheet.create({
-  job: {
+  employer: {
     backgroundColor: "rgba(255, 255, 255, 0.92)",
     padding: 13,
     flexDirection: "row",
