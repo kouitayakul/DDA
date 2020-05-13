@@ -78,7 +78,7 @@ export default class EmployerSignUp extends React.Component {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={{alignSelf: 'stretch'}}>
-                    <Text style={styles.titleText}>Enter the desired sign-in credentials for the Employer account</Text>
+                    <Text style={styles.titleText}>Create Employer Account</Text>
                     <SignUpForm
                         onFormChange={this.handleFormChange}
                         onSubmit={this.handleSignUp}
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     },
     titleText: {
         fontSize: 22,
+        paddingTop: 20,
         paddingBottom: 40,
         textAlign: 'center'
     },

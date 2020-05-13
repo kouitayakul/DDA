@@ -11,44 +11,36 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import API from '../../constants/API';
 
 export default class EmployerHome extends React.Component {
-  
+
   render() {
     const employer = this.props.navigation.getParam('employer');
     const company = this.props.navigation.getParam('company');
     const { navigate } = this.props.navigation; 
       
     function _onPressJobs() {
-      navigate('EmployerJobs', { companyId: employer['profile'] });
+      navigate('EmployerJobs', { companyId: company.companyId });
     };
     
     function _onPressEmployees() {
-      navigate('Employees', { companyId: employer['profile'] });
+      navigate('Employees', { companyId: company.companyId });
     };
 
-    function Employer({employer}) {
+    function Employer({info, items}) {
+      const fields = []
+      Object.entries(items).forEach(el => {
+        const attrs = el[1].split('.');
+        if (info[attrs[0]]) {
+          fields.push(
+            <View style={styles.item} key={el[0]}>
+              <Text style={styles.title}>{el[0]}</Text>
+              <Text style={styles.value}>{info[attrs[0]][attrs[1]]}</Text>
+            </View>
+          )
+        }
+      })
+      
       return (
-        <View style={styles.employer}>
-          <View style={styles.item}>
-            <Text style={styles.title}>name</Text>
-            <Text style={styles.value}>{employer.name}</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={styles.title}>company</Text>
-            <Text style={styles.value}>{company.name}</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={styles.title}>email</Text>
-            <Text style={styles.value}>{employer.email}</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={styles.title}>phone</Text>
-            <Text style={styles.value}>{employer.phone_number}</Text>
-          </View>
-          <View style={styles.item}>
-            <Text style={styles.title}>address</Text>
-            <Text style={styles.value}>{company.address}</Text>
-          </View>
-        </View>
+        <View style={styles.employer}>{fields}</View>
       )
     }
           
@@ -56,10 +48,10 @@ export default class EmployerHome extends React.Component {
       <View style={styles.container}>
         <SafeAreaView style={styles.safeAreaView}>
           <FlatList
-            data={[employer]}
+            data={[{employer, company}]}
             renderItem={({item}) => 
               <View>
-                <Employer employer={item} />
+                <Employer info={item} items={{name: 'employer.name', company: 'company.name', email: 'employer.email', phone: 'employer.phone_number', address: 'company.address'}} />
                 <TouchableHighlight onPress={_onPressEmployees}>
                   <View style={styles.jobs}>
                     <View>

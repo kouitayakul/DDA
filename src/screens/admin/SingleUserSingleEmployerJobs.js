@@ -15,8 +15,7 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import Swipeout from "react-native-swipeout";
 import { Header } from "react-native-elements";
 
-export default class EmpJobScreen extends React.Component {
-  _isMounted = false;
+export default class SingleUserSingleEmployerJobs extends React.Component {
   state = {
     isVisible: false,
     jobs: [],
@@ -176,7 +175,6 @@ export default class EmpJobScreen extends React.Component {
   render() {
     const { isVisible, jobs, deletedJob, error, isLoaded } = this.state;
     const { navigation } = this.props;
-
     if (error) {
       return <Text>Error: {error.message}</Text>;
     } else if (!isLoaded) {
