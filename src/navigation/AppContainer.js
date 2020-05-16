@@ -30,7 +30,6 @@ import EmployerSubJobDetailScreen from "../screens/employer/SubJobDetailScreen";
 //Admin Screens
 import AdminHome from "../screens/admin/AdminHome";
 import AllEmployers from "../screens/admin/AllEmployers";
-import EmployerSignUp from "../screens/admin/EmployerSignUp";
 import AllUsers from "../screens/admin/AllUsers";
 import SingleUser from "../screens/admin/SingleUser";
 import SingleUserEmployers from "../screens/admin/SingleUserEmployers";
@@ -187,7 +186,6 @@ const AdminNavigation = createStackNavigator({
       headerBackTitle: `All Employers`
     })
   },
-  EmployerSignUp: { screen: EmployerSignUp },
   EmployerHome: {
     screen: EmployerHome,
     navigationOptions: ({ navigation }) => ({
