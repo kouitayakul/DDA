@@ -5,6 +5,7 @@ import API from '../../constants/API';
 import Footer from '../../components/Footer';
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Header } from "react-native-elements";
+import Swipeout from "react-native-swipeout";
 import SignUpForm from "../../components/auth/SignUpForm";
 import KeyboardShift from "../../components/KeyboardShift";
 import {Auth} from 'aws-amplify';
@@ -20,7 +21,7 @@ export default class AllEmployers extends React.Component {
       companies: [],
       error: null,
       isLoaded: false,
-      editMode: false,
+      deleteEmployerMode: false,
       email: "",
       password: "",
       name: "",
@@ -34,9 +35,23 @@ export default class AllEmployers extends React.Component {
     this.handleFormChange = this.handleFormChange.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
   }
+
+  static navigationOptions = ({ navigation }) => {
+    return {
+      headerRight: () => (
+        <TouchableHighlight
+          underlayColor="rgba(255, 255, 255, 1);"
+          onPress={navigation.getParam("onEdit")}
+        >
+          <Text style={styles.edit}>Edit</Text>
+        </TouchableHighlight>
+      )
+    };
+  };
   
   async componentDidMount() {
     try {
+      this.props.navigation.setParams({ onEdit: this.onEdit });
       const apiCallCompanies = await fetch(API.endpoint + 'companies');
       const companies = await apiCallCompanies.json();
       this.setState({
@@ -49,6 +64,15 @@ export default class AllEmployers extends React.Component {
     }
     
   }
+
+  onEdit = () => {
+    this.setState({ deleteEmployerMode: true });
+    this._panelEmployers.show();
+  };
+
+  onDoneEdit = () => {
+    this._panelEmployers.hide();
+  };
 
   handleFormChange(field, value) {
     this.setState({[field]: value});
@@ -117,49 +141,119 @@ export default class AllEmployers extends React.Component {
   };
 
   onCancelAdd = () => {
-    this._panelEmployerSignUp.hide();
+    this._panelEmployers.hide();
   };
 
   onDoneAdd = async () => {
-    this._panelEmployerSignUp.hide();
+    this._panelEmployers.hide();
     await this.handleSignUp();
+    const apiCallCompanies = await fetch(API.endpoint + 'companies');
+    const companies = await apiCallCompanies.json();
+    this.setState({ companies });
   }
 
   renderContent = () => {
-    return (
-      <View style={styles.container}>
-        <Header
-          containerStyle={{zIndex: 20}}
-          backgroundColor="#FFF"
-          leftComponent={
-            <TouchableHighlight
-              underlayColor="#FFF"
-              onPress={() => this.onCancelAdd()}
-            >
-              <Text style={styles.headerText}>Cancel</Text>
-            </TouchableHighlight>
-          }
-          rightComponent={
-            <TouchableHighlight
-              underlayColor="rgba(255, 255, 255, 0.92)"
-              onPress={() => this.onDoneAdd()}
-            >
-              <Text style={styles.headerText}>Create</Text>
-            </TouchableHighlight>
-          }
-        />
-        <SafeAreaView style={{flex: 1, zIndex: 10, overflow: "hidden"}}>
-          <KeyboardShift>
-            {() => (
-              <SignUpForm
-                onFormChange={this.handleFormChange}
-              />
-            )}
-          </KeyboardShift>
-        </SafeAreaView>
-      </View>
-    );
+    const { companies, deleteEmployerMode } = this.state;
+
+    if (deleteEmployerMode) {
+      return (
+        <View style={styles.container}>
+          <Header
+            backgroundColor="#FFF"
+            rightComponent={
+              <TouchableHighlight
+                underlayColor="#FFF"
+                onPress={() => this.onDoneEdit()}
+              >
+                <Text style={styles.headerText}>Done</Text>
+              </TouchableHighlight>
+            }
+          />
+          <SafeAreaView style={{flex: 1, zIndex: 10, overflow: "hidden"}}>
+            <FlatList
+              data={companies}
+              renderItem={({ item }) => this.ItemEdit(item)}
+              keyExtractor={item => item.companyId.toString()}
+              ListEmptyComponent={<Text style={styles.emptyList}>The list is empty</Text>}
+            />
+          </SafeAreaView>
+        </View>
+      );
+    } else {
+      return (
+        <View style={styles.container}>
+          <Header
+            containerStyle={{zIndex: 20}}
+            backgroundColor="#FFF"
+            leftComponent={
+              <TouchableHighlight
+                underlayColor="#FFF"
+                onPress={() => this.onCancelAdd()}
+              >
+                <Text style={styles.headerText}>Cancel</Text>
+              </TouchableHighlight>
+            }
+            rightComponent={
+              <TouchableHighlight
+                underlayColor="rgba(255, 255, 255, 0.92)"
+                onPress={() => this.onDoneAdd()}
+              >
+                <Text style={styles.headerText}>Create</Text>
+              </TouchableHighlight>
+            }
+          />
+          <SafeAreaView style={{flex: 1, zIndex: 10, overflow: "hidden"}}>
+            <KeyboardShift>
+              {() => (
+                <SignUpForm
+                  onFormChange={this.handleFormChange}
+                />
+              )}
+            </KeyboardShift>
+          </SafeAreaView>
+        </View>
+      );
+    }
   }
+
+  ItemEdit = company => {
+    const { companies } = this.state;
+    let swipeBtns = [
+      {
+        text: "Delete",
+        backgroundColor: "red",
+        onPress: async () => {
+          for (i = 0; i < companies.length; i++) {
+            const { companyId, name } = companies[i];
+            if (companyId === company.companyId && name === company.name) {
+              companies.splice(i, 1);
+            }
+            this.setState({ companies });
+          }
+          try {
+            await fetch(`${API.endpoint}/companies/${company.companyId}`, {
+              method: "DELETE"
+            });
+            //TODO: add API call to delete user from Cognito as well
+          } catch (err) {
+            console.log(err);
+          }
+        }
+      }
+    ];
+
+    return (
+      <Swipeout
+        right={swipeBtns}
+        autoClose={true}
+        backgroundColor="transparent"
+      >
+        <View style={styles.item}>
+          <Text style={styles.title}>{company.name}</Text>
+        </View>
+      </Swipeout>
+    );
+  };
   
   render() {
     const { error, isLoaded, companies } = this.state;
@@ -201,14 +295,14 @@ export default class AllEmployers extends React.Component {
             keyExtractor={item => item.companyId.toString()}
           />
           <SlidingUpPanel
-            ref={r => (this._panelEmployerSignUp = r)}
+            ref={r => (this._panelEmployers = r)}
             draggableRange={{
               top: HEIGHT - 100,
               bottom: 0
             }}
             onBottomReached={() => {
               this.setState({
-                editMode: false
+                deleteEmployerMode: false
               });
             }}
           >
@@ -216,7 +310,7 @@ export default class AllEmployers extends React.Component {
           </SlidingUpPanel>
           <Footer 
             info={`${companies.length} ${companies.length === 1 ? 'Employer' : 'Employers'}`}
-            func={() => this._panelEmployerSignUp.show()}
+            func={() => this._panelEmployers.show()}
             iconName={"plus"}
           />
         </SafeAreaView>
@@ -266,5 +360,12 @@ const styles = StyleSheet.create({
     lineHeight: 22,
     letterSpacing: -0.41,
     color: "#007AFF"
-  }
+  },
+  edit: {
+    fontSize: 17,
+    lineHeight: 22,
+    letterSpacing: -0.41,
+    color: "#007AFF",
+    paddingRight: 10
+  },
 });
