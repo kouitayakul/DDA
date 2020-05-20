@@ -24,7 +24,7 @@ export default class AdminLogin extends React.Component {
                 } else {
                     try {
                         const employer = user.attributes;
-                        const apiGetCompany = await fetch(`${API.endpoint}/companies/${employer['profile']}`);
+                        const apiGetCompany = await fetch(`${API.endpoint}/companies/${employer['preferred_username']}`);
                         const company = await apiGetCompany.json();
                         this.props.navigation.navigate('EmployerHome', { employer, company: company[0] });
                     } catch(err) {

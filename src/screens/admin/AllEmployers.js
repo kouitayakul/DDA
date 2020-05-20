@@ -82,6 +82,8 @@ export default class AllEmployers extends React.Component {
     const { email, password, name, company, phone, address, confirmPassword} = this.state;
     if (!email || !password || !name || !company || !phone || !address || !confirmPassword) {
       alert("Please fill in all required fields");
+    } else if (password != confirmPassword) {
+      alert("Passwords do not match")
     } else {
       try {
         const apiCreateCompany = await fetch(`${API.endpoint}/companies`, {
@@ -96,39 +98,36 @@ export default class AllEmployers extends React.Component {
         });
         const createdCompany = await apiCreateCompany.json();
         const companyId = createdCompany.insertId.toString();
-        if (password === confirmPassword) {
+        try {
+          const userAttributes = {
+            username: email,
+            password,
+            attributes: {
+              email, 
+              name, 
+              'phone_number': phone, 
+              'preferred_username': companyId,
+            },
+          }
+          await Auth.signUp(userAttributes);
+          Alert.alert(
+            "Employer sign-up pending confirmation.",
+            "A verification email has been sent to the Employer. They may sign in after clicking the verification link.", 
+            [{title: "OK"}]
+          )
+        } catch (err) {
+          alert(err.message);
           try {
-            await Auth.signUp({
-              username: email,
-              password,
-              attributes: {
-                email, 
-                name, 
-                'phone_number': phone, 
-                'profile': companyId,
-              },
-            })
+            await fetch(`${API.endpoint}/companies/${companyId}`, {
+              method: 'DELETE'
+            });
+          } catch (err) {
             Alert.alert(
-              "Employer sign-up pending confirmation.",
-              "A verification email has been sent to the Employer. They may sign in after clicking the verification link.", 
+              "Employer sign-up failed.",
+              err,
               [{title: "OK"}]
             )
-          } catch (err) {
-            alert(err.message);
-            try {
-              await fetch(`${API.endpoint}/companies/${companyId}`, {
-                method: 'DELETE'
-              });
-            } catch (err) {
-              Alert.alert(
-                "Employer sign-up failed.",
-                err,
-                [{title: "OK"}]
-              )
-            }
           }
-        } else {
-          alert('Passwords do not match.');
         }
       } catch (err) {
         Alert.alert(
