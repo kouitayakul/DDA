@@ -12,6 +12,7 @@ import {
 import { Header } from "react-native-elements";
 import API from "../../constants/API";
 import SlidingUpPanel from "rn-sliding-up-panel";
+import {Auth} from 'aws-amplify';
 
 export default class EmployerSubJobDetailScreen extends Component {
   _isMounted = false;
@@ -120,8 +121,11 @@ export default class EmployerSubJobDetailScreen extends Component {
     };
 
     try {
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
       await fetch(`${API.endpoint}/jobs/${jobId}/subjobs/${subJobId}`, {
         method: "PUT",
+        headers: { Authorization: token },
         body: JSON.stringify(body)
       });
     } catch (err) {

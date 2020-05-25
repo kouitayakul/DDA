@@ -52,7 +52,11 @@ export default class AllEmployers extends React.Component {
   async componentDidMount() {
     try {
       this.props.navigation.setParams({ onEdit: this.onEdit });
-      const apiCallCompanies = await fetch(API.endpoint + 'companies');
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiCallCompanies = await fetch(API.endpoint + 'companies', {
+        headers: { Authorization: token }
+      });
       const companies = await apiCallCompanies.json();
       this.setState({
         companies,
@@ -86,10 +90,13 @@ export default class AllEmployers extends React.Component {
       alert("Passwords do not match")
     } else {
       try {
+        const user = await Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.accessToken.jwtToken;
         const apiCreateCompany = await fetch(`${API.endpoint}/companies`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': token
           },
           body: JSON.stringify({
             name: company,
@@ -118,8 +125,11 @@ export default class AllEmployers extends React.Component {
         } catch (err) {
           alert(err.message);
           try {
+            const user = await Auth.currentAuthenticatedUser();
+            const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(`${API.endpoint}/companies/${companyId}`, {
-              method: 'DELETE'
+              method: 'DELETE',
+              headers: { Authorization: token }
             });
           } catch (err) {
             Alert.alert(
@@ -146,7 +156,11 @@ export default class AllEmployers extends React.Component {
   onDoneAdd = async () => {
     this._panelEmployers.hide();
     await this.handleSignUp();
-    const apiCallCompanies = await fetch(API.endpoint + 'companies');
+    const user = await Auth.currentAuthenticatedUser();
+    const token = user.signInUserSession.accessToken.jwtToken;
+    const apiCallCompanies = await fetch(API.endpoint + 'companies', {
+      headers: { Authorization: token }
+    });
     const companies = await apiCallCompanies.json();
     this.setState({ companies });
   }
@@ -230,8 +244,11 @@ export default class AllEmployers extends React.Component {
             this.setState({ companies });
           }
           try {
+            const user = await Auth.currentAuthenticatedUser();
+            const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(`${API.endpoint}/companies/${company.companyId}`, {
-              method: "DELETE"
+              method: "DELETE",
+              headers: { Authorization: token }
             });
             //TODO: add API call to delete user from Cognito as well
           } catch (err) {

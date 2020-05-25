@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../../constants/API";
 import Modal from "react-native-modal";
 import { Header } from "react-native-elements";
+import {Auth} from 'aws-amplify';
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -32,7 +33,11 @@ export default class AdminAddEmployers extends Component {
 
   async componentDidMount() {
     try {
-      const apiEmployers = await fetch(`${API.endpoint}/companies`);
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiEmployers = await fetch(`${API.endpoint}/companies`, {
+        headers: { Authorization: token }
+      });
       const employersJson = await apiEmployers.json();
       const employers = employersJson.map(employer => {
         employer.isSelect = false;
@@ -93,8 +98,11 @@ export default class AdminAddEmployers extends Component {
 
     body.companyId = employer.companyId;
     try {
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
       await fetch(`${API.endpoint}/users/${this.props.code}/companies`, {
         method: "POST",
+        headers: { Authorization: token },
         body: JSON.stringify(body)
       });
     } catch (error) {
@@ -123,8 +131,11 @@ export default class AdminAddEmployers extends Component {
     let body = {};
     body.companyId = employer.companyId;
     try {
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
       await fetch(`${API.endpoint}/users/${this.props.code}/companies`, {
         method: "DELETE",
+        headers: { Authorization: token },
         body: JSON.stringify(body)
       });
     } catch (error) {

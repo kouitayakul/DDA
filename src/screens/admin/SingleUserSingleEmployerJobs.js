@@ -14,6 +14,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import Swipeout from "react-native-swipeout";
 import { Header } from "react-native-elements";
+import {Auth} from 'aws-amplify';
 
 export default class SingleUserSingleEmployerJobs extends React.Component {
   state = {
@@ -35,9 +36,11 @@ export default class SingleUserSingleEmployerJobs extends React.Component {
     const code = navigation.getParam("code");
     const companyId = navigation.getParam("companyId");
     try {
-      const apiCallUserJobs = await fetch(
-        `${API.endpoint}/companies/${companyId}/users/${code}/jobs`
-      );
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiCallUserJobs = await fetch(`${API.endpoint}/companies/${companyId}/users/${code}/jobs`, {
+        headers: { Authorization: token }
+      });
       const jobs = await apiCallUserJobs.json();
       this.setState({ jobs, isLoaded: true });
     } catch (error) {
@@ -58,9 +61,11 @@ export default class SingleUserSingleEmployerJobs extends React.Component {
     const code = navigation.getParam("code");
     const companyId = navigation.getParam("companyId");
     try {
-      const apiCallUserJobs = await fetch(
-        `${API.endpoint}/companies/${companyId}/users/${code}/jobs`
-      );
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiCallUserJobs = await fetch(`${API.endpoint}/companies/${companyId}/users/${code}/jobs`, {
+        headers: { Authorization: token }
+      });
       const jobs = await apiCallUserJobs.json();
       this.setState({ jobs, isVisible: false });
     } catch (error) {
@@ -100,8 +105,11 @@ export default class SingleUserSingleEmployerJobs extends React.Component {
           let body = {};
           body.jobId = job.jobId;
           try {
+            const user = await Auth.currentAuthenticatedUser();
+            const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(`${API.endpoint}/users/${code}/jobs`, {
               method: "DELETE",
+              headers: { Authorization: token },
               body: JSON.stringify(body),
             });
           } catch (error) {

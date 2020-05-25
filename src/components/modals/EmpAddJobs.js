@@ -14,6 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../../constants/API";
 import Modal from "react-native-modal";
 import { Header } from "react-native-elements";
+import {Auth} from 'aws-amplify';
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -36,9 +37,11 @@ export default class EmpAddJobs extends Component {
   async componentDidMount() {
     const companyId = this.props.companyId;
     try {
-      const apiJobs = await fetch(
-        `${API.endpoint}/companies/${companyId}/jobs`
-      );
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`, {
+        headers: { Authorization: token }
+      });
       const jobsJson = await apiJobs.json();
       const jobs = jobsJson.map((job) => {
         job.isSelect = false;
@@ -98,8 +101,11 @@ export default class EmpAddJobs extends Component {
 
     body.jobId = job.jobId;
     try {
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
       await fetch(`${API.endpoint}/users/${this.props.code}/jobs`, {
         method: "POST",
+        headers: { Authorization: token },
         body: JSON.stringify(body),
       });
     } catch (error) {

@@ -35,9 +35,11 @@ export default class EmployerJobScreen extends Component {
     try {
       this.props.navigation.setParams({ onEdit: this.onEdit });
       const companyId = this.props.navigation.getParam("companyId");
-      const apiCallJobs = await fetch(
-        `${API.endpoint}/companies/${companyId}/jobs`
-      );
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiCallJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`, {
+        headers: { Authorization: token },
+      });
       const jobs = await apiCallJobs.json();
       this._isMounted = true;
       this.setState({ jobs });
@@ -84,7 +86,7 @@ export default class EmployerJobScreen extends Component {
             const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(`${API.endpoint}/jobs/${job.jobId}`, {
               method: "DELETE",
-              headers: { Authorization: token },
+              headers: { Authorization: token }
             });
           } catch (err) {
             console.log(err);
@@ -134,9 +136,9 @@ export default class EmployerJobScreen extends Component {
           headers: { Authorization: token },
           body: JSON.stringify(body)
         });
-        const apiCallJobs = await fetch(
-          `${API.endpoint}/companies/${companyId}/jobs`
-        );
+        const apiCallJobs = await fetch(`${API.endpoint}/companies/${companyId}/jobs`, {
+          headers: { Authorization: token }
+        });
         const jobs = await apiCallJobs.json();
         this.setState({ jobs });
       } catch (err) {

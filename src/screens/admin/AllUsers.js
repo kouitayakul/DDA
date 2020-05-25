@@ -17,6 +17,7 @@ import Footer from "../../components/Footer";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import { Header } from "react-native-elements";
 import Swipeout from "react-native-swipeout";
+import {Auth} from 'aws-amplify';
 
 export default class AllUsers extends React.Component {
   constructor(props) {
@@ -41,7 +42,11 @@ export default class AllUsers extends React.Component {
   async componentDidMount() {
     try {
       this.props.navigation.setParams({ onEdit: this.onEdit });
-      const apiCallUsers = await fetch(API.endpoint + "users");
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiCallUsers = await fetch(API.endpoint + "users", {
+        headers: { Authorization: token }
+      });
       const users = await apiCallUsers.json();
       this.setState({
         users,
@@ -55,7 +60,11 @@ export default class AllUsers extends React.Component {
       "willFocus",
       async () => {
         try {
-          const apiCallUsers = await fetch(API.endpoint + "users");
+          const user = await Auth.currentAuthenticatedUser();
+          const token = user.signInUserSession.accessToken.jwtToken;
+          const apiCallUsers = await fetch(API.endpoint + "users", {
+            headers: { Authorization: token }
+          });
           const users = await apiCallUsers.json();
           this.setState({
             users
@@ -112,8 +121,11 @@ export default class AllUsers extends React.Component {
             this.setState({ users });
           }
           try {
+            const user = await Auth.currentAuthenticatedUser();
+            const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(`${API.endpoint}/users/${user.code}`, {
-              method: "DELETE"
+              method: "DELETE",
+              headers: { Authorization: token }
             });
           } catch (err) {
             console.log(err);
@@ -160,11 +172,16 @@ export default class AllUsers extends React.Component {
 
       if (code && name) {
         try {
+          const user = await Auth.currentAuthenticatedUser();
+          const token = user.signInUserSession.accessToken.jwtToken;
           await fetch(`${API.endpoint}/users`, {
             method: "POST",
+            headers: { Authorization: token },
             body: JSON.stringify(body)
           });
-          const apiCallUsers = await fetch(`${API.endpoint}/users`);
+          const apiCallUsers = await fetch(`${API.endpoint}/users`, {
+            headers: { Authorization: token }
+          });
           const users = await apiCallUsers.json();
           this.setState({ users });
         } catch (err) {

@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../../constants/API";
 import Footer from "../../components/Footer";
+import {Auth} from 'aws-amplify';
 
 export default class EmployeesScreen extends React.Component {
   state = {
@@ -19,9 +20,11 @@ export default class EmployeesScreen extends React.Component {
   async componentDidMount() {
     try {
       const companyId = this.props.navigation.getParam("companyId");
-      const apiCallUsers = await fetch(
-        `${API.endpoint}/companies/${companyId}/users`
-      );
+      const user = await Auth.currentAuthenticatedUser();
+      const token = user.signInUserSession.accessToken.jwtToken;
+      const apiCallUsers = await fetch(`${API.endpoint}/companies/${companyId}/users`, {
+        headers: { Authorization: token }
+      });
       const users = await apiCallUsers.json();
       this.setState({ users });
     } catch (err) {

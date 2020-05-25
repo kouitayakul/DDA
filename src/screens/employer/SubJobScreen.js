@@ -110,13 +110,10 @@ export default class EmployerSubJobScreen extends Component {
           try {
             const user = await Auth.currentAuthenticatedUser();
             const token = user.signInUserSession.accessToken.jwtToken;
-            await fetch(
-              `${API.endpoint}/jobs/${subJob.jobId}/subjobs/${subJob.subJobId}`,
-              {
-                method: "DELETE",
-                headers: { Authorization: token },
-              }
-            );
+            await fetch(`${API.endpoint}/jobs/${subJob.jobId}/subjobs/${subJob.subJobId}`, {
+              method: "DELETE",
+              headers: { Authorization: token }
+            });
           } catch (err) {
             console.log(err);
           }
