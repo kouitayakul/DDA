@@ -82,26 +82,25 @@ const UserRewards = createStackNavigator({
   }
 });
 
-const UserDrawerNavigation = createDrawerNavigator({
-  Employers: {
-    screen: UserNavigation,
-    navigationOptions: () => ({
-      drawerLabel: `Employers`
-    })
+const UserDrawerNavigation = createDrawerNavigator(
+  {
+    Employers: {
+      screen: UserNavigation,
+      navigationOptions: () => ({
+        drawerLabel: `Employers`
+      })
+    },
+    Rewards: {
+      screen: UserRewards,
+      navigationOptions: () => ({
+        drawerLabel: `Rewards`
+      })
+    }
   },
-  Rewards: {
-    screen: UserRewards,
-    navigationOptions: () => ({
-      drawerLabel: `Rewards`
-    })
-  },
-  Logout: {
-    screen: UserLogin,
-    navigationOptions: () => ({
-      drawerLabel: `Logout`
-    })
+  {
+    contentComponent: (props) => <CustomDrawerContentComponent {...props} />
   }
-});
+);
 
 const EmployersNavigation = createStackNavigator({
   EmployerHome: {
@@ -163,12 +162,6 @@ const EmployerDrawerNavigation = createDrawerNavigator(
       screen: EmployersNavigation,
       navigationOptions: ({navigation}) => ({
         drawerLabel: `Home`
-      })
-    },
-    Logout: {
-      screen: AuthNavigation,
-      navigationOptions: () => ({
-        drawerLabel: `Logout`
       })
     }
   },
@@ -271,12 +264,6 @@ const AdminDrawerNavigation = createDrawerNavigator(
       screen: AdminNavigation,
       navigationOptions: () => ({
         drawerLabel: `Admin`
-      })
-    },
-    Logout: {
-      screen: AdminLogin,
-      navigationOptions: () => ({
-        drawerLabel: `Logout`
       })
     }
   },
