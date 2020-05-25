@@ -3,6 +3,7 @@ import { Icon } from "react-native-elements";
 import { createSwitchNavigator, createAppContainer } from "react-navigation";
 import { createDrawerNavigator } from "react-navigation-drawer";
 import { createStackNavigator } from "react-navigation-stack";
+import { CustomDrawerContentComponent } from './CustomDrawerContentContainer';
 
 //Auth Screens
 import AdminLogin from "../screens/auth/AdminLogin";
@@ -156,20 +157,25 @@ const EmployersNavigation = createStackNavigator({
   initialRouteName: "EmployerHome"
 });
 
-const EmployerDrawerNavigation = createDrawerNavigator({
-  Company: {
-    screen: EmployersNavigation,
-    navigationOptions: () => ({
-      drawerLabel: `Company Name`
-    })
+const EmployerDrawerNavigation = createDrawerNavigator(
+  {
+    Company: {
+      screen: EmployersNavigation,
+      navigationOptions: ({navigation}) => ({
+        drawerLabel: `Home`
+      })
+    },
+    Logout: {
+      screen: AuthNavigation,
+      navigationOptions: () => ({
+        drawerLabel: `Logout`
+      })
+    }
   },
-  Logout: {
-    screen: AuthNavigation,
-    navigationOptions: () => ({
-      drawerLabel: `Logout`
-    })
+  {
+    contentComponent: (props) => <CustomDrawerContentComponent {...props} />
   }
-});
+);
 
 const AdminNavigation = createStackNavigator({
   AdminHome: {
@@ -186,7 +192,7 @@ const AdminNavigation = createStackNavigator({
       headerBackTitle: `All Employers`
     })
   },
-  EmployerHome: {
+  SingleEmployer: {
     screen: EmployerHome,
     navigationOptions: ({ navigation }) => ({
       title: navigation.state.params.company.name,
@@ -259,20 +265,25 @@ const AdminNavigation = createStackNavigator({
     })
   }
 });
-const AdminDrawerNavigation = createDrawerNavigator({
-  Admin: {
-    screen: AdminNavigation,
-    navigationOptions: () => ({
-      drawerLabel: `Admin`
-    })
+const AdminDrawerNavigation = createDrawerNavigator(
+  {
+    Admin: {
+      screen: AdminNavigation,
+      navigationOptions: () => ({
+        drawerLabel: `Admin`
+      })
+    },
+    Logout: {
+      screen: AdminLogin,
+      navigationOptions: () => ({
+        drawerLabel: `Logout`
+      })
+    }
   },
-  Logout: {
-    screen: AdminLogin,
-    navigationOptions: () => ({
-      drawerLabel: `Logout`
-    })
+  {
+    contentComponent: (props) => <CustomDrawerContentComponent {...props} />
   }
-});
+);
 
 const SwitchNavigator = createSwitchNavigator(
   {

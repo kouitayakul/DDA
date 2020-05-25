@@ -15,6 +15,7 @@ import API from "../../constants/API";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import Swipeout from "react-native-swipeout";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {Auth} from 'aws-amplify';
 
 export default class EmployerSubJobScreen extends Component {
   _isMounted = false;
@@ -107,10 +108,13 @@ export default class EmployerSubJobScreen extends Component {
             this.setState({ subJobs });
           }
           try {
+            const user = await Auth.currentAuthenticatedUser();
+            const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(
               `${API.endpoint}/jobs/${subJob.jobId}/subjobs/${subJob.subJobId}`,
               {
-                method: "DELETE"
+                method: "DELETE",
+                headers: { Authorization: token },
               }
             );
           } catch (err) {
@@ -163,8 +167,11 @@ export default class EmployerSubJobScreen extends Component {
 
     if (subJobTitle && subJobDescription && imgLink && orderNumber) {
       try {
+        const user = await Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.accessToken.jwtToken;
         await fetch(`${API.endpoint}/jobs/${jobId}/subjobs`, {
           method: "POST",
+          headers: { Authorization: token },
           body: JSON.stringify(body)
         });
         const apiCallJobs = await fetch(
@@ -175,6 +182,8 @@ export default class EmployerSubJobScreen extends Component {
       } catch (err) {
         console.log(err);
       }
+    } else {
+      alert('Please fill all fields');
     }
 
     this._panelSubJobs.hide();

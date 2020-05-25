@@ -15,6 +15,7 @@ import API from "../../constants/API";
 import SlidingUpPanel from "rn-sliding-up-panel";
 import Swipeout from "react-native-swipeout";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {Auth} from 'aws-amplify';
 
 export default class EmployerJobScreen extends Component {
   _isMounted = false;
@@ -79,8 +80,11 @@ export default class EmployerJobScreen extends Component {
             this.setState({ jobs });
           }
           try {
+            const user = await Auth.currentAuthenticatedUser();
+            const token = user.signInUserSession.accessToken.jwtToken;
             await fetch(`${API.endpoint}/jobs/${job.jobId}`, {
-              method: "DELETE"
+              method: "DELETE",
+              headers: { Authorization: token },
             });
           } catch (err) {
             console.log(err);
@@ -123,8 +127,11 @@ export default class EmployerJobScreen extends Component {
 
     if (jobName && jobDescription) {
       try {
+        const user = await Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.accessToken.jwtToken;
         await fetch(`${API.endpoint}/jobs`, {
           method: "POST",
+          headers: { Authorization: token },
           body: JSON.stringify(body)
         });
         const apiCallJobs = await fetch(

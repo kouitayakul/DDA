@@ -1,21 +1,32 @@
-import SafeAreaView from 'react-native-safe-area-view';
+import React from 'react';
+import {Alert, Image, SafeAreaView, StyleSheet, Text, ScrollView} from 'react-native'
 import { DrawerItems } from 'react-navigation-drawer';
-import { Icon } from 'react-native-elements';
+import {Auth} from 'aws-amplify';
 
-const CustomDrawerContentComponent = props => (
-  <ScrollView>
-    <SafeAreaView
-      style={styles.container}
-      forceInset={{ top: 'always', horizontal: 'never' }}
-    >
-    <Icon name='times' onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())} />
-      <DrawerItems {...props} />
+export const CustomDrawerContentComponent = (props) => {
+  const nav = props.nav;
+
+  async function signOut() {
+    try {
+        await Auth.signOut();
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+  }
+
+  return (
+    <SafeAreaView>
+      <ScrollView>
+        <DrawerItems
+          {...props}
+          onItemPress = {( route ) => {
+            if (route.route.routeName === 'Logout') {
+              signOut();
+            }
+            props.onItemPress(route)
+          }}
+        />
+      </ScrollView>
     </SafeAreaView>
-  </ScrollView>
-);
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+  )
+};

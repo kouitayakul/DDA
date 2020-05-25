@@ -258,7 +258,7 @@ export default class AllEmployers extends React.Component {
     const { error, isLoaded, companies } = this.state;
 
     const _onPressButton = (company) => {
-      this.props.navigation.navigate('EmployerHome', { company });
+      this.props.navigation.navigate('SingleEmployer', { company });
     };
     
     function Item({ title, address, company }) {
