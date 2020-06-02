@@ -234,7 +234,7 @@ export default class AllEmployers extends React.Component {
               method: "DELETE"
             });
           } catch (err) {
-            console.log(err);
+            this.setState({error});
           }
         }
       }
