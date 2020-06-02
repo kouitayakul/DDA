@@ -250,9 +250,8 @@ export default class AllEmployers extends React.Component {
               method: "DELETE",
               headers: { Authorization: token }
             });
-            //TODO: add API call to delete user from Cognito as well
           } catch (err) {
-            console.log(err);
+            this.setState({error});
           }
         }
       }
