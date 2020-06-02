@@ -233,7 +233,6 @@ export default class AllEmployers extends React.Component {
             await fetch(`${API.endpoint}/companies/${company.companyId}`, {
               method: "DELETE"
             });
-            //TODO: add API call to delete user from Cognito as well
           } catch (err) {
             console.log(err);
           }
