@@ -14,6 +14,7 @@ import SlidingUpPanel from "rn-sliding-up-panel";
 import Icon from "react-native-vector-icons/FontAwesome";
 import API from "../../constants/API";
 import { Header } from "react-native-elements";
+import {Auth} from 'aws-amplify';
 
 export default class SingleUser extends React.Component {
   constructor(props) {
@@ -88,8 +89,11 @@ export default class SingleUser extends React.Component {
       };
 
       try {
+        const user = await Auth.currentAuthenticatedUser();
+        const token = user.signInUserSession.accessToken.jwtToken;
         await fetch(`${API.endpoint}/users/${code}`, {
           method: "PUT",
+          headers: { Authorization: token },
           body: JSON.stringify(body)
         });
       } catch (err) {

@@ -1,21 +1,57 @@
-import SafeAreaView from 'react-native-safe-area-view';
+import React from 'react';
+import {TouchableOpacity, SafeAreaView, StyleSheet, Text, ScrollView, View} from 'react-native'
+import Icon from "react-native-vector-icons/FontAwesome";
 import { DrawerItems } from 'react-navigation-drawer';
-import { Icon } from 'react-native-elements';
+import { Auth } from 'aws-amplify';
 
-const CustomDrawerContentComponent = props => (
-  <ScrollView>
-    <SafeAreaView
-      style={styles.container}
-      forceInset={{ top: 'always', horizontal: 'never' }}
-    >
-    <Icon name='times' onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())} />
-      <DrawerItems {...props} />
+export const CustomDrawerContentComponent = (props) => {
+  const nav = props.nav;
+
+  async function signOut() {
+    try {
+        await Auth.signOut();
+    } catch (error) {
+        console.log('error signing out: ', error);
+    }
+  }
+
+  return (
+    <SafeAreaView style={{flex: 1, justifyContent: 'space-between', flexDirection: 'column'}}>
+      <ScrollView style={{paddingTop: 20}}>
+        <DrawerItems {...props} />
+      </ScrollView>
+      <TouchableOpacity
+        onPress={() => {
+          signOut();
+          props.navigation.navigate('Auth');
+        }}
+      >
+        <View style={styles.button}>
+          <Icon
+            name="sign-out"
+            style={{ color: "#007AFF" }}
+            size={25}
+          />
+          <Text style={styles.logout}>Logout</Text>
+        </View>
+      </TouchableOpacity>
     </SafeAreaView>
-  </ScrollView>
-);
+  )
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  button: {
+    margin: 16,
+    flexDirection: "row",
+    alignItems: "center"
   },
-});
+  logout: {
+    fontFamily: "System",
+    fontSize: 17,
+    lineHeight: 22,
+    letterSpacing: -0.41,
+    fontWeight: "500",
+    color: "#007AFF",
+    marginLeft: 10
+  },
+})
