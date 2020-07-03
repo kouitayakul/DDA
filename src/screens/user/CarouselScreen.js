@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Button,
   Dimensions,
   Image,
   Text,
@@ -10,7 +11,6 @@ import {
   TouchableOpacity,
   AsyncStorage
 } from "react-native";
-// import Carousel from '../../components/Carousel';
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import moment from "moment";
 import API from "../../constants/API";
@@ -18,17 +18,23 @@ import API from "../../constants/API";
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
 
-let start = moment();
-let time = 0;
-const timeArray = [];
-
 export default class CarouselScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
+    const {params = {}} = navigation.state;
     return {
       title: navigation.getParam("title"),
-      headerBackImage: <View style={{ paddingLeft: 16 }} />,
       gesturesEnabled: false,
-      drawerLabel: () => null
+      drawerLabel: () => null,
+      headerLeft: (
+        <Button
+          onPress={async () => {
+            await params.updateSubjobEndTime();
+            await params.calculateTotalTimeForJob();
+            navigation.navigate('AssignedJobs');
+          }}
+          title="Cancel"
+        />
+      ),
     };
   };
 
@@ -41,9 +47,15 @@ export default class CarouselScreen extends React.Component {
       error: null,
       isLoaded: false
     };
+
+    this.lastSubJobStartTime = new moment();
   }
 
   async componentDidMount() {
+    this.props.navigation.setParams({
+      updateSubjobEndTime: this.updateSubjobEndTime,
+      calculateTotalTimeForJob: this.calculateTotalTimeForJob
+    });
     try {
       const { navigation } = this.props;
       const jobId = navigation.getParam("jobId");
@@ -103,31 +115,57 @@ export default class CarouselScreen extends React.Component {
     );
   }
 
-  startTimer = slideIndex => {
-    time = moment(start).fromNow(true);
-    timeArray.push({
-      name: this.state.subjobs[slideIndex].title,
-      took: time
-    });
-    start = moment();
+  startTimer = async slideIndex => {
+    await this.updateSubjobEndTime(slideIndex-1);
+    this.lastSubJobStartTime = new moment();
   };
+
+  updateSubjobEndTime = async (subJobId = this.state.activeSlide) => {
+    try {
+      const shiftDataJobNumber = this.props.navigation.getParam("shiftDataJobNumber");
+      const jobTitle = this.props.navigation.getParam("title");
+      const subJobTitle = this.state.subjobs[subJobId].title;
+      
+      const now = new moment();
+      const duration = moment.utc(now.diff(this.lastSubJobStartTime)).format("HH:mm:ss");
+      
+      const shiftDataKey = this.props.navigation.getParam("shiftDataKey");
+      let shiftData = await AsyncStorage.getItem(shiftDataKey);
+      shiftData = JSON.parse(shiftData);
+
+      shiftData.push({'Job Number': shiftDataJobNumber, 'Job Name': jobTitle, 'Subjob Name': subJobTitle, 'Time (HH:mm:ss)': duration});
+      await AsyncStorage.setItem(shiftDataKey, JSON.stringify(shiftData));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  calculateTotalTimeForJob = async () => {
+    const shiftDataJobNumber = this.props.navigation.getParam("shiftDataJobNumber");
+    const jobTitle = this.props.navigation.getParam("title");
+    let totalTime = moment(0);
+
+    const shiftDataKey = this.props.navigation.getParam("shiftDataKey");
+    let shiftData = await AsyncStorage.getItem(shiftDataKey);
+    shiftData = JSON.parse(shiftData);
+
+    shiftData.forEach(subjob => {
+      if (subjob['Job Number'] === shiftDataJobNumber) {
+        const subjobTime = moment.duration(subjob['Time (HH:mm:ss)'], 'HH:mm:ss').asSeconds();
+        totalTime.add(subjobTime, 'seconds');
+      }
+    });
+    totalTime = moment.utc(totalTime).format('HH:mm:ss');
+
+    shiftData.push({'Job Number': shiftDataJobNumber, 'Job Name': jobTitle, 'Subjob Name': 'ALL', 'Time (HH:mm:ss)': totalTime});
+    await AsyncStorage.setItem(shiftDataKey, JSON.stringify(shiftData));
+  }
 
   onPressButton = async subjobs => {
     const carousel = this.refs.carousel;
-    if (carousel.currentIndex == subjobs.length - 1) {
-      var jobName = this.props.navigation.getParam("title");
-      try {
-        var newTimeArray = JSON.stringify(timeArray);
-        var value = await AsyncStorage.getItem(jobName);
-        if (value != null) {
-          await AsyncStorage.setItem(jobName, newTimeArray);
-        } else {
-          console.log("Job does not exist");
-        }
-      } catch (err) {
-        console.log(err);
-      }
-
+    if (carousel.currentIndex === subjobs.length - 1) {
+      await this.updateSubjobEndTime(carousel.currentIndex);
+      await this.calculateTotalTimeForJob();
       this.props.navigation.navigate("JobComplete", {
         title: this.props.navigation.getParam("title")
       });
