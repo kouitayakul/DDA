@@ -47,7 +47,6 @@ export default class ShiftSummaryScreen extends React.Component {
         body: JSON.stringify(shiftData)
       });
       const response = await apiSendEmail.json();
-      console.log(response);
       
       const shiftDataKey = this.props.navigation.getParam("shiftDataKey");
       await AsyncStorage.removeItem(shiftDataKey);
