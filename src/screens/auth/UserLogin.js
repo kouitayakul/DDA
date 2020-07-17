@@ -26,7 +26,9 @@ export default class UserLogin extends React.Component {
     }
     onFulfill(code, clear) {
         try{
-            fetch(API.endpoint + `users/${code}`)
+            fetch(API.endpoint + `users/${code}/login`, {
+                method: 'POST'
+            })
             .then((res) => {
                 return res.json();
             })
