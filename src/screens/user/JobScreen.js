@@ -21,8 +21,7 @@ export default class JobScreen extends React.Component {
 
   state = {
     jobs: [],
-    shiftStarted: false,
-    shiftEnded: null
+    shiftStarted: false
   };
 
   async componentDidMount() {
@@ -37,39 +36,60 @@ export default class JobScreen extends React.Component {
           job => job.companyId === this.props.navigation.getParam("companyId")
         )
       });
-      var allJobs = JSON.stringify(this.state.jobs);
-      await AsyncStorage.setItem("shift", allJobs);
-
-      for (let job of this.state.jobs) {
-        var jobTitle = job.name;
-        await AsyncStorage.setItem(jobTitle, "Not Completed");
-      }
     } catch (err) {
       console.log(err);
     }
   }
 
-  _onPressButton(jobName, jobId) {
+  async _onPressButton(jobName, jobId) {
     if (!this.state.shiftStarted) {
       Alert.alert("Start Shift", "Start your shift before beginning your job");
     } else {
-      this.props.navigation.navigate("Carousel", {
-        title: jobName,
-        jobId: jobId
-      });
+      try {
+        let shiftDataJobNumber = await AsyncStorage.getItem('@shift_data_job_number');
+        shiftDataJobNumber = parseInt(shiftDataJobNumber)+1
+        await AsyncStorage.setItem('@shift_data_job_number', shiftDataJobNumber.toString());
+        
+        const companyId = this.props.navigation.getParam("companyId");
+        const shiftDataKey = '@shift_data_company_' + companyId.toString();
+
+        this.props.navigation.navigate("Carousel", {
+          title: jobName,
+          jobId: jobId,
+          shiftDataJobNumber,
+          shiftDataKey,
+        });
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 
   async _onPressShiftButton(shiftStarted) {
-    this.setState({ shiftStarted: !shiftStarted });
-    if (shiftStarted == true) {
-      shiftEnded = true;
-    }
+    this.setState({ shiftStarted: !shiftStarted }, async () => {
+      const { shiftStarted } = this.state;
+      const companyId = this.props.navigation.getParam("companyId");
+      const shiftDataKey = '@shift_data_company_' + companyId.toString();
 
-    if (shiftStarted == true && shiftEnded == true) {
-      var test = await AsyncStorage.getItem("shift");
-      this.props.navigation.navigate("ShiftSummary");
-    }
+      if (shiftStarted) {
+        try {
+          await AsyncStorage.setItem('@shift_data_job_number', "0");
+          await AsyncStorage.setItem(shiftDataKey, JSON.stringify([]));
+        } catch (e) {
+          console.log(e);
+        }
+      } else {
+        try {
+          // const shiftData = await AsyncStorage.getItem(shiftDataKey);
+          // console.log(JSON.parse(shiftData));
+          this.props.navigation.navigate("ShiftSummary", {
+            shiftDataKey
+          });
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    });
   }
 
   renderItem(item) {
@@ -125,7 +145,7 @@ export default class JobScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: "#F2F2F2",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "stretch"
